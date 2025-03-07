@@ -4,6 +4,7 @@ import { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "@/app/globals.css";
+import Footer from "@/components/footer";
 import { ThemeProvider } from "@/components/theming/theme-provider";
 import siteMetadata from "@/conf/site-metadata";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     {children}
                 </ThemeProvider>
+                <Footer />
             </body>
         </html>
     );

@@ -2,11 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 
-import Footer from "@/components/footer";
-import Demo from "@/components/landing/demo";
-import FAQ from "@/components/landing/faq";
-import Hero from "@/components/landing/hero";
-import Navbar from "@/components/navbar";
+import Demo from "@/app/(landing)/_components/demo";
+import FAQ from "@/app/(landing)/_components/faq";
+import Header from "@/app/(landing)/_components/header";
+import Hero from "@/app/(landing)/_components/hero";
 
 export default function Home() {
     const [showNavbar, setShowNavbar] = useState(false);
@@ -24,11 +23,10 @@ export default function Home() {
 
     return (
         <main className="flex flex-col">
-            <Navbar visible={showNavbar} />
+            <Header visible={showNavbar} />
             <Hero />
             <Demo />
             <FAQ />
-            <Footer />
         </main>
     );
 }

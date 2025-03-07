@@ -28,7 +28,7 @@ export default function FAQ() {
                 <CardTitle className="text-2xl text-center">Популярные вопросы</CardTitle>
             </CardHeader>
             <CardContent>
-                <Accordion type="single" defaultValue={Object.keys(faqQuestions)[0]} collapsible>
+                <Accordion type="single" collapsible>
                     {accordionItems}
                 </Accordion>
             </CardContent>
