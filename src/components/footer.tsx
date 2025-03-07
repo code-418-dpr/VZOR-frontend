@@ -6,7 +6,7 @@ export default function Footer() {
     return (
         <footer className="flex items-center border-t py-6 text-sm text-muted-foreground text-center">
             <Link className="flex-1" href={siteMetadata.authors.url}>
-                Разработано командой {siteMetadata.authors.name}
+                Разработано командой <span className="gradient-text font-bold">{siteMetadata.authors.name}</span>
             </Link>
             <Link className="flex-1" href="https://t.me/fspdnr/614">
                 Межрегиональный IT хакатон в рамках федерального проекта «Цифровая Россия»

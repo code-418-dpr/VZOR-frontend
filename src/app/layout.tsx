@@ -28,8 +28,8 @@ export default function RootLayout({
             <body className={inter.className}>
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
                     {children}
+                    <Footer />
                 </ThemeProvider>
-                <Footer />
             </body>
         </html>
     );

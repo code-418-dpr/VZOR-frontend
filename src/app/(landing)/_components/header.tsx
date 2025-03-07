@@ -12,7 +12,7 @@ export default function Header({ visible }: Props) {
         <header>
             <div
                 className={cn(
-                    "fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-md border-b border-white/10 transition-opacity duration-500 ease-in-out",
+                    "fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-md border-b transition-opacity duration-500 ease-in-out",
                     visible ? "opacity-100" : "opacity-0",
                 )}
             >
