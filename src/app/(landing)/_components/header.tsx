@@ -2,12 +2,15 @@ import AuthDialogOrDrawer from "@/app/(landing)/_components/auth/auth-dialog-or-
 import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/theming/mode-toggle";
 import { cn } from "@/lib/utils";
-
+import { LogoutButton } from "./logout/logout";
+import { useAuth } from "@/hooks/use-auth";
 interface Props {
     visible: boolean;
 }
 
 export default function Header({ visible }: Props) {
+    const { isAuthenticated, logout } = useAuth();
+    
     return (
         <header>
             <div
@@ -25,7 +28,11 @@ export default function Header({ visible }: Props) {
                 <div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div></div>
                     <div className="flex items-center space-x-3">
-                        <AuthDialogOrDrawer />
+                        {isAuthenticated ? (
+                            <LogoutButton />
+                        ) : (
+                            <AuthDialogOrDrawer />
+                        )}
                         <ModeToggle />
                     </div>
                 </div>
