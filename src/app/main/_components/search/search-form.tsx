@@ -8,9 +8,36 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+const testObjects = [
+    {
+        name: "Дверь",
+        value: "door",
+    },
+    {
+        name: "Человек",
+        value: "human",
+    },
+    {
+        name: "Стакан",
+        value: "glass",
+    },
+    {
+        name: "Окно",
+        value: "window",
+    },
+    {
+        name: "Стол",
+        value: "table",
+    },
+];
+
 export function SearchForm() {
     const [objectFind, setObjectFind] = useState(false);
     const [textFind, setTextFind] = useState(false);
+
+    const [objects, setObjects] = useState<Map<string, boolean>>(
+        new Map(testObjects.map((testObject) => [testObject.name, false] as [string, boolean])),
+    );
 
     return (
         <form>
@@ -23,7 +50,7 @@ export function SearchForm() {
                 <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="meta-object">Поиск по объектам на изображении</Label>
                     <div className={objectFind ? "hidden" : ""}>
-                        <ObjectsCombobox />
+                        <ObjectsCombobox title="Объекты" values={objects} setValues={setObjects} />
                     </div>
                 </div>
                 <div className="flex items-center space-x-2">

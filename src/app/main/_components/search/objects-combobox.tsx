@@ -1,104 +1,71 @@
 "use client";
 
-import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+
+import { JSX, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
 
-interface Status {
-    value: string;
-    label: string;
-}
-
-const statuses: Status[] = [
-    {
-        value: "Дверь",
-        label: "Дверь",
-    },
-    {
-        value: "Человек",
-        label: "Человек",
-    },
-    {
-        value: "Стакан",
-        label: "Стакан",
-    },
-    {
-        value: "Окно",
-        label: "Окно",
-    },
-    {
-        value: "Стол",
-        label: "Стол",
-    },
-];
-
-export function ObjectsCombobox() {
-    const [open, setOpen] = React.useState(false);
-    const isDesktop = useMediaQuery("(min-width: 768px)");
-    const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(null);
-
-    if (isDesktop) {
-        return (
-            <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-[150px] justify-start">
-                        {selectedStatus ? <>{selectedStatus.label}</> : <>Выбрать объект</>}
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0" align="start">
-                    <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
-                </PopoverContent>
-            </Popover>
-        );
-    }
-
-    return (
-        <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                <Button variant="outline" className="w-[150px] justify-start">
-                    {selectedStatus ? <>{selectedStatus.label}</> : <>Выбрать объект</>}
-                </Button>
-            </DrawerTrigger>
-            <DrawerContent>
-                <div className="mt-4 border-t">
-                    <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
-                </div>
-            </DrawerContent>
-        </Drawer>
-    );
-}
-
-function StatusList({
-    setOpen,
-    setSelectedStatus,
+export function ObjectsCombobox({
+    title,
+    values,
+    setValues,
+    hideSearch,
+    className,
 }: {
-    setOpen: (open: boolean) => void;
-    setSelectedStatus: (status: Status | null) => void;
-}) {
+    title: string;
+    values: Map<string, boolean>;
+    setValues: (values: Map<string, boolean>) => void;
+    hideSearch?: boolean;
+    className?: string;
+}): JSX.Element {
+    const [open, setOpen] = useState(false);
+    const [search, setSearch] = useState("");
+
+    const filteredItems = useMemo(() => {
+        if (!search) {
+            return Array.from(values.keys());
+        }
+
+        return Array.from(values.keys()).filter((key) => key.toLowerCase().includes(search.toLowerCase()));
+    }, [values, search]);
+
     return (
-        <Command>
-            <CommandInput placeholder="Найти объект..." />
-            <CommandList>
-                <CommandEmpty>Объектов не найдено.</CommandEmpty>
-                <CommandGroup>
-                    {statuses.map((status) => (
-                        <CommandItem
-                            key={status.value}
-                            value={status.value}
-                            onSelect={(value) => {
-                                setSelectedStatus(statuses.find((priority) => priority.value === value) ?? null);
-                                setOpen(false);
-                            }}
-                        >
-                            {status.label}
-                        </CommandItem>
-                    ))}
-                </CommandGroup>
-            </CommandList>
-        </Command>
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button variant="outline" role="combobox" aria-expanded={open} className="flex gap-2 pr-2">
+                    <span>{title}</span>
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className={cn("w-full p-0", className)}>
+                <Command shouldFilter={false}>
+                    {!hideSearch && <CommandInput placeholder="Поиск..." value={search} onValueChange={setSearch} />}
+                    <CommandList>
+                        <CommandEmpty>Ничего не найдено.</CommandEmpty>
+                        <CommandGroup>
+                            {filteredItems.slice(0, 500).map((key) => (
+                                <CommandItem
+                                    key={key}
+                                    value={key}
+                                    onSelect={(currentValue) => {
+                                        setValues(new Map(values).set(currentValue, !values.get(currentValue)));
+                                    }}
+                                    className="pr-4"
+                                >
+                                    <Check
+                                        className={cn("mr-1 h-4 w-4", values.get(key) ? "opacity-100" : "opacity-0")}
+                                    />
+                                    {key}
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
+                    </CommandList>
+                </Command>
+            </PopoverContent>
+        </Popover>
     );
 }
