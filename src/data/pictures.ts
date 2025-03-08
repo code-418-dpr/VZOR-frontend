@@ -8,6 +8,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
+        date: "08-03-2025",
     },
     {
         id: "p2",
@@ -15,6 +16,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
+        date: "08-03-2025",
     },
     {
         id: "p3",
@@ -22,6 +24,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
+        date: "08-03-2025",
     },
     {
         id: "p4",
@@ -29,6 +32,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
+        date: "06-03-2025",
     },
     {
         id: "p5",
@@ -36,6 +40,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
+        date: "06-03-2025",
     },
     {
         id: "p6",
@@ -43,6 +48,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
+        date: "04-03-2025",
     },
     {
         id: "p7",
@@ -50,6 +56,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
+        date: "04-03-2025",
     },
     {
         id: "p8",
@@ -57,6 +64,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
+        date: "02-03-2025",
     },
     {
         id: "p9",
@@ -64,6 +72,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
+        date: "01-03-2025",
     },
     {
         id: "p10",
@@ -71,6 +80,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
+        date: "01-03-2025",
     },
     {
         id: "p11",
@@ -78,6 +88,7 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
+        date: "01-03-2025",
     },
     {
         id: "p12",
@@ -85,5 +96,6 @@ export const pictures: Picture[] = [
         description: "Описание объектов и текста от нейросети",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
+        date: "01-03-2025",
     },
 ];

@@ -5,4 +5,5 @@ export interface Picture {
     description: string;
     picture: string;
     category: string;
+    date: string;
 }
