@@ -43,7 +43,7 @@ export default function Home() {
 
     return (
         <main>
-            <div className="mx-auto px-2 pt-12 pb-16">
+            <div className="mx-auto px-2 pt-4 pb-10">
                 {picturesDate.map((date) => (
                     <div key={date}>
                         <PicturesGrid
@@ -51,7 +51,7 @@ export default function Home() {
                             pictures={filteredPictures.filter((picture) => picture.date === date)}
                             onPictureSelect={setSelectedPicture}
                         />
-                        <Separator orientation="horizontal" />
+                        <Separator orientation="horizontal" className="mt-3 md:mt-6" />
                     </div>
                 ))}
             </div>
