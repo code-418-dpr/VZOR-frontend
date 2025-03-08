@@ -142,7 +142,8 @@
     }
 
     @keyframes bounce {
-        0%, 100% {
+        0%,
+        100% {
             transform: translateY(-0.3rem);
         }
         50% {
@@ -166,12 +167,7 @@
     }
 
     .gradient-text {
-        background: linear-gradient(
-            90deg,
-            var(--accent-1),
-            var(--accent-2),
-            var(--accent-1)
-        );
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-1));
         background-size: 200% 100%;
         -webkit-background-clip: text;
         background-clip: text;
