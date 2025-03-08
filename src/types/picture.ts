@@ -1,5 +1,5 @@
 // интерфейс описывающий обработанное изображение
-export interface Image {
+export interface Picture {
     id: string;
     name: string;
     description: string;
