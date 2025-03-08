@@ -6,20 +6,28 @@ import SignInForm from "@/app/(landing)/_components/auth/signin-form";
 import SignUpForm from "@/app/(landing)/_components/auth/signup-form";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/use-media-query";
-
-export default function AuthDialogOrDrawer() {
-    const [open, setOpen] = useState(false);
-    const isDesktop = useMediaQuery("(min-width: 512px)");
-
-    return isDesktop ? AuthDialog({ open, setOpen }) : AuthDrawer({ open, setOpen });
-}
 
 interface Props {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function AuthDialogOrDrawer() {
+    const [open, setOpen] = useState(false);
+    const isDesktop = useMediaQuery("(min-width: 768px)");
+
+    return isDesktop ? AuthDialog({ open, setOpen }) : AuthDrawer({ open, setOpen });
 }
 
 function AuthDialog({ open, setOpen }: Props) {
@@ -48,16 +56,21 @@ function AuthDrawer({ open, setOpen }: Props) {
                 <DrawerHeader>
                     <DrawerTitle className="text-center text-2xl">Авторизация</DrawerTitle>
                 </DrawerHeader>
-                <AuthTabs className="m-6 mt-0" />
+                <AuthTabs />
+                <DrawerFooter className="pt-2">
+                    <DrawerClose asChild>
+                        <Button variant="outline">Закрыть</Button>
+                    </DrawerClose>
+                </DrawerFooter>
             </DrawerContent>
         </Drawer>
     );
 }
 
-function AuthTabs({ className }: { className?: string }) {
+function AuthTabs() {
     return (
-        <Tabs className={className} defaultValue="signin">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
+        <Tabs defaultValue="signin" className="m-2">
+            <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="signin">Вход</TabsTrigger>
                 <TabsTrigger value="signup">Регистрация</TabsTrigger>
             </TabsList>
