@@ -1,67 +1,34 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import * as React from "react";
 
-import {
-    Sidebar,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
-} from "@/components/ui/sidebar";
-
-// Menu items.
-const items = [
-    {
-        title: "Home",
-        url: "#",
-        icon: Home,
-    },
-    {
-        title: "Inbox",
-        url: "#",
-        icon: Inbox,
-    },
-    {
-        title: "Calendar",
-        url: "#",
-        icon: Calendar,
-    },
-    {
-        title: "Search",
-        url: "#",
-        icon: Search,
-    },
-    {
-        title: "Settings",
-        url: "#",
-        icon: Settings,
-    },
-];
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export function SearchSidebar() {
     return (
-        <Sidebar>
-            <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Application</SidebarGroupLabel>
-                    <SidebarGroupContent>
-                        <SidebarMenu>
-                            {items.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <a href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </a>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroupContent>
-                </SidebarGroup>
-            </SidebarContent>
-        </Sidebar>
+        <Card>
+            <CardHeader>
+                <CardTitle>Поиск фото</CardTitle>
+                <CardDescription>Поиск по фотографиям, которые ранее были обработаны</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <form>
+                    <div className="grid w-full items-center gap-4">
+                        <div className="flex flex-col space-y-1.5">
+                            <Label htmlFor="meta-text">Поиск по тексту на изображении</Label>
+                            <Input id="meta-text" placeholder="Name of your project" />
+                        </div>
+                        <div className="flex flex-col space-y-1.5">
+                            <Label htmlFor="framework">Поиск по объектам на изображении</Label>
+                            <Input id="meta-object" placeholder="Name of your project" />
+                        </div>
+                    </div>
+                </form>
+            </CardContent>
+            <CardFooter className="flex justify-between">
+                <Button>Поиск</Button>
+            </CardFooter>
+        </Card>
     );
 }

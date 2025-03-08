@@ -6,6 +6,7 @@ import React, { useState } from "react";
 
 import { PictureModal } from "@/app/main/_components/picture-modal";
 import { PicturesGrid } from "@/app/main/_components/pictures-grid";
+import { Separator } from "@/components/ui/separator";
 import { pictures } from "@/data/pictures";
 import { Picture } from "@/types/picture";
 
@@ -50,7 +51,7 @@ export default function Home() {
                             pictures={filteredPictures.filter((picture) => picture.date === date)}
                             onPictureSelect={setSelectedPicture}
                         />
-                        <hr className="my-3 md:my-6" />
+                        <Separator orientation="horizontal" />
                     </div>
                 ))}
             </div>
