@@ -41,15 +41,17 @@ export default function Home() {
     const picturesDate = getUniqueDates(filteredPictures);
 
     return (
-        <div className="h-screen bg-zinc-50 dark:bg-zinc-950">
+        <div className="bg-zinc-50 dark:bg-zinc-950">
             <div className="mx-auto px-2 pt-12 pb-16">
                 {picturesDate.map((date) => (
-                    <PicturesGrid
-                        key={date}
-                        picturesDate={date}
-                        pictures={filteredPictures.filter((picture) => picture.date === date)}
-                        onPictureSelect={setSelectedPicture}
-                    />
+                    <div key={date}>
+                        <PicturesGrid
+                            picturesDate={date}
+                            pictures={filteredPictures.filter((picture) => picture.date === date)}
+                            onPictureSelect={setSelectedPicture}
+                        />
+                        <hr className="my-3 md:my-6" />
+                    </div>
                 ))}
             </div>
 
