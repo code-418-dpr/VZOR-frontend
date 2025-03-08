@@ -11,6 +11,11 @@ import { Picture } from "@/types/picture";
 
 // import Header from "@/app/(landing)/_components/header";
 
+function getUniqueDates(arr: Picture[]): string[] {
+    const dates: string[] = arr.map((picture) => picture.date);
+    return [...new Set(dates)];
+}
+
 export default function Home() {
     const [selectedPicture, setSelectedPicture] = useState<Picture | null>(null);
     const [searchQuery] = useState("");
@@ -30,12 +35,22 @@ export default function Home() {
     }, []);
      */
 
-    const filteredImages = pictures.filter((image) => image.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredPictures = pictures.filter((picture) =>
+        picture.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+    const picturesDate = getUniqueDates(filteredPictures);
 
     return (
         <div className="h-screen bg-zinc-50 dark:bg-zinc-950">
             <div className="mx-auto px-2 pt-12 pb-16">
-                <PicturesGrid pictures={filteredImages} onPictureSelect={setSelectedPicture} />
+                {picturesDate.map((date) => (
+                    <PicturesGrid
+                        key={date}
+                        picturesDate={date}
+                        pictures={filteredPictures.filter((picture) => picture.date === date)}
+                        onPictureSelect={setSelectedPicture}
+                    />
+                ))}
             </div>
 
             <AnimatePresence>

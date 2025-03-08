@@ -7,11 +7,13 @@ import type { Picture } from "@/types/picture";
 interface PicturesGridProps {
     pictures: Picture[];
     onPictureSelect: (picture: Picture) => void;
+    picturesDate: string;
 }
 
-export function PicturesGrid({ pictures, onPictureSelect }: PicturesGridProps) {
+export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: PicturesGridProps) {
     return (
         <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-2">
+            <h3>{picturesDate}</h3>
             {pictures.map((picture) => (
                 <motion.div
                     key={picture.id}
