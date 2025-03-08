@@ -17,15 +17,15 @@ const faqQuestions = {
 export default function FAQ() {
     const accordionItems = Object.entries(faqQuestions).map(([question, answer]) => (
         <AccordionItem key={question} value={question}>
-            <AccordionTrigger className="text-xl text-muted-foreground">{question}</AccordionTrigger>
-            <AccordionContent className="text-xl">{answer}</AccordionContent>
+            <AccordionTrigger className="text-base md:text-xl text-muted-foreground">{question}</AccordionTrigger>
+            <AccordionContent className="text-base md:text-xl">{answer}</AccordionContent>
         </AccordionItem>
     ));
 
     return (
-        <Card className="mx-100 mb-15">
+        <Card className="mx-4 sm:mx-20 md:mx-30 lg:mx-50 xl:mx-80 mt-5 md:mt-20 mb-15">
             <CardHeader>
-                <CardTitle className="text-2xl text-center">Популярные вопросы</CardTitle>
+                <CardTitle className="text-xl md:text-2xl text-center">Популярные вопросы</CardTitle>
             </CardHeader>
             <CardContent>
                 <Accordion type="single" collapsible>

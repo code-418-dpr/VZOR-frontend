@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 const pics = ["/landing-examples/0.jpg", "/landing-examples/1.jpg"];
 
@@ -14,13 +15,15 @@ export default function Demo() {
         );
     });
 
+    const isDesktop = useMediaQuery("(min-width: 768px)");
+
     return (
-        <section className="flex h-screen justify-center items-center mx-20 space-x-20">
+        <section className="flex flex-col lg:flex-row justify-center items-center gap-5 lg:gap-0 mx-4 sm:mx-20 space-y-5 md:mt-20 lg:space-x-20">
             <Card className="flex-1">
                 <CardHeader>
-                    <CardTitle className="text-2xl">Как это работает</CardTitle>
+                    <CardTitle className="text-xl md:text-2xl text-center lg:text-left">Как это работает</CardTitle>
                 </CardHeader>
-                <CardContent className="text-xl text-muted-foreground space-y-4">
+                <CardContent className="text-base md:text-xl text-muted-foreground space-y-4">
                     <p>
                         Взор берёт на себя классификацию ваших изображений. Это просто: вы загружаете картинки, а
                         система их <span className="gradient-text font-medium">обрабатывает</span>!
@@ -43,11 +46,11 @@ export default function Demo() {
                     align: "start",
                     loop: true,
                 }}
-                className="flex-1"
+                className="flex-1 mx-5"
             >
                 <CarouselContent>{carouselItems}</CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
+                <CarouselPrevious className={isDesktop ? "" : "hidden"} />
+                <CarouselNext className={isDesktop ? "" : "hidden"} />
             </Carousel>
         </section>
     );

@@ -12,7 +12,7 @@ export default function Home() {
 
     useEffect(() => {
         const handleScroll = () => {
-            setShowNavbar(window.scrollY > window.innerHeight / 2);
+            setShowNavbar(window.scrollY > window.innerHeight / 5);
         };
 
         window.addEventListener("scroll", handleScroll);
