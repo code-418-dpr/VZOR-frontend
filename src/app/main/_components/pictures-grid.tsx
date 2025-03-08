@@ -14,7 +14,7 @@ export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: Pictur
     return (
         <div className="mt-8">
             <p className="mb-6 font-bold text-xl mb:text-3xl">{picturesDate}</p>
-            <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-6 gap-2">
+            <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-5 gap-2">
                 {pictures.map((picture) => (
                     <motion.div
                         key={picture.id}

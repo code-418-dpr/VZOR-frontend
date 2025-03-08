@@ -41,7 +41,7 @@ export default function Home() {
     const picturesDate = getUniqueDates(filteredPictures);
 
     return (
-        <div className="bg-zinc-50 dark:bg-zinc-950">
+        <main>
             <div className="mx-auto px-2 pt-12 pb-16">
                 {picturesDate.map((date) => (
                     <div key={date}>
@@ -65,6 +65,6 @@ export default function Home() {
                     />
                 )}
             </AnimatePresence>
-        </div>
+        </main>
     );
 }
