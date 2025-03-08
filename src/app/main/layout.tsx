@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SearchSidebar } from "@/app/main/_components/search-sidebar";
+import { SearchSidebar } from "@/app/main/_components/search/search-sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
