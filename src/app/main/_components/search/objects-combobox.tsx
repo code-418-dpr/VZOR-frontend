@@ -1,8 +1,9 @@
 "use client";
 
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, X } from "lucide-react";
 
-import { JSX, useMemo, useState } from "react";
+import type React from "react";
+import { type JSX, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
@@ -27,15 +28,60 @@ export function ObjectsCombobox({
     const [open, setOpen] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
+    // Extract selected items for display
+    const selectedItems = useMemo(() => {
+        return Array.from(values.entries())
+            .filter(([key, isSelected]) => key !== "" && isSelected)
+            .map(([key]) => key);
+    }, [values]);
+
+    // Handle removing an item
+    const handleRemoveItem = (key: string, e: React.MouseEvent) => {
+        e.stopPropagation();
+        const newValues = new Map(values);
+        newValues.set(key, false);
+        setValues(newValues);
+    };
+
+    const renderSelectedItems = () => {
+        return selectedItems.map((key) => (
+            <div
+                key={key}
+                className="flex items-center gap-1 bg-secondary text-secondary-foreground px-2 py-0.5 rounded-md text-xs"
+            >
+                <span>{key}</span>
+                <button
+                    type="button"
+                    onClick={(e) => {
+                        handleRemoveItem(key, e);
+                    }}
+                    className="focus:outline-none"
+                >
+                    <X className="h-3 w-3 cursor-pointer hover:text-destructive" />
+                </button>
+            </div>
+        ));
+    };
+
+    const renderTriggerButton = () => (
+        <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="flex flex-wrap gap-1 p-1 h-auto min-h-10"
+        >
+            <div className="flex items-center gap-1 mr-auto">
+                <span className="text-sm">{title}</span>
+                <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+            </div>
+            {renderSelectedItems()}
+        </Button>
+    );
+
     if (isDesktop) {
         return (
             <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                    <Button variant="outline" role="combobox" aria-expanded={open} className="flex gap-2 pr-2">
-                        <span>{title}</span>
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                </PopoverTrigger>
+                <PopoverTrigger asChild>{renderTriggerButton()}</PopoverTrigger>
                 <PopoverContent className={cn("w-full p-0", className)}>
                     <ObjectList values={values} setValues={setValues} hideSearch={hideSearch} />
                 </PopoverContent>
@@ -45,12 +91,7 @@ export function ObjectsCombobox({
 
     return (
         <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                <Button variant="outline" role="combobox" aria-expanded={open} className="flex gap-2 pr-2">
-                    <span>{title}</span>
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-            </DrawerTrigger>
+            <DrawerTrigger asChild>{renderTriggerButton()}</DrawerTrigger>
             <DrawerContent className={cn("w-full p-0", className)}>
                 <ObjectList values={values} setValues={setValues} hideSearch={hideSearch} />
             </DrawerContent>
@@ -77,6 +118,13 @@ function ObjectList({
         return Array.from(values.keys()).filter((key) => key.toLowerCase().includes(search.toLowerCase()));
     }, [values, search]);
 
+    const handleSelect = (currentValue: string) => {
+        // Create a completely new Map to ensure re-render
+        const newValues = new Map(values);
+        newValues.set(currentValue, !newValues.get(currentValue));
+        setValues(newValues);
+    };
+
     return (
         <Command shouldFilter={false}>
             {!hideSearch && <CommandInput placeholder="Поиск..." value={search} onValueChange={setSearch} />}
@@ -84,14 +132,7 @@ function ObjectList({
                 <CommandEmpty>Ничего не найдено.</CommandEmpty>
                 <CommandGroup>
                     {filteredItems.slice(0, 500).map((key) => (
-                        <CommandItem
-                            key={key}
-                            value={key}
-                            onSelect={(currentValue) => {
-                                setValues(new Map(values).set(currentValue, !values.get(currentValue)));
-                            }}
-                            className="pr-4"
-                        >
+                        <CommandItem key={key} value={key} onSelect={handleSelect} className="pr-4">
                             <Check className={cn("mr-1 h-4 w-4", values.get(key) ? "opacity-100" : "opacity-0")} />
                             {key}
                         </CommandItem>
