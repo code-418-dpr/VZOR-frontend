@@ -12,6 +12,7 @@
         "add-component": "bun run --bun shadcn add"
     },
     "dependencies": {
+        "@radix-ui/react-checkbox": "^1.1.4",
         "@radix-ui/react-separator": "^1.1.2",
         "@radix-ui/react-tooltip": "^1.1.8",
         "motion": "^12.4.10",

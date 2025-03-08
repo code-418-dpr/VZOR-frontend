@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
     Drawer,
     DrawerClose,
@@ -76,6 +77,9 @@ function SearchDrawer({ open, setOpen }: Props) {
 }
 
 function SearchForm() {
+    const [objectFind, setObjectFind] = useState(false);
+    const [textFind, setTextFind] = useState(false);
+
     return (
         <form>
             <div className="grid w-full items-center gap-4">
@@ -83,9 +87,45 @@ function SearchForm() {
                     <Label htmlFor="general-search">Общий поиск по изображениям</Label>
                     <Input id="general-search" placeholder="Текст" />
                 </div>
+
                 <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="framework">Поиск по объектам на изображении</Label>
-                    <Input id="meta-object" placeholder="Объект" />
+                    <Label htmlFor="meta-object">Поиск по объектам на изображении</Label>
+                    <Input disabled={objectFind} id="meta-object" placeholder="Объект" />
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Checkbox
+                        id="is-object-find"
+                        checked={objectFind}
+                        onCheckedChange={() => {
+                            setObjectFind(!objectFind);
+                        }}
+                    />
+                    <label
+                        htmlFor="is-object-find"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                        Объектов не найдено
+                    </label>
+                </div>
+
+                <div className="flex flex-col space-y-1.5">
+                    <Label htmlFor="meta-text">Поиск по тексту на изображении</Label>
+                    <Input disabled={textFind} id="meta-text" placeholder="Текст" />
+                </div>
+                <div className="flex items-center space-x-2">
+                    <Checkbox
+                        id="is-text-find"
+                        checked={textFind}
+                        onCheckedChange={() => {
+                            setTextFind(!textFind);
+                        }}
+                    />
+                    <label
+                        htmlFor="is-text-find"
+                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                        Текст не найден
+                    </label>
                 </div>
             </div>
         </form>
