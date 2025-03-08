@@ -12,6 +12,8 @@
         "add-component": "bun run --bun shadcn add"
     },
     "dependencies": {
+        "@radix-ui/react-separator": "^1.1.2",
+        "@radix-ui/react-tooltip": "^1.1.8",
         "motion": "^12.4.10",
         "next": "15.2.1",
         "react": "^19.0.0",
