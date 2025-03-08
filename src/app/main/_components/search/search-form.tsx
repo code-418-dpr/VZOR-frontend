@@ -22,7 +22,9 @@ export function SearchForm() {
 
                 <div className="flex flex-col space-y-1.5">
                     <Label htmlFor="meta-object">Поиск по объектам на изображении</Label>
-                    <ObjectsCombobox />
+                    <div className={objectFind ? "hidden" : ""}>
+                        <ObjectsCombobox />
+                    </div>
                 </div>
                 <div className="flex items-center space-x-2">
                     <Checkbox

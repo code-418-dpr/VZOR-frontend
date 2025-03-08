@@ -15,23 +15,23 @@ interface Status {
 
 const statuses: Status[] = [
     {
-        value: "door",
+        value: "Дверь",
         label: "Дверь",
     },
     {
-        value: "human",
+        value: "Человек",
         label: "Человек",
     },
     {
-        value: "glass",
+        value: "Стакан",
         label: "Стакан",
     },
     {
-        value: "window",
+        value: "Окно",
         label: "Окно",
     },
     {
-        value: "table",
+        value: "Стол",
         label: "Стол",
     },
 ];
@@ -60,7 +60,7 @@ export function ObjectsCombobox() {
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
                 <Button variant="outline" className="w-[150px] justify-start">
-                    {selectedStatus ? <>{selectedStatus.label}</> : <>+ Выбрать объект</>}
+                    {selectedStatus ? <>{selectedStatus.label}</> : <>Выбрать объект</>}
                 </Button>
             </DrawerTrigger>
             <DrawerContent>
