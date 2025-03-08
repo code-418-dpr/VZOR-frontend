@@ -17,9 +17,8 @@ export const useAuth = () => {
       try {
         const response = await fetch("/api/session");
         if (!response.ok) throw new Error("Session check failed");
-        
-        const data: SessionResponse = await response.json();
-        setIsAuthenticated(data.isLoggedIn ?? false);
+        const data = await response.json() as SessionResponse;
+        setIsAuthenticated(data.isLoggedIn);
       } catch (err) {
         console.error("Auth check error:", err);
         setIsAuthenticated(false);
@@ -41,8 +40,7 @@ export const useAuth = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
         });
-
-        const data: LoginResponse | ErrorResponse = await response.json();
+        const data = await response.json() as LoginResponse | ErrorResponse;
 
         if (!response.ok || "message" in data) {
           throw new Error("message" in data ? data.message : "Authorization failed");
@@ -70,7 +68,7 @@ export const useAuth = () => {
     } catch (err) {
       console.error("Logout error:", err);
     }
-  }, [router]);
+  }, []);
 
   return {
     email,

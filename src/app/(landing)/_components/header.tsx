@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function Header({ visible }: Props) {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated } = useAuth();
     
     return (
         <header>

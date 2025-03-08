@@ -8,10 +8,9 @@ import { useAuth } from "@/hooks/use-auth";
 
 interface SignInFormProps extends React.ComponentPropsWithoutRef<"form"> {
     className?: string;
-    onSuccess?: () => void;
 }
 
-export default function SignInForm({ className, onSuccess }: SignInFormProps) {
+export default function SignInForm({ className }: SignInFormProps) {
     const {
         email,
         setEmail,
@@ -21,14 +20,6 @@ export default function SignInForm({ className, onSuccess }: SignInFormProps) {
         loading,
         handleSubmit
     } = useAuth();
-
-    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // Важно сохранить preventDefault здесь
-        const success = await handleSubmit(e);
-        if (success && onSuccess) {
-          onSuccess();
-        }
-      };
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
     };
