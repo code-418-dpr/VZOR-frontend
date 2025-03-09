@@ -8,15 +8,10 @@ import { ObjectsCombobox } from "@/app/main/_components/search/objects-combobox"
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
 
 import { testObjects } from "../../_data/search/objects";
 
-interface Props {
-    className?: string;
-}
-
-export function SearchForm({ className }: Props) {
+export function SearchForm() {
     const [noText, setNoText] = useState(false);
     const [noObjects, setNoObjects] = useState(false);
     const [objectsToSearch, setObjectsToSearch] = useState(
@@ -24,7 +19,7 @@ export function SearchForm({ className }: Props) {
     );
 
     return (
-        <form className={cn("flex flex-col gap-6", className)}>
+        <form className="flex flex-col gap-6">
             <Input id="description" placeholder="Описание" />
 
             <div className="flex gap-2 flex-wrap">

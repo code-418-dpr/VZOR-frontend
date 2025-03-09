@@ -44,11 +44,11 @@ function SearchDrawer({ open, setOpen }: Props) {
                     <Search />
                 </Button>
             </DrawerTrigger>
-            <DrawerContent className="p-4">
+            <DrawerContent>
                 <DrawerHeader>
                     <DrawerTitle className="text-center text-2xl">Поиск</DrawerTitle>
                 </DrawerHeader>
-                <SearchForm className="mx-5" />
+                <SearchForm />
             </DrawerContent>
         </Drawer>
     );
