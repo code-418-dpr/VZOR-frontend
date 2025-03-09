@@ -8,6 +8,10 @@ interface Props {
 }
 
 export default function Header({ visible }: Props) {
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
     return (
         <header>
             <div
@@ -16,14 +20,10 @@ export default function Header({ visible }: Props) {
                     visible ? "opacity-100" : "opacity-0",
                 )}
             >
-                <div className="flex items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16">
-                    <Logo width={120} />
-                </div>
-            </div>
-
-            <div className="fixed top-0 left-0 right-0 z-50">
                 <div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div></div>
+                    <div onClick={scrollToTop} className="cursor-pointer">
+                        <Logo width={120} />
+                    </div>
                     <div className="flex items-center space-x-3">
                         <AuthDialogOrDrawer />
                         <ModeToggle />
