@@ -7,8 +7,8 @@ import { useState } from "react";
 
 import { SearchForm } from "@/app/main/_components/search/search-form";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
@@ -22,6 +22,9 @@ export function SearchCardOrDrawer() {
 function SearchCard() {
     return (
         <Card className="m-4 max-h-[calc(100vh-2.5rem)]">
+            <CardHeader>
+                <CardTitle className="text-xl">Поиск</CardTitle>
+            </CardHeader>
             <CardContent>
                 <ScrollArea>
                     <SearchForm />
@@ -44,7 +47,7 @@ function SearchDrawer({ open, setOpen }: Props) {
                     <Search />
                 </Button>
             </DrawerTrigger>
-            <DrawerContent>
+            <DrawerContent className="p-4">
                 <DrawerHeader>
                     <DrawerTitle className="text-center text-2xl">Поиск</DrawerTitle>
                 </DrawerHeader>

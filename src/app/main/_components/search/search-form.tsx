@@ -3,9 +3,9 @@
 import { useState } from "react";
 import * as React from "react";
 
-import DateTimeForm from "@/app/main/_components/search/date-time-form";
 import { ObjectsCombobox } from "@/app/main/_components/search/objects-combobox";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -27,7 +27,7 @@ export function SearchForm() {
                     <ObjectsCombobox title="Объекты" values={objectsToSearch} setValues={setObjectsToSearch} />
                 </div>
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Checkbox
                         id="no-objects"
                         checked={noObjects}
@@ -44,7 +44,7 @@ export function SearchForm() {
             <div className="flex gap-2 flex-wrap">
                 <Input disabled={noText} id="painted-text" placeholder="Текст" />
 
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Checkbox
                         id="no-text"
                         checked={noText}
@@ -58,7 +58,12 @@ export function SearchForm() {
                 </div>
             </div>
 
-            <DateTimeForm />
+            <div className="flex flex-wrap items-center gap-2">
+                <Label htmlFor="period" className="font-normal">
+                    Период:
+                </Label>
+                <DateRangePicker id="period" />
+            </div>
         </form>
     );
 }
