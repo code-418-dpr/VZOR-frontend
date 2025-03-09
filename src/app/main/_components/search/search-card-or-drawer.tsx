@@ -21,18 +21,12 @@ export function SearchCardOrDrawer() {
 
 function SearchCard() {
     return (
-        <Card className="flex justify-between m-4 h-[calc(100vh-2.5rem)]">
+        <Card className="m-4 max-h-[calc(100vh-2.5rem)]">
             <CardContent>
                 <ScrollArea>
                     <SearchForm />
                 </ScrollArea>
             </CardContent>
-            <CardFooter>
-                <Button className="w-full">
-                    <Search size="1.5rem" />
-                    Поиск
-                </Button>
-            </CardFooter>
         </Card>
     );
 }
@@ -57,12 +51,6 @@ function SearchDrawer({ open, setOpen }: Props) {
                 <div className="mx-5">
                     <SearchForm />
                 </div>
-                <DrawerFooter className="pt-2">
-                    <Button>
-                        <Search size="1.5rem" />
-                        Поиск
-                    </Button>
-                </DrawerFooter>
             </DrawerContent>
         </Drawer>
     );
