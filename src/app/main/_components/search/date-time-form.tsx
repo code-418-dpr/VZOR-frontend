@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -49,9 +49,7 @@ export default function DateTimeForm() {
     }
 
     return (
-        <div className="max-w-md mx-auto p-6 space-y-6">
-            <h1 className="text-2xl font-bold">Date & Time Selection</h1>
-
+        <div className="max-w-md mx-auto p-3 space-y-2">
             <Form {...form}>
                 <form
                     onSubmit={(e) => {
@@ -66,7 +64,7 @@ export default function DateTimeForm() {
                             const hasSelectedDate = Boolean(field.value);
                             return (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Date</FormLabel>
+                                    <FormLabel>Дата</FormLabel>
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <FormControl>
@@ -96,7 +94,6 @@ export default function DateTimeForm() {
                                             />
                                         </PopoverContent>
                                     </Popover>
-                                    <FormDescription>Select a date (cannot be in the future)</FormDescription>
                                     <FormMessage />
                                 </FormItem>
                             );
@@ -108,7 +105,7 @@ export default function DateTimeForm() {
                         name="time"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Time</FormLabel>
+                                <FormLabel>Время</FormLabel>
                                 <div className="relative">
                                     <FormControl>
                                         <Input
@@ -136,7 +133,6 @@ export default function DateTimeForm() {
                                     </FormControl>
                                     <Clock className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
                                 </div>
-                                <FormDescription>Введите время в 24-часовом формате (например, 13:35)</FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}
