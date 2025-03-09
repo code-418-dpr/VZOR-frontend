@@ -9,89 +9,56 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const testObjects = [
-    {
-        name: "Дверь",
-        value: "door",
-    },
-    {
-        name: "Человек",
-        value: "human",
-    },
-    {
-        name: "Стакан",
-        value: "glass",
-    },
-    {
-        name: "Окно",
-        value: "window",
-    },
-    {
-        name: "Стол",
-        value: "table",
-    },
-];
+import { testObjects } from "../../_data/search/objects";
 
 export function SearchForm() {
-    const [objectFind, setObjectFind] = useState(false);
-    const [textFind, setTextFind] = useState(false);
-
-    const [objects, setObjects] = useState<Map<string, boolean>>(
-        new Map(testObjects.map((testObject) => [testObject.name, false] as [string, boolean])),
+    const [noText, setNoText] = useState(false);
+    const [noObjects, setNoObjects] = useState(false);
+    const [objectsToSearch, setObjectsToSearch] = useState(
+        new Map(testObjects.map((testObject) => [testObject.name, false])),
     );
 
     return (
-        <form>
-            <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="general-search">Общий поиск по изображениям</Label>
-                    <Input id="general-search" placeholder="Текст" />
+        <form className="flex flex-col gap-6">
+            <Input id="description" placeholder="Описание" />
+
+            <div className="flex gap-2 flex-wrap">
+                <div className={noObjects ? "hidden" : ""}>
+                    <ObjectsCombobox title="Объекты" values={objectsToSearch} setValues={setObjectsToSearch} />
                 </div>
 
-                <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="meta-object">Поиск по объектам на изображении</Label>
-                    <div className={objectFind ? "hidden" : ""}>
-                        <ObjectsCombobox title="Объекты" values={objects} setValues={setObjects} />
-                    </div>
-                </div>
                 <div className="flex items-center space-x-2">
                     <Checkbox
-                        id="is-object-find"
-                        checked={objectFind}
+                        id="no-objects"
+                        checked={noObjects}
                         onCheckedChange={() => {
-                            setObjectFind(!objectFind);
+                            setNoObjects(!noObjects);
                         }}
                     />
-                    <label
-                        htmlFor="is-object-find"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        Объектов не найдено
-                    </label>
+                    <Label htmlFor="no-objects" className="font-normal">
+                        Без объектов
+                    </Label>
                 </div>
-
-                <div className="flex flex-col space-y-1.5">
-                    <Label htmlFor="meta-text">Поиск по тексту на изображении</Label>
-                    <Input disabled={textFind} id="meta-text" placeholder="Текст" />
-                </div>
-                <div className="flex items-center space-x-2">
-                    <Checkbox
-                        id="is-text-find"
-                        checked={textFind}
-                        onCheckedChange={() => {
-                            setTextFind(!textFind);
-                        }}
-                    />
-                    <label
-                        htmlFor="is-text-find"
-                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                    >
-                        Текст не найден
-                    </label>
-                </div>
-
-                <DateTimeForm />
             </div>
+
+            <div className="flex gap-2 flex-wrap">
+                <Input disabled={noText} id="painted-text" placeholder="Текст" />
+
+                <div className="flex items-center space-x-2">
+                    <Checkbox
+                        id="no-text"
+                        checked={noText}
+                        onCheckedChange={() => {
+                            setNoText(!noText);
+                        }}
+                    />
+                    <Label htmlFor="no-text" className="font-normal">
+                        Без текста
+                    </Label>
+                </div>
+            </div>
+
+            <DateTimeForm />
         </form>
     );
 }
