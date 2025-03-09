@@ -24,7 +24,7 @@ export default function Header({ visible }: Props) {
                     visible ? "" : "pointer-events-none",
                 )}
             >
-                <div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className={cn("flex items-center justify-between h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8")}>
                     {/* Контейнер для Logo и якорных кнопок */}
                     <div className="flex items-center space-x-6">
                         <div
@@ -42,12 +42,12 @@ export default function Header({ visible }: Props) {
                             </button>
                         </div>
                     </div>
-                    {/* Контейнер с кнопками для авторизации и режима */}
-                    <div className="flex items-center space-x-3">
-                        <AuthDialogOrDrawer />
-                        <ModeToggle />
-                    </div>
                 </div>
+            </div>
+
+            <div className="fixed top-4 right-0 z-50 flex items-center space-x-3 bg-transparent backdrop-blur-none px-4 sm:px-6 lg:px-8">
+                <AuthDialogOrDrawer />
+                <ModeToggle />
             </div>
         </header>
     );
