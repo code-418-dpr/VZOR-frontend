@@ -24,9 +24,15 @@ export default function Home() {
     return (
         <main className="flex flex-col">
             <Header visible={showNavbar} />
-            <Hero />
-            <Demo />
-            <FAQ />
+            <section id="hero">
+                <Hero />
+            </section>
+            <section id="demo">
+                <Demo />
+            </section>
+            <section id="faq">
+                <FAQ />
+            </section>
         </main>
     );
 }

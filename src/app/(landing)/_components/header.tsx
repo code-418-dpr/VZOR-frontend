@@ -8,8 +8,11 @@ interface Props {
 }
 
 export default function Header({ visible }: Props) {
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+    const scrollToSection = (section: string) => {
+        const element = document.getElementById(section);
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
     };
 
     return (
@@ -22,9 +25,24 @@ export default function Header({ visible }: Props) {
                 )}
             >
                 <div className="flex items-center justify-between h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div onClick={scrollToTop} className={cn("cursor-pointer", visible ? "" : "pointer-events-none")}>
-                        <Logo width={120} />
+                    {/* Контейнер для Logo и якорных кнопок */}
+                    <div className="flex items-center space-x-6">
+                        <div
+                            onClick={() => scrollToSection("hero")}
+                            className={cn("cursor-pointer", visible ? "" : "pointer-events-none")}
+                        >
+                            <Logo width={120} />
+                        </div>
+                        <div className="flex space-x-6">
+                            <button onClick={() => scrollToSection("demo")} className="cursor-pointer">
+                                Demo
+                            </button>
+                            <button onClick={() => scrollToSection("faq")} className="cursor-pointer">
+                                FAQ
+                            </button>
+                        </div>
                     </div>
+                    {/* Контейнер с кнопками для авторизации и режима */}
                     <div className="flex items-center space-x-3">
                         <AuthDialogOrDrawer />
                         <ModeToggle />
