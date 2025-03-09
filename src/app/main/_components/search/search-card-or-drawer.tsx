@@ -48,9 +48,7 @@ function SearchDrawer({ open, setOpen }: Props) {
                 <DrawerHeader>
                     <DrawerTitle className="text-center text-2xl">Поиск</DrawerTitle>
                 </DrawerHeader>
-                <div className="mx-5">
-                    <SearchForm />
-                </div>
+                <SearchForm className="mx-5" />
             </DrawerContent>
         </Drawer>
     );
