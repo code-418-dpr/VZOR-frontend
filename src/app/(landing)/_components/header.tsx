@@ -35,7 +35,7 @@ export default function Header({ visible }: Props) {
                         </div>
                         <div className="flex space-x-6">
                             <button onClick={() => scrollToSection("demo")} className="cursor-pointer">
-                                Demo
+                                Демо
                             </button>
                             <button onClick={() => scrollToSection("faq")} className="cursor-pointer">
                                 FAQ
