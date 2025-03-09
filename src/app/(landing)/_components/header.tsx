@@ -1,13 +1,22 @@
+"use client";
+
 import AuthDialogOrDrawer from "@/app/(landing)/_components/auth/auth-dialog-or-drawer";
 import { Logo } from "@/components/logo";
+import { MobileMenu } from "@/components/mobile-menu";
 import { ModeToggle } from "@/components/theming/mode-toggle";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-interface Props {
+interface HeaderProps {
     visible: boolean;
 }
 
-export default function Header({ visible }: Props) {
+export default function Header({ visible }: HeaderProps) {
+    const navigationLinks = [
+        { label: "Demo", sectionId: "demo" },
+        { label: "FAQ", sectionId: "faq" },
+    ];
+
     const scrollToSection = (section: string) => {
         const element = document.getElementById(section);
         if (element) {
@@ -25,21 +34,36 @@ export default function Header({ visible }: Props) {
                 )}
             >
                 <div className={cn("flex items-center justify-between h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8")}>
-                    {/* Контейнер для Logo и якорных кнопок */}
-                    <div className="flex items-center space-x-6">
+                    <div className="flex items-center space-x-4">
+                        {/* Mobile menu hamburger */}
+                        <div className="md:hidden">
+                            <MobileMenu links={navigationLinks} onNavigate={scrollToSection} />
+                        </div>
+
+                        {/* Logo */}
                         <div
-                            onClick={() => scrollToSection("hero")}
+                            onClick={() => {
+                                scrollToSection("hero");
+                            }}
                             className={cn("cursor-pointer", visible ? "" : "pointer-events-none")}
                         >
                             <Logo width={120} />
                         </div>
-                        <div className="flex space-x-6">
-                            <button onClick={() => scrollToSection("demo")} className="cursor-pointer">
-                                Demo
-                            </button>
-                            <button onClick={() => scrollToSection("faq")} className="cursor-pointer">
-                                FAQ
-                            </button>
+
+                        {/* Desktop navigation */}
+                        <div className="hidden md:flex space-x-6">
+                            {navigationLinks.map((link) => (
+                                <Button
+                                    key={link.sectionId}
+                                    variant="ghost"
+                                    onClick={() => {
+                                        scrollToSection(link.sectionId);
+                                    }}
+                                    className="cursor-pointer"
+                                >
+                                    {link.label}
+                                </Button>
+                            ))}
                         </div>
                     </div>
                 </div>
