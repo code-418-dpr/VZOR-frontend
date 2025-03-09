@@ -1,5 +1,3 @@
-"use client";
-
 import AuthDialogOrDrawer from "@/app/(landing)/_components/auth/auth-dialog-or-drawer";
 import { Logo } from "@/components/logo";
 import { MobileMenu } from "@/components/mobile-menu";
@@ -13,7 +11,7 @@ interface HeaderProps {
 
 export default function Header({ visible }: HeaderProps) {
     const navigationLinks = [
-        { label: "Demo", sectionId: "demo" },
+        { label: "Демо", sectionId: "demo" },
         { label: "FAQ", sectionId: "faq" },
     ];
 
@@ -50,7 +48,6 @@ export default function Header({ visible }: HeaderProps) {
                             <Logo width={120} />
                         </div>
 
-                        {/* Desktop navigation */}
                         <div className="hidden md:flex space-x-6">
                             {navigationLinks.map((link) => (
                                 <Button

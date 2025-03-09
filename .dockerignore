@@ -27,11 +27,7 @@
 **/dist
 **/LICENSE
 **/*.md
-
-**/*.spec.ts
 **/.env.template
 .editorconfig
 helm-charts
 coverage*
-eslint.config.mjs
-prettier.config.mjs
