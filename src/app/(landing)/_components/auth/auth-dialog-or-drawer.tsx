@@ -34,7 +34,7 @@ function AuthDialog({ open, setOpen }: Props) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button>Авторизация</Button>
+                <Button className="cursor-pointer">Авторизация</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
