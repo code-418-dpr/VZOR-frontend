@@ -14,28 +14,38 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+// Define the schema with date that can be undefined initially but required for submission
 const formSchema = z.object({
-    date: z.date({
-        required_error: "Please select a date.",
-    }),
+    // Make date optional in the schema but add a refinement to require it for submission
+    date: z
+        .date()
+        .optional()
+        .refine((date) => date !== undefined, {
+            message: "Пожалуйста, выберите дату",
+        }),
     time: z.string().refine((time) => /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/.test(time), {
-        message: "Time must be in format HH:MM (e.g., 13:35)",
+        message: "Время должно быть в формате Часы:Минуты (например, 13:35)",
     }),
 });
 
+// Define the form values type based on the Zod schema
+type FormValues = z.infer<typeof formSchema>;
 export default function DateTimeForm() {
     const today = new Date();
 
-    const form = useForm<z.infer<typeof formSchema>>({
+    const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
+            date: undefined,
             time: "",
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-        alert(`Selected Date: ${format(values.date, "PPP")}\nSelected Time: ${values.time}`);
+    function onSubmit(values: FormValues) {
+        // Since we've refined the schema, we know date is defined at this point
+        const date = values.date;
+        console.log({ ...values, date });
+        alert(`Selected Date: ${format(date, "PPP")}\nSelected Time: ${values.time}`);
     }
 
     return (
@@ -43,42 +53,54 @@ export default function DateTimeForm() {
             <h1 className="text-2xl font-bold">Date & Time Selection</h1>
 
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form
+                    onSubmit={(e) => {
+                        void form.handleSubmit(onSubmit)(e);
+                    }}
+                    className="space-y-6"
+                >
                     <FormField
                         control={form.control}
                         name="date"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-col">
-                                <FormLabel>Date</FormLabel>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant={"outline"}
-                                                className={cn(
-                                                    "w-full pl-3 text-left font-normal",
-                                                    !field.value && "text-muted-foreground",
-                                                )}
-                                            >
-                                                {field.value ? format(field.value, "PPP") : <span>Select a date</span>}
-                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="start">
-                                        <Calendar
-                                            mode="single"
-                                            selected={field.value}
-                                            onSelect={field.onChange}
-                                            disabled={(date) => date > today}
-                                            initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                                <FormDescription>Select a date (cannot be in the future)</FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                        render={({ field }) => {
+                            const hasSelectedDate = Boolean(field.value);
+                            return (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>Date</FormLabel>
+                                    <Popover>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-full pl-3 text-left font-normal",
+                                                        !hasSelectedDate && "text-muted-foreground",
+                                                    )}
+                                                >
+                                                    {hasSelectedDate ? (
+                                                        format(field.value, "PPP")
+                                                    ) : (
+                                                        <span>Выберите дату</span>
+                                                    )}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                disabled={(date) => date > today}
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormDescription>Select a date (cannot be in the future)</FormDescription>
+                                    <FormMessage />
+                                </FormItem>
+                            );
+                        }}
                     />
 
                     <FormField
@@ -114,14 +136,14 @@ export default function DateTimeForm() {
                                     </FormControl>
                                     <Clock className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
                                 </div>
-                                <FormDescription>Enter time in 24-hour format (e.g., 13:35)</FormDescription>
+                                <FormDescription>Введите время в 24-часовом формате (например, 13:35)</FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
 
                     <Button type="submit" className="w-full">
-                        Submit
+                        Готово
                     </Button>
                 </form>
             </Form>

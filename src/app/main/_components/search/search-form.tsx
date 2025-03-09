@@ -3,6 +3,7 @@
 import { useState } from "react";
 import * as React from "react";
 
+import DateTimeForm from "@/app/main/_components/search/date-time-form";
 import { ObjectsCombobox } from "@/app/main/_components/search/objects-combobox";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -88,6 +89,8 @@ export function SearchForm() {
                         Текст не найден
                     </label>
                 </div>
+
+                <DateTimeForm />
             </div>
         </form>
     );
