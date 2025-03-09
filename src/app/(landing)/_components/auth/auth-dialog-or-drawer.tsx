@@ -44,7 +44,7 @@ function AuthDrawer({ open, setOpen }: Props) {
             <DrawerTrigger asChild>
                 <Button>Авторизация</Button>
             </DrawerTrigger>
-            <DrawerContent className="m-4">
+            <DrawerContent className="p-4">
                 <DrawerHeader>
                     <DrawerTitle className="text-center text-2xl">Авторизация</DrawerTitle>
                 </DrawerHeader>
