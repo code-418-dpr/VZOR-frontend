@@ -26,8 +26,9 @@ export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: Pictur
                         whileHover={{ y: -1 }}
                         transition={{ duration: 0.2 }}
                     >
-                        <div className="aspect-[4/5] bg-white dark:bg-zinc-900 rounded-md overflow-hidden">
+                        <div className="relative aspect-[4/5] bg-white dark:bg-zinc-900 rounded-md overflow-hidden">
                             <Image
+                                fill
                                 src={picture.picture}
                                 alt={picture.name}
                                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"

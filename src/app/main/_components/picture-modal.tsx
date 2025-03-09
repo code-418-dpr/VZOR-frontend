@@ -29,6 +29,7 @@ export function PictureModal({ picture, onClose }: PictureModalProps) {
                 <div className="h-full md:flex">
                     <div className="relative md:w-2/5">
                         <Image
+                            fill
                             src={picture.picture}
                             alt={picture.name}
                             className="w-full h-[200px] md:h-full object-cover"

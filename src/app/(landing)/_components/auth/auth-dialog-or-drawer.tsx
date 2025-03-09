@@ -6,15 +6,7 @@ import SignInForm from "@/app/(landing)/_components/auth/signin-form";
 import SignUpForm from "@/app/(landing)/_components/auth/signup-form";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
@@ -52,16 +44,11 @@ function AuthDrawer({ open, setOpen }: Props) {
             <DrawerTrigger asChild>
                 <Button>Авторизация</Button>
             </DrawerTrigger>
-            <DrawerContent>
+            <DrawerContent className="m-4">
                 <DrawerHeader>
                     <DrawerTitle className="text-center text-2xl">Авторизация</DrawerTitle>
                 </DrawerHeader>
                 <AuthTabs />
-                <DrawerFooter className="pt-2">
-                    <DrawerClose asChild>
-                        <Button variant="outline">Закрыть</Button>
-                    </DrawerClose>
-                </DrawerFooter>
             </DrawerContent>
         </Drawer>
     );
@@ -69,8 +56,8 @@ function AuthDrawer({ open, setOpen }: Props) {
 
 function AuthTabs() {
     return (
-        <Tabs defaultValue="signin" className="m-2">
-            <TabsList className="grid w-full grid-cols-2">
+        <Tabs defaultValue="signin">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
                 <TabsTrigger value="signin">Вход</TabsTrigger>
                 <TabsTrigger value="signup">Регистрация</TabsTrigger>
             </TabsList>

@@ -2,10 +2,10 @@ import React from "react";
 
 import { SearchSidebar } from "@/app/main/_components/search/search-sidebar";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
         <div className="flex flex-col md:flex-row">
-            <div className="w-full flex-none md:w-85 justify-center content-center md:content-start ">
+            <div className="justify-center content-center md:content-start w-full md:w-85">
                 <div className="fixed md:sticky bottom-0 md:top-5">
                     <SearchSidebar />
                 </div>
