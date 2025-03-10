@@ -17,7 +17,6 @@ export const useAuth = () => {
     useEffect(() => {
         const checkAuthStatus = async () => {
             const cachedSession = localStorage.getItem("session");
-            console.log(cachedSession);
             if (cachedSession) {
                 const session = JSON.parse(cachedSession) as SessionCached;
                 setIsAuthenticated(session.success || false);
@@ -51,7 +50,6 @@ export const useAuth = () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password }),
                 });
-                console.log(response);
                 const data = (await response.json()) as LoginResponse | ErrorResponse;
 
                 if (!response.ok || "message" in data) {
@@ -60,7 +58,7 @@ export const useAuth = () => {
 
                 setIsAuthenticated(true);
                 localStorage.setItem("session", JSON.stringify(data));
-                //window.location.reload();
+                window.location.reload();
                 return true; // Возвращаем успешный статус
             } catch (err) {
                 const message = err instanceof Error ? err.message : "Unknown error";

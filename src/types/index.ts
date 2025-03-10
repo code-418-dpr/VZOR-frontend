@@ -78,3 +78,8 @@ export interface SessionCached {
     acessToken: string;
     refreshToken: string;
 }
+export interface RegistrationCredentials {
+    name: string;
+    email: string;
+    password: string;
+}
