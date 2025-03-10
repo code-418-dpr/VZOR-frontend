@@ -1,63 +1,40 @@
+// lib/session.ts
 import { sealData, unsealData } from "iron-session";
-import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
-export interface SessionData {
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+
+export type Session = {
     userId: string;
     isLoggedIn: boolean;
-  }
+} | null;
 
-const sessionSecret = process.env.SESSION_SECRET!;
-if (!sessionSecret) throw new Error("SESSION_SECRET is not set");
-if (sessionSecret.length !== 32) {
-    throw new Error(`Invalid SESSION_SECRET length: ${sessionSecret.length} chars (required 32)`);
-  }
+export async function getSession(): Promise<Session> {
+    try {
+        const sessionCookie = (await cookies()).get("session")?.value;
+        if (!sessionCookie) return null;
 
-export const sessionOptions = {
-  password: sessionSecret,
-  cookieName: "session",
-  ttl: 60 * 60 * 24 * 7, // 1 week
-  cookieOptions: {
-    secure: process.env.NODE_ENV === "production",
-    httpOnly: true,
-    sameSite: "lax" as const,
-  },
-};
-
-export async function getSession(cookies: ReadonlyRequestCookies) {
-  const sessionCookie = cookies.get(sessionOptions.cookieName)?.value;
-  if (!sessionCookie) return null;
-
-  return (await unsealData<SessionData>(sessionCookie, {
-    password: sessionOptions.password,
-  })) as SessionData | null;
+        return await unsealData<Session>(sessionCookie, {
+            password: process.env.SESSION_SECRET!,
+        });
+    } catch (error) {
+        console.error("Session error:", error);
+        return null;
+    }
 }
 
-export async function destroySession() {
-  const sealedData = await sealData("", {
-    password: sessionOptions.password,
-    ttl: 0,
-  });
+export async function createSession(userId: string, response: NextResponse) {
+    const sessionData = { userId, isLoggedIn: true };
+    const sealed = await sealData(sessionData, {
+        password: process.env.SESSION_SECRET!,
+        ttl: 60 * 60 * 24 * 7,
+    });
 
-  return new Response(null, {
-    headers: {
-      "Set-Cookie": `${sessionOptions.cookieName}=${sealedData}; Path=/; ${
-        sessionOptions.cookieOptions.secure ? "Secure; " : ""
-      }HttpOnly; SameSite=${sessionOptions.cookieOptions.sameSite}; Max-Age=0`,
-    },
-  });
-}
-
-export async function updateSession(session: SessionData) {
-  const sealedData = await sealData(session, {
-    password: sessionOptions.password,
-    ttl: sessionOptions.ttl,
-  });
-
-  return new Response(null, {
-    headers: {
-      "Set-Cookie": `${sessionOptions.cookieName}=${sealedData}; Path=/; ${
-        sessionOptions.cookieOptions.secure ? "Secure; " : ""
-      }HttpOnly; SameSite=${sessionOptions.cookieOptions.sameSite}; Max-Age=${sessionOptions.ttl}`,
-    },
-  });
+    response.cookies.set("session", sealed, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 60 * 60 * 24 * 7,
+        sameSite: "lax",
+        path: "/",
+    });
 }

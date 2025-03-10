@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { destroySession } from "@/lib/session";
 
-export async function POST() {
-  const response = await destroySession();
-  return new NextResponse(JSON.stringify({ success: true }), {
-    status: 200,
-    headers: response.headers,
-  });
+export function POST() {
+    const response = NextResponse.json({ success: true });
+    response.cookies.delete("session");
+    response.cookies.delete("accessToken");
+    response.cookies.delete("refreshToken");
+    return response;
 }
