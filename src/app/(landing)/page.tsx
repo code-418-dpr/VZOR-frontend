@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import Demo from "@/app/(landing)/_components/demo";
 import FAQ from "@/app/(landing)/_components/faq";
 import Header from "@/app/(landing)/_components/header";
-import Hero from "@/app/(landing)/_components/hero";
+import Hero from "@/app/(landing)/_components/hero/hero";
 
 export default function Home() {
     const [showNavbar, setShowNavbar] = useState(false);
