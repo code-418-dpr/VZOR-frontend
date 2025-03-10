@@ -6,7 +6,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
     return (
         <div className="flex flex-col md:flex-row">
             <div className="justify-center content-center md:content-start w-full md:w-85">
-                <div className="fixed md:sticky bottom-0 md:top-5 z-50">
+                <div className="fixed md:sticky bottom-0 md:top-15 z-50">
                     <SearchCardOrDrawer />
                 </div>
             </div>
