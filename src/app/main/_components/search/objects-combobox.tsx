@@ -47,7 +47,7 @@ export function ObjectsCombobox({
         return selectedItems.map((key) => (
             <div
                 key={key}
-                className="flex items-center gap-1 bg-secondary text-secondary-foreground px-2 py-0.5 rounded-md text-xs"
+                className="flex items-center gap-1 bg-secondary text-secondary-foreground px-1 py-0.5 rounded-md text-xs"
             >
                 <span>{key}</span>
                 <button
