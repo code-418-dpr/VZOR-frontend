@@ -1,6 +1,8 @@
+"use client";
+
 import AuthDialogOrDrawer from "@/app/(landing)/_components/auth/auth-dialog-or-drawer";
 import { Logo } from "@/components/logo";
-import { MobileMenu } from "@/components/mobile-menu";
+import MobileMenuDrawer from "@/components/mobile-menu-drawer";
 import { ModeToggle } from "@/components/theming/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -34,9 +36,7 @@ export default function Header({ visible }: HeaderProps) {
                 <div className={cn("flex items-center justify-between h-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8")}>
                     <div className="flex items-center space-x-4">
                         {/* Mobile menu hamburger */}
-                        <div className="md:hidden">
-                            <MobileMenu links={navigationLinks} onNavigate={scrollToSection} />
-                        </div>
+                        <MobileMenuDrawer links={navigationLinks} onNavigate={scrollToSection} />
 
                         {/* Logo */}
                         <div
@@ -48,6 +48,7 @@ export default function Header({ visible }: HeaderProps) {
                             <Logo width={120} />
                         </div>
 
+                        {/* Desktop navigation */}
                         <div className="hidden md:flex space-x-6">
                             {navigationLinks.map((link) => (
                                 <Button
