@@ -90,7 +90,7 @@ export default function DateTimeForm() {
                                                 selected={field.value}
                                                 onSelect={field.onChange}
                                                 disabled={(date) => date > today}
-                                                initialFocus
+                                                autoFocus
                                             />
                                         </PopoverContent>
                                     </Popover>
