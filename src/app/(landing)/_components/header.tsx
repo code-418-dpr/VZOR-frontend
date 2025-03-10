@@ -62,7 +62,14 @@ export default function Header({ visible }: HeaderProps) {
                     >
                         <Logo width={120} />
                     </div>
-                    <nav className="hidden pointer-events-none items-center gap-4 md:flex">{navLinkElements}</nav>
+                    <nav
+                        className={cn(
+                            "hidden items-center gap-4 md:flex",
+                            visible ? "pointer-events-auto" : "pointer-events-none",
+                        )}
+                    >
+                        {navLinkElements}
+                    </nav>
                 </div>
             </div>
 

@@ -47,7 +47,7 @@ export function ObjectsCombobox({
         return selectedItems.map((key) => (
             <div
                 key={key}
-                className="flex items-center gap-1 bg-secondary text-secondary-foreground px-1 py-0.5 rounded-md text-xs"
+                className="bg-secondary text-secondary-foreground flex items-center gap-1 rounded-md px-1 py-0.5 text-xs"
             >
                 <span>{key}</span>
                 <button
@@ -68,9 +68,9 @@ export function ObjectsCombobox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="flex flex-wrap gap-1 p-1 h-auto min-h-10 justify-start"
+            className="flex h-auto min-h-10 flex-wrap justify-start gap-1 p-1"
         >
-            <div className="flex items-center gap-1 mr-auto">
+            <div className="mr-auto flex items-center gap-1">
                 <span className="text-sm">{title}</span>
                 <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
             </div>

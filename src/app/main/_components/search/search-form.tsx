@@ -22,7 +22,7 @@ export function SearchForm() {
         <form className="flex flex-col gap-6">
             <Input id="description" placeholder="Описание" />
 
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex flex-wrap gap-2">
                 <div className={noObjects ? "hidden" : ""}>
                     <ObjectsCombobox title="Объекты" values={objectsToSearch} setValues={setObjectsToSearch} />
                 </div>
@@ -41,7 +41,7 @@ export function SearchForm() {
                 </div>
             </div>
 
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex flex-wrap gap-2">
                 <Input disabled={noText} id="painted-text" placeholder="Текст" />
 
                 <div className="flex items-center gap-2">

@@ -43,8 +43,8 @@ function SearchDrawer({ open, setOpen }: Props) {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <Button variant="outline" className="w-12 h-12 m-4">
-                    <div className="transform scale-150">
+                <Button variant="outline" className="m-4 h-12 w-12">
+                    <div className="scale-150 transform">
                         <Search />
                     </div>
                 </Button>
