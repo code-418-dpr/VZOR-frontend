@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 
+import ContactForm from "@/app/(landing)/_components/contact-form";
 import Demo from "@/app/(landing)/_components/demo";
 import FAQ from "@/app/(landing)/_components/faq";
 import Header from "@/app/(landing)/_components/header";
@@ -32,6 +33,9 @@ export default function Home() {
             </section>
             <section id="faq">
                 <FAQ />
+            </section>
+            <section id="contact">
+                <ContactForm />
             </section>
         </main>
     );
