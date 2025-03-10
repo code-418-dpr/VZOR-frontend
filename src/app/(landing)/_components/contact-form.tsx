@@ -1,25 +1,28 @@
+import { Send } from "lucide-react";
+
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import siteMetadata from "@/conf/site-metadata";
 
 function ContactForm() {
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
 
     const handleSubmit = () => {
-        const mailtoLink = `mailto:support@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-        window.open(mailtoLink, "_self"); // Используем window.open вместо location.href
+        const mailtoLink = `mailto:${siteMetadata.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+        window.open(mailtoLink, "_self");
     };
 
     return (
-        <Card className="mx-4 sm:mx-20 md:mx-30 lg:mx-50 xl:mx-80 mt-10 md:mt-20 mb-15">
+        <Card className="mx-4 mt-5 mb-15 sm:mx-20 md:mx-30 md:mt-20 lg:mx-50 xl:mx-80">
             <CardHeader>
-                <CardTitle className="text-xl md:text-2xl text-center">Остались вопросы? Напишите нам!</CardTitle>
+                <CardTitle className="text-center text-xl md:text-2xl">Остались вопросы? Напишите нам!</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-4">
+            <CardContent className="flex flex-col gap-4 items-end">
                 <Input
                     placeholder="Тема письма"
                     value={subject}
@@ -28,7 +31,7 @@ function ContactForm() {
                     }}
                 />
                 <Textarea
-                    className="w-full h-48 min-h-24 max-h-280"
+                    className="h-48 max-h-280 min-h-24 w-full"
                     placeholder="Содержимое письма"
                     rows={4}
                     value={message}
@@ -36,7 +39,8 @@ function ContactForm() {
                         setMessage(e.target.value);
                     }}
                 />
-                <Button onClick={handleSubmit} className="w-full">
+                <Button onClick={handleSubmit} className="w-min">
+                    <Send />
                     Отправить
                 </Button>
             </CardContent>

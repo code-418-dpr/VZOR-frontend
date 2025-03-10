@@ -23,7 +23,7 @@ export default function FAQ() {
     ));
 
     return (
-        <Card className="mx-4 mt-5 mb-15 sm:mx-20 md:mx-30 md:mt-20 lg:mx-50 xl:mx-80">
+        <Card className="mx-4 my-5 sm:mx-20 md:mx-30 md:mt-20 lg:mx-50 xl:mx-80">
             <CardHeader>
                 <CardTitle className="text-center text-xl md:text-2xl">Популярные вопросы</CardTitle>
             </CardHeader>
