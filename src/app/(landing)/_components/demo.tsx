@@ -18,12 +18,12 @@ export default function Demo() {
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
     return (
-        <section className="flex flex-col lg:flex-row justify-center items-center gap-5 lg:gap-0 mx-4 sm:mx-20 space-y-5 md:mt-20 lg:space-x-20">
+        <section className="mx-4 flex flex-col items-center justify-center gap-5 space-y-5 sm:mx-20 md:mt-20 lg:flex-row lg:gap-0 lg:space-x-20">
             <Card className="flex-1">
                 <CardHeader>
-                    <CardTitle className="text-xl md:text-2xl text-center lg:text-left">Как это работает</CardTitle>
+                    <CardTitle className="text-center text-xl md:text-2xl lg:text-left">Как это работает</CardTitle>
                 </CardHeader>
-                <CardContent className="text-base md:text-xl text-muted-foreground space-y-4">
+                <CardContent className="text-muted-foreground space-y-4 text-base md:text-xl">
                     <p>
                         Взор берёт на себя классификацию ваших изображений. Это просто: вы загружаете картинки, а
                         система их <span className="gradient-text font-medium">обрабатывает</span>!
@@ -46,7 +46,7 @@ export default function Demo() {
                     align: "start",
                     loop: true,
                 }}
-                className="flex-1 mx-5"
+                className="mx-5 flex-1"
             >
                 <CarouselContent>{carouselItems}</CarouselContent>
                 <CarouselPrevious className={isDesktop ? "" : "hidden"} />

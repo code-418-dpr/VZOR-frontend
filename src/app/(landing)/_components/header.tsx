@@ -37,20 +37,20 @@ export default function Header({ visible }: HeaderProps) {
         <header>
             <div
                 className={cn(
-                    "fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-md border-b transition-opacity duration-500 ease-in-out",
+                    "bg-background/70 fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-md transition-opacity duration-500 ease-in-out",
                     visible ? "opacity-100" : "opacity-0",
                 )}
             >
-                <div className="flex items-center h-16 max-w-7xl mx-4 sm:mx-6 lg:mx-8">
+                <div className="mx-4 flex h-16 max-w-7xl items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
                     <Drawer open={open} onOpenChange={setOpen}>
                         <DrawerTrigger asChild>
                             <Button variant="outline" size="icon" className="md:hidden">
                                 <Menu />
                             </Button>
                         </DrawerTrigger>
-                        <DrawerContent className="text-center p-4">
+                        <DrawerContent className="p-4 text-center">
                             <DrawerHeader>
-                                <DrawerTitle className="text-2xl ">Навигация</DrawerTitle>
+                                <DrawerTitle className="text-2xl">Навигация</DrawerTitle>
                             </DrawerHeader>
                             <nav className="flex flex-col gap-4">{navLinkElements}</nav>
                         </DrawerContent>
@@ -62,11 +62,11 @@ export default function Header({ visible }: HeaderProps) {
                     >
                         <Logo width={120} />
                     </div>
-                    <nav className="hidden md:flex items-center gap-4">{navLinkElements}</nav>
+                    <nav className="hidden pointer-events-none items-center gap-4 md:flex">{navLinkElements}</nav>
                 </div>
             </div>
 
-            <div className="fixed flex items-center h-16 right-0 z-50 space-x-2 px-4 sm:px-6 lg:px-8">
+            <div className="fixed right-0 z-50 mx-4 flex h-16 items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
                 <AuthDialogOrDrawer />
                 <ModeToggle />
             </div>

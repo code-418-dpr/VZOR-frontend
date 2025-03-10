@@ -11,7 +11,7 @@ export default function ReadMoreButton() {
         <Button
             size="lg"
             variant="secondary"
-            className="flex flex-col absolute rounded-3xl py-9 bottom-10 left-1/2 transform -translate-x-1/2 text-md sm:text-lg"
+            className="text-md absolute bottom-10 left-1/2 flex -translate-x-1/2 transform flex-col rounded-3xl py-9 sm:text-lg"
             onClick={scrollToNextSection}
         >
             Подробнее

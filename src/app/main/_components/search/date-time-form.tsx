@@ -49,7 +49,7 @@ export default function DateTimeForm() {
     }
 
     return (
-        <div className="max-w-md mx-auto p-3 space-y-2">
+        <div className="mx-auto max-w-md space-y-2 p-3">
             <Form {...form}>
                 <form
                     onSubmit={(e) => {
@@ -131,7 +131,7 @@ export default function DateTimeForm() {
                                             }}
                                         />
                                     </FormControl>
-                                    <Clock className="absolute right-3 top-2.5 h-4 w-4 opacity-50" />
+                                    <Clock className="absolute top-2.5 right-3 h-4 w-4 opacity-50" />
                                 </div>
                                 <FormMessage />
                             </FormItem>

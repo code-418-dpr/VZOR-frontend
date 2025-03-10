@@ -18,7 +18,7 @@ export function Emoticons({ position }: EmoticonsProps) {
             {emoticons.map((emoticon, index) => (
                 <div
                     key={index}
-                    className="-z-10 absolute transition-transform duration-300 ease-out"
+                    className="absolute -z-10 transition-transform duration-300 ease-out"
                     style={{
                         ...emoticon.style,
                         transform: `translate(${position.x}px, ${position.y}px)`,

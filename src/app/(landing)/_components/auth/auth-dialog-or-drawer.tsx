@@ -57,7 +57,7 @@ function AuthDrawer({ open, setOpen }: Props) {
 function AuthTabs() {
     return (
         <Tabs defaultValue="signin">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsList className="mb-6 grid w-full grid-cols-2">
                 <TabsTrigger value="signin">Вход</TabsTrigger>
                 <TabsTrigger value="signup">Регистрация</TabsTrigger>
             </TabsList>

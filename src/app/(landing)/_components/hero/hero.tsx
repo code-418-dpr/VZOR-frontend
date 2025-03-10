@@ -56,8 +56,8 @@ export default function Hero() {
     }, [mousePosition, viewportCenter, isTouchDevice]);
 
     return (
-        <section className="flex flex-col w-full h-screen justify-center">
-            <div className="flex flex-col items-center gap-10 mb-12">
+        <section className="flex h-screen w-full flex-col justify-center">
+            <div className="mb-12 flex flex-col items-center gap-10">
                 <div className="relative" ref={containerRef}>
                     <Emoticons position={emoticonsPosition} />
                     <LogoWithAi />

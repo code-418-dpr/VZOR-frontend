@@ -1,5 +1,3 @@
-import sortImportsPlugin from "@trivago/prettier-plugin-sort-imports";
-
 const prettierConfig = {
     singleQuote: false,
     trailingComma: "all",
@@ -9,7 +7,7 @@ const prettierConfig = {
     printWidth: 120,
     endOfLine: "auto",
 
-    plugins: [sortImportsPlugin],
+    plugins: ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
     importOrder: ["^react", "^next", "^@", "^[.]", "^[.][.]"],
     importOrderSeparation: true,
     importOrderSortSpecifiers: true,

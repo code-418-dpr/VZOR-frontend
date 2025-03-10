@@ -24,7 +24,7 @@ export function PictureModal({ picture, onClose }: PictureModalProps) {
             />
             <motion.div
                 layoutId={`product-${picture.id}`}
-                className="fixed inset-x-4 bottom-0 md:inset-[25%] z-50 bg-white dark:bg-zinc-900 rounded-t-xl md:rounded-xl overflow-hidden max-h-[80vh] md:max-h-[500px]"
+                className="fixed inset-x-4 bottom-0 z-50 max-h-[80vh] overflow-hidden rounded-t-xl bg-white md:inset-[25%] md:max-h-[500px] md:rounded-xl dark:bg-zinc-900"
             >
                 <div className="h-full md:flex">
                     <div className="relative md:w-2/5">
@@ -32,19 +32,19 @@ export function PictureModal({ picture, onClose }: PictureModalProps) {
                             fill
                             src={picture.picture}
                             alt={picture.name}
-                            className="w-full h-[200px] md:h-full object-cover"
+                            className="h-[200px] w-full object-cover md:h-full"
                         />
                         <button
                             onClick={onClose}
-                            className="absolute top-2 right-2 p-1.5 bg-white/80 dark:bg-black/50 backdrop-blur-sm rounded-full"
+                            className="absolute top-2 right-2 rounded-full bg-white/80 p-1.5 backdrop-blur-sm dark:bg-black/50"
                         >
-                            <X className="w-4 h-4" />
+                            <X className="h-4 w-4" />
                         </button>
                     </div>
 
-                    <div className="p-3 md:w-3/5 flex flex-col">
+                    <div className="flex flex-col p-3 md:w-3/5">
                         <div className="flex-1">
-                            <div className="flex justify-between items-start mb-2">
+                            <div className="mb-2 flex items-start justify-between">
                                 <div>
                                     <h2 className="text-sm font-medium">{picture.name}</h2>
                                     <p className="text-xs text-zinc-500 dark:text-zinc-400">Картинка с текстом</p>
@@ -53,7 +53,7 @@ export function PictureModal({ picture, onClose }: PictureModalProps) {
                             </div>
                             <div className="space-y-2">
                                 <p className="text-xs text-zinc-600 dark:text-zinc-300">Блу блу блу блу</p>
-                                <div className="text-xs space-y-1">
+                                <div className="space-y-1 text-xs">
                                     <p className="text-zinc-500">SKU: {picture.id}</p>
                                 </div>
                             </div>
