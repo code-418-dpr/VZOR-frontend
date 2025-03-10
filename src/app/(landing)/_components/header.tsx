@@ -12,6 +12,7 @@ import { cn, scrollToElement } from "@/lib/utils";
 const navLinks = [
     { label: "Демо", sectionId: "demo" },
     { label: "FAQ", sectionId: "faq" },
+    { label: "Связь", sectionId: "contact" },
 ];
 
 interface HeaderProps {
