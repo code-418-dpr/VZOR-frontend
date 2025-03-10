@@ -44,7 +44,9 @@ function SearchDrawer({ open, setOpen }: Props) {
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
                 <Button variant="outline" className="w-12 h-12 m-4">
-                    <Search />
+                    <div className="transform scale-150">
+                        <Search />
+                    </div>
                 </Button>
             </DrawerTrigger>
             <DrawerContent className="p-4">
