@@ -43,7 +43,7 @@ function SearchDrawer({ open, setOpen }: Props) {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
-                <Button variant="outline" size="icon" className="m-4">
+                <Button variant="outline" className="w-12 h-12 m-4">
                     <Search />
                 </Button>
             </DrawerTrigger>

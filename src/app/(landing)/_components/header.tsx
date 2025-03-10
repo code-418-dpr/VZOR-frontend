@@ -28,16 +28,28 @@ export default function Header({ visible }: Props) {
                     {/* Контейнер для Logo и якорных кнопок */}
                     <div className="flex items-center space-x-6">
                         <div
-                            onClick={() => scrollToSection("hero")}
+                            onClick={() => {
+                                scrollToSection("hero");
+                            }}
                             className={cn("cursor-pointer", visible ? "" : "pointer-events-none")}
                         >
                             <Logo width={120} />
                         </div>
                         <div className="flex space-x-6">
-                            <button onClick={() => scrollToSection("demo")} className="cursor-pointer">
+                            <button
+                                onClick={() => {
+                                    scrollToSection("demo");
+                                }}
+                                className="cursor-pointer"
+                            >
                                 Демо
                             </button>
-                            <button onClick={() => scrollToSection("faq")} className="cursor-pointer">
+                            <button
+                                onClick={() => {
+                                    scrollToSection("faq");
+                                }}
+                                className="cursor-pointer"
+                            >
                                 FAQ
                             </button>
                         </div>
