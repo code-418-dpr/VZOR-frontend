@@ -68,7 +68,7 @@ export function ObjectsCombobox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="flex flex-wrap gap-1 p-1 h-auto min-h-10"
+            className="flex flex-wrap gap-1 p-1 h-auto min-h-10 justify-start"
         >
             <div className="flex items-center gap-1 mr-auto">
                 <span className="text-sm">{title}</span>
