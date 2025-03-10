@@ -4,10 +4,7 @@ import { sealData, unsealData } from "iron-session";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export type Session = {
-    userId: string;
-    isLoggedIn: boolean;
-} | null;
+import { Session } from "@/types";
 
 export async function getSession(): Promise<Session> {
     try {
@@ -23,8 +20,8 @@ export async function getSession(): Promise<Session> {
     }
 }
 
-export async function createSession(userId: string, response: NextResponse) {
-    const sessionData = { userId, isLoggedIn: true };
+export async function createSession(userId: string, email: string, response: NextResponse) {
+    const sessionData = { userId, email, isLoggedIn: true, success: true };
     const sealed = await sealData(sessionData, {
         password: process.env.SESSION_SECRET!,
         ttl: 60 * 60 * 24 * 7,

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-import type { Session } from "@/lib/session";
+import type { Session } from "@/types";
 
 interface SessionContextType {
     session: Session | null;

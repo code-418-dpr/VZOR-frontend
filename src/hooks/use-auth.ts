@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import type { ErrorResponse, LoginResponse, SessionResponse } from "@/types";
+import type { ErrorResponse, LoginResponse, SessionCached, SessionResponse } from "@/types";
 
 type AuthError = string | null;
 
@@ -16,6 +16,14 @@ export const useAuth = () => {
 
     useEffect(() => {
         const checkAuthStatus = async () => {
+            const cachedSession = localStorage.getItem("session");
+            console.log(cachedSession);
+            if (cachedSession) {
+                const session = JSON.parse(cachedSession) as SessionCached;
+                setIsAuthenticated(session.success || false);
+                return;
+            }
+
             try {
                 const response = await fetch("/api/session");
                 if (!response.ok) throw new Error("Session check failed");
@@ -43,6 +51,7 @@ export const useAuth = () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password }),
                 });
+                console.log(response);
                 const data = (await response.json()) as LoginResponse | ErrorResponse;
 
                 if (!response.ok || "message" in data) {
@@ -50,7 +59,8 @@ export const useAuth = () => {
                 }
 
                 setIsAuthenticated(true);
-                window.location.reload();
+                localStorage.setItem("session", JSON.stringify(data));
+                //window.location.reload();
                 return true; // Возвращаем успешный статус
             } catch (err) {
                 const message = err instanceof Error ? err.message : "Unknown error";
@@ -68,6 +78,7 @@ export const useAuth = () => {
             // Отправляем запрос на выход
             await fetch("/api/logout", { method: "POST" });
             // Сбрасываем состояние аутентификации
+            localStorage.removeItem("session");
             setIsAuthenticated(false);
             window.location.reload();
         } catch (err) {

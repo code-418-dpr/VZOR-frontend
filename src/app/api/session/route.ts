@@ -9,8 +9,7 @@ export async function GET() {
             isLoggedIn: session?.isLoggedIn ?? false,
             userId: session?.userId ?? null,
         });
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
-        return NextResponse.json({ isLoggedIn: false, error: "Session check failed" }, { status: 500 });
+        return NextResponse.json({ isLoggedIn: false, error }, { status: 500 });
     }
 }

@@ -61,7 +61,7 @@ export async function POST(request: Request) {
         // Извлекаем данные пользователя из токена
         const payload = parseJwt(accessToken);
         const userId: string = payload.Id;
-
+        const email: string = payload.Email;
         // Создаем ответ
         const response = new NextResponse(
             JSON.stringify({
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
         );
 
         // Создаем сессию с ID пользователя
-        await createSession(userId, response);
+        await createSession(userId, email, response);
 
         // Устанавливаем токены в куки
         response.cookies.set("accessToken", accessToken, {
