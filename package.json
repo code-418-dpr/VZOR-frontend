@@ -17,6 +17,7 @@
         "next": "15.2.1",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
+        "react-dropzone": "^14.3.8",
         "skeleton": "^0.1.2"
     },
     "devDependencies": {
