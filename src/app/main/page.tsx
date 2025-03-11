@@ -18,8 +18,19 @@ function getUniqueDates(arr: Picture[]): string[] {
 }
 
 export default function Home() {
-    const [selectedPicture, setSelectedPicture] = useState<Picture | null>(null);
+    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [searchQuery] = useState("");
+
+    const filteredPictures = pictures.filter((picture) =>
+        picture.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+
+    const handlePictureSelect = (picture: Picture) => {
+        const index = filteredPictures.findIndex((p) => p.id === picture.id);
+        setSelectedIndex(index);
+    };
+
+    const picturesDate = getUniqueDates(filteredPictures);
 
     /*
     const [showNavbar, setShowNavbar] = useState(false);
@@ -36,11 +47,6 @@ export default function Home() {
     }, []);
      */
 
-    const filteredPictures = pictures.filter((picture) =>
-        picture.name.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-    const picturesDate = getUniqueDates(filteredPictures);
-
     return (
         <main>
             <div className="mx-auto pt-4 pb-10">
@@ -49,7 +55,7 @@ export default function Home() {
                         <PicturesGrid
                             picturesDate={date}
                             pictures={filteredPictures.filter((picture) => picture.date === date)}
-                            onPictureSelect={setSelectedPicture}
+                            onPictureSelect={handlePictureSelect}
                         />
                         <Separator orientation="horizontal" className="mt-3 md:mt-6" />
                     </div>
@@ -57,11 +63,12 @@ export default function Home() {
             </div>
 
             <AnimatePresence>
-                {selectedPicture && (
+                {selectedIndex !== null && (
                     <PictureModal
-                        picture={selectedPicture}
+                        pictures={filteredPictures}
+                        initialIndex={selectedIndex}
                         onClose={() => {
-                            setSelectedPicture(null);
+                            setSelectedIndex(null);
                         }}
                     />
                 )}

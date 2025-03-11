@@ -13,11 +13,13 @@
     },
     "dependencies": {
         "@shadcn/ui": "^0.0.4",
+        "@types/react-swipeable": "^5.2.0",
         "msw": "^2.7.3",
         "next": "15.2.1",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
         "react-dropzone": "^14.3.8",
+        "react-swipeable": "^7.0.2",
         "skeleton": "^0.1.2"
     },
     "devDependencies": {
