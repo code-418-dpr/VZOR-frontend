@@ -50,15 +50,16 @@ export function ObjectsCombobox({
                 className="bg-secondary text-secondary-foreground flex items-center gap-1 rounded-md px-1 py-0.5 text-xs"
             >
                 <span>{key}</span>
-                <button
-                    type="button"
+                <span
+                    role="button"
+                    tabIndex={0}
                     onClick={(e) => {
                         handleRemoveItem(key, e);
                     }}
                     className="focus:outline-none"
                 >
                     <X className="hover:text-destructive h-3 w-3 cursor-pointer" />
-                </button>
+                </span>
             </div>
         ));
     };

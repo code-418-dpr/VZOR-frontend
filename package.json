@@ -12,9 +12,12 @@
         "add-component": "bun run --bun shadcn add"
     },
     "dependencies": {
+        "@shadcn/ui": "^0.0.4",
+        "msw": "^2.7.3",
         "next": "15.2.1",
         "react": "^19.0.0",
-        "react-dom": "^19.0.0"
+        "react-dom": "^19.0.0",
+        "skeleton": "^0.1.2"
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.6",

@@ -22,7 +22,7 @@ function ContactForm() {
             <CardHeader>
                 <CardTitle className="text-center text-xl md:text-2xl">Остались вопросы? Напишите нам!</CardTitle>
             </CardHeader>
-            <CardContent className="flex flex-col gap-4 items-end">
+            <CardContent className="flex flex-col items-end gap-4">
                 <Input
                     placeholder="Тема письма"
                     value={subject}
