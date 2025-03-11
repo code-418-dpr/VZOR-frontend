@@ -43,7 +43,7 @@ export function DragDropProvider({ children, onDropFiles, currentFilesCount }: D
 
             {/* Индикатор перетаскивания */}
             {isDragActive && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+                <div className="drag-overlay fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
                     <div className="bg-background border-primary rounded-lg border-4 border-dashed p-6 text-center">
                         <p className="mb-2 text-2xl font-bold">Отпустите файл для загрузки</p>
                         <p className="text-muted-foreground text-lg">Осталось места: {remainingSlots}</p>

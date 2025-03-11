@@ -1,6 +1,6 @@
 "use client";
 
-import { Upload } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { useState } from "react";
 
@@ -62,7 +62,7 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
         <Drawer open={open} onOpenChange={setOpen}>
             <DrawerTrigger asChild>
                 <Button variant="outline" className="m-4 h-12 w-12">
-                    <Upload className="h-5 w-5" />
+                    <Plus className="h-5 w-5" />
                 </Button>
             </DrawerTrigger>
             <DrawerContent className="p-4">

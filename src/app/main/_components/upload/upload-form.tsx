@@ -69,37 +69,49 @@ export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFor
     return (
         <div className="w-full space-y-4">
             <ScrollArea className="h-[200px] w-full">
-                <div className="space-y-2 pr-4">
-                    {files.map((file) => (
-                        <div key={file.id} className="bg-muted/50 flex items-center gap-4 rounded-md p-2">
-                            <div className="relative h-16 w-16 flex-shrink-0">
-                                <Image
-                                    fill
-                                    src={file.preview}
-                                    alt={file.name}
-                                    className="rounded-md object-cover"
-                                    sizes="64px"
-                                    unoptimized
-                                />
-                                <button
-                                    onClick={() => {
-                                        removeFile(file.id);
-                                    }}
-                                    className="bg-destructive text-destructive-foreground absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs"
-                                >
-                                    ×
-                                </button>
-                            </div>
+                {files.length === 0 ? (
+                    <div className="flex h-full flex-col items-center justify-center">
+                        <Image
+                            src="/fun.jpg" // Разместите файл в public/images/fun.jpg
+                            alt="Нет изображений"
+                            width={250}
+                            height={250}
+                            className="rounded-lg"
+                        />
+                    </div>
+                ) : (
+                    <div className="space-y-2 pr-4">
+                        {files.map((file) => (
+                            <div key={file.id} className="bg-muted/50 flex items-center gap-4 rounded-md p-2">
+                                <div className="relative h-16 w-16 flex-shrink-0">
+                                    <Image
+                                        fill
+                                        src={file.preview}
+                                        alt={file.name}
+                                        className="rounded-md object-cover"
+                                        sizes="64px"
+                                        unoptimized
+                                    />
+                                    <button
+                                        onClick={() => {
+                                            removeFile(file.id);
+                                        }}
+                                        className="bg-destructive text-destructive-foreground absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
 
-                            <div className="max-w-[145px] min-w-0 flex-1 overflow-hidden">
-                                <p className="truncate text-sm font-medium">{file.name}</p>
-                                <p className="text-muted-foreground truncate text-xs">
-                                    {(file.size / 1024 / 1024).toFixed(2)} MB
-                                </p>
+                                <div className="max-w-[145px] min-w-0 flex-1 overflow-hidden">
+                                    <p className="truncate text-sm font-medium">{file.name}</p>
+                                    <p className="text-muted-foreground truncate text-xs">
+                                        {(file.size / 1024 / 1024).toFixed(2)} MB
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
             </ScrollArea>
 
             <div className="flex flex-col gap-2">
