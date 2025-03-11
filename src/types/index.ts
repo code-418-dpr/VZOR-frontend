@@ -10,12 +10,14 @@ export interface LoginResponse {
     success: boolean;
     message?: string;
 }
+
 export type Session = {
     userId: string;
     email: string; // Добавляем email
     isLoggedIn: boolean;
     success: boolean; // Добавляем статус success
 } | null;
+
 // Базовый тип для ошибок API
 export interface ErrorResponse {
     message: string;
@@ -51,6 +53,7 @@ export interface LoginCredentials {
     email: string;
     password: string;
 }
+
 export interface JwtPayload {
     Id: string;
     Email: string;
@@ -60,6 +63,7 @@ export interface JwtPayload {
     iss: string;
     aud: string;
 }
+
 export interface BackendResponse {
     result: {
         accessToken: string;
@@ -75,9 +79,10 @@ export interface BackendErrorResponse {
 
 export interface SessionCached {
     success: boolean;
-    acessToken: string;
+    accessToken: string;
     refreshToken: string;
 }
+
 export interface RegistrationCredentials {
     name: string;
     email: string;
