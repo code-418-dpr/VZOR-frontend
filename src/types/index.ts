@@ -1,4 +1,6 @@
 // Тип для ответа проверки сессии
+import React from "react";
+
 export interface SessionResponse {
     isLoggedIn: boolean;
     userId?: string;
