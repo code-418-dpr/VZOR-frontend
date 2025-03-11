@@ -1,10 +1,11 @@
-// lib/session.ts
 import { sealData, unsealData } from "iron-session";
 
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { Session } from "@/types";
+
+const ONE_WEEK_SEC = 60 * 60 * 24 * 7;
 
 export async function getSession(): Promise<Session> {
     try {
@@ -24,13 +25,13 @@ export async function createSession(userId: string, email: string, response: Nex
     const sessionData = { userId, email, isLoggedIn: true, success: true };
     const sealed = await sealData(sessionData, {
         password: process.env.SESSION_SECRET!,
-        ttl: 60 * 60 * 24 * 7,
+        ttl: ONE_WEEK_SEC,
     });
 
     response.cookies.set("session", sealed, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        maxAge: 60 * 60 * 24 * 7,
+        maxAge: ONE_WEEK_SEC,
         sameSite: "lax",
         path: "/",
     });
