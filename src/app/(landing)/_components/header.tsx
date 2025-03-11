@@ -4,7 +4,7 @@ import { ModeToggle } from "@/components/theming/mode-toggle";
 import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
-import { LogoutButton } from "./logout/logout";
+import { LogoutButton } from "./auth/logout";
 
 interface Props {
     visible: boolean;

@@ -3,9 +3,9 @@ import React from "react";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { SessionProvider } from "@/app/(landing)/_components/sessions/session-provider";
 import "@/app/globals.css";
 import Footer from "@/components/footer";
+import { SessionProvider } from "@/components/session-provider";
 import { ThemeProvider } from "@/components/theming/theme-provider";
 import siteMetadata from "@/conf/site-metadata";
 import { getSession } from "@/lib/session";
