@@ -11,11 +11,7 @@ interface PicturesGridProps {
 
 export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: PicturesGridProps) {
     return (
-        <Accordion
-            type="multiple"
-            defaultValue={[picturesDate]}
-            className="mt-8"
-        >
+        <Accordion type="multiple" defaultValue={[picturesDate]} className="mt-8">
             <AccordionItem value={picturesDate}>
                 <AccordionTrigger className="hover:no-underline">
                     <p className="mb:text-3xl text-xl font-bold">{picturesDate}</p>
