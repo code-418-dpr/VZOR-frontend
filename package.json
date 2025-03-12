@@ -12,17 +12,9 @@
         "add-component": "bun run --bun shadcn add"
     },
     "dependencies": {
-        "@shadcn/ui": "^0.0.4",
-        "@types/react-swipeable": "^5.2.0",
-        "framer-motion": "^12.5.0",
-        "msw": "^2.7.3",
         "next": "15.2.1",
         "react": "^19.0.0",
-        "react-dom": "^19.0.0",
-        "react-dropzone": "^14.3.8",
-        "react-swipeable": "^7.0.2",
-        "react-zoom-pan-pinch": "^3.7.0",
-        "skeleton": "^0.1.2"
+        "react-dom": "^19.0.0"
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.6",
@@ -47,6 +39,7 @@
         "@types/node": "^22",
         "@types/react": "^19",
         "@types/react-dom": "^19",
+        "@types/react-swipeable": "^5.2.0",
         "autoprefixer": "^10.4.20",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -54,15 +47,21 @@
         "embla-carousel-react": "^8.5.2",
         "eslint": "^9",
         "eslint-config-next": "15.2.1",
+        "framer-motion": "^12.5.0",
         "lucide-react": "^0.479.0",
         "motion": "^12.4.10",
+        "msw": "^2.7.3",
         "next-themes": "^0.4.4",
         "postcss": "^8",
         "prettier": "^3.5.3",
         "prettier-plugin-tailwindcss": "^0.6.11",
         "react-day-picker": "~8.10.1",
+        "react-dropzone": "^14.3.8",
         "react-hook-form": "^7.54.2",
+        "react-swipeable": "^7.0.2",
+        "react-zoom-pan-pinch": "^3.7.0",
         "shadcn": "^2.4.0-canary.12",
+        "skeleton": "^0.1.2",
         "sonner": "^2.0.0",
         "stylelint": "^16.15.0",
         "stylelint-config-recommended": "^15.0.0",
@@ -74,5 +73,6 @@
         "typescript-eslint": "^8.26.0",
         "vaul": "^1.1.2",
         "zod": "^3.24.2"
-    }
+    },
+    "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
