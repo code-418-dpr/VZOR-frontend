@@ -20,6 +20,7 @@
         "react-dom": "^19.0.0",
         "react-dropzone": "^14.3.8",
         "react-swipeable": "^7.0.2",
+        "react-zoom-pan-pinch": "^3.7.0",
         "skeleton": "^0.1.2"
     },
     "devDependencies": {

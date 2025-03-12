@@ -187,3 +187,12 @@
         opacity: 1;
     }
 }
+.react-transform-component {
+    width: 100% !important;
+    height: 100vh !important;
+}
+
+.react-transform-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+}

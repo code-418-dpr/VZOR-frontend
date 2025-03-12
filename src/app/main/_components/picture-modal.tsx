@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
 
 import { useCallback, useEffect, useState } from "react";
 import { SwipeableHandlers, SwipeableProps, useSwipeable } from "react-swipeable";
+import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 
 import Image from "next/image";
 
@@ -21,7 +22,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
     const isFirst = currentIndex === 0;
     const isLast = currentIndex === pictures.length - 1;
     const currentPicture = pictures[currentIndex];
-
+    const [isZoomed, setIsZoomed] = useState(false);
     const handleNext = useCallback(() => {
         if (!isLast) setCurrentIndex((prev) => prev + 1);
     }, [isLast]);
@@ -33,17 +34,24 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
     // Обработчик свайпов
     const swipeConfig: SwipeableProps = {
         onSwipedLeft: () => {
-            handleNext();
+            if (!isZoomed) handleNext();
         },
         onSwipedRight: () => {
-            handlePrevious();
+            if (!isZoomed) handlePrevious();
         },
         trackMouse: true,
         preventScrollOnSwipe: true,
     };
 
     const swipeHandlers: SwipeableHandlers = useSwipeable(swipeConfig);
-
+    const handleDownload = useCallback(() => {
+        const link = document.createElement("a");
+        link.href = currentPicture.picture;
+        link.download = currentPicture.name || "download";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }, [currentPicture.picture, currentPicture.name]);
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft") handlePrevious();
@@ -74,12 +82,21 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
             >
                 <div className="relative h-full md:flex">
                     <div className="relative mx-auto md:w-3/5">
-                        <div className="relative h-full w-full max-md:h-[300px]">
+                        <div
+                            className="relative h-full w-full cursor-zoom-in max-md:h-[300px]"
+                            onClick={() => {
+                                setIsZoomed(true);
+                            }}
+                        >
                             <Image
                                 fill
                                 src={currentPicture.picture}
                                 alt={currentPicture.name}
                                 className="object-contain"
+                                draggable={false}
+                                onDragStart={(e) => {
+                                    e.preventDefault();
+                                }}
                                 priority
                             />
                         </div>
@@ -111,10 +128,16 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                             </div>
                         </div>
 
-                        <div className="absolute right-4 bottom-4 flex gap-2 max-md:hidden">
+                        <div className="absolute right-4 bottom-4 flex gap-2">
+                            <button
+                                onClick={handleDownload}
+                                className="rounded-md bg-white/80 p-2 shadow-lg backdrop-blur-sm hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
+                            >
+                                <Download className="h-5 w-5" />
+                            </button>
                             <button
                                 onClick={handlePrevious}
-                                className={`rounded-md p-2 shadow-lg backdrop-blur-sm transition-all ${
+                                className={`rounded-md p-2 shadow-lg backdrop-blur-sm transition-all max-md:hidden ${
                                     isFirst
                                         ? "cursor-not-allowed bg-white/50 opacity-50 dark:bg-black/30"
                                         : "bg-white/80 hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
@@ -125,7 +148,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                             </button>
                             <button
                                 onClick={handleNext}
-                                className={`rounded-md p-2 shadow-lg backdrop-blur-sm transition-all ${
+                                className={`rounded-md p-2 shadow-lg backdrop-blur-sm transition-all max-md:hidden ${
                                     isLast
                                         ? "cursor-not-allowed bg-white/50 opacity-50 dark:bg-black/30"
                                         : "bg-white/80 hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
@@ -137,6 +160,88 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                         </div>
                     </div>
                 </div>
+                {isZoomed && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
+                        <TransformWrapper
+                            initialScale={1}
+                            minScale={0.1}
+                            maxScale={8}
+                            centerOnInit
+                            doubleClick={{ disabled: true }}
+                            pinch={{ step: 0.1 }}
+                            wheel={{ step: 0.1 }}
+                        >
+                            {({ resetTransform, zoomIn, zoomOut }) => (
+                                <>
+                                    {/* Кнопки управления зумом */}
+                                    <div className="absolute top-4 left-4 z-[10000] flex gap-2">
+                                        <button
+                                            onClick={() => {
+                                                zoomIn();
+                                            }}
+                                            className="rounded-full bg-black/50 p-2 text-white"
+                                        >
+                                            +
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                zoomOut();
+                                            }}
+                                            className="rounded-full bg-black/50 p-2 text-white"
+                                        >
+                                            -
+                                        </button>
+                                        <button
+                                            onClick={() => {
+                                                resetTransform();
+                                            }}
+                                            className="rounded-full bg-black/50 p-2 text-white"
+                                        >
+                                            ⎌
+                                        </button>
+                                    </div>
+
+                                    <TransformComponent
+                                        wrapperStyle={{
+                                            width: "100%",
+                                            height: "100%",
+                                            position: "relative",
+                                            touchAction: "none",
+                                        }}
+                                    >
+                                        <div className="relative h-full w-full">
+                                            <Image
+                                                src={currentPicture.picture}
+                                                alt={currentPicture.name}
+                                                fill
+                                                className="object-contain"
+                                                priority
+                                                draggable={false}
+                                                onLoad={() => {
+                                                    resetTransform();
+                                                }}
+                                                sizes="(max-width: 768px) 100vw, 80vw"
+                                                onContextMenu={(e) => {
+                                                    e.preventDefault();
+                                                }} // Блокировка контекстного меню
+                                            />
+                                        </div>
+                                    </TransformComponent>
+
+                                    <button
+                                        onClick={() => {
+                                            resetTransform();
+                                            setIsZoomed(false);
+                                        }}
+                                        className="absolute top-4 right-4 z-[10000] rounded-full bg-black/50 p-2 text-white"
+                                    >
+                                        <X className="h-8 w-8 stroke-[1.5]" />
+                                    </button>
+                                </>
+                            )}
+                        </TransformWrapper>
+                    </div>
+                )}
             </motion.div>
         </>
     );
