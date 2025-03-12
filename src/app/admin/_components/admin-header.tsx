@@ -1,27 +1,31 @@
-import { Menu } from "lucide-react";
+import { LogOut, Mail, Menu, User } from "lucide-react";
 
 import * as React from "react";
 
-import AuthDialogOrDrawer from "@/app/(landing)/_components/auth/auth-dialog-or-drawer";
 import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/theming/mode-toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import { cn, scrollToElement } from "@/lib/utils";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
-interface HeaderProps {
-    visible: boolean;
-}
-
-export default function Header({ visible }: HeaderProps) {
+export default function AdminHeader() {
     const [open, setOpen] = React.useState(false);
 
     return (
         <header>
             <div
                 className={cn(
-                    "bg-background/70 fixed top-0 right-0 left-0 z-50 border-b backdrop-blur-md transition-opacity duration-500 ease-in-out",
-                    visible ? "opacity-100" : "opacity-0",
+                    "bg-background/70 fixed top-0 right-0 left-0 z-50 border-b opacity-100 backdrop-blur-md transition-opacity duration-500 ease-in-out",
                 )}
             >
                 <div className="mx-4 flex h-16 max-w-7xl items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
@@ -37,20 +41,54 @@ export default function Header({ visible }: HeaderProps) {
                             </DrawerHeader>
                         </DrawerContent>
                     </Drawer>
-                    <div
-                        onClick={() => {
-                            scrollToElement("hero");
-                        }}
-                    >
+                    <div>
                         <Logo width={120} />
                     </div>
                 </div>
             </div>
 
             <div className="fixed right-0 z-50 mx-4 flex h-16 items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
-                <AuthDialogOrDrawer />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost">
+                            <Avatar>
+                                <AvatarImage src="https://github.com/shadcn.png" />
+                                <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                        </Button>
+                    </DropdownMenuTrigger>
+                    {AdminDropdownMenu()}
+                </DropdownMenu>
+
                 <ModeToggle />
             </div>
         </header>
+    );
+}
+
+function AdminDropdownMenu() {
+    return (
+        <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Логин аккаунта</DropdownMenuLabel>
+            <DropdownMenuLabel>Почта аккаунта</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+                <DropdownMenuItem>
+                    <User />
+                    <span>Изменить имя</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                    <Mail />
+                    <span>Изменить почту</span>
+                </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+                <DropdownMenuItem>
+                    <LogOut />
+                    <span>Выход</span>
+                </DropdownMenuItem>
+            </DropdownMenuGroup>
+        </DropdownMenuContent>
     );
 }
