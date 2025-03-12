@@ -1,19 +1,16 @@
-import { Ban } from "lucide-react";
-
+import BanDialogOrDrawer from "@/app/admin/_components/ban-dialog-or-drawer";
 import { testUsers } from "@/app/admin/_data/users";
-import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export default function UsersTab() {
     return (
-        <Table>
+        <Table className="mx-auto md:w-3/4">
             <TableCaption>Пользователи системы.</TableCaption>
             <TableHeader>
                 <TableRow>
-                    <TableHead>Логин</TableHead>
-                    <TableHead>Почта</TableHead>
-                    <TableHead></TableHead>
+                    <TableHead className="w-4/10">Логин</TableHead>
+                    <TableHead className="w-5/10">Почта</TableHead>
+                    <TableHead className="w-1/10"></TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -22,18 +19,7 @@ export default function UsersTab() {
                         <TableCell className="font-medium">{user.username}</TableCell>
                         <TableCell className="font-medium">{user.email}</TableCell>
                         <TableCell>
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger asChild>
-                                        <Button variant="outline" size="icon">
-                                            <Ban />
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Заблокировать</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <BanDialogOrDrawer user={user.username} />
                         </TableCell>
                     </TableRow>
                 ))}
