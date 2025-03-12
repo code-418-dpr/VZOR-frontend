@@ -3,6 +3,7 @@
 import React from "react";
 
 import AdminHeader from "@/app/admin/_components/header/admin-header";
+import StatisticTab from "@/app/admin/_components/statistic-tab";
 import UsersTab from "@/app/admin/_components/users-tab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -19,7 +20,9 @@ export default function Home() {
                         Пользователи
                     </TabsTrigger>
                 </TabsList>
-                <TabsContent value="statistic">Make changes to your account here.</TabsContent>
+                <TabsContent value="statistic">
+                    <StatisticTab />
+                </TabsContent>
                 <TabsContent value="users">
                     <UsersTab />
                 </TabsContent>
