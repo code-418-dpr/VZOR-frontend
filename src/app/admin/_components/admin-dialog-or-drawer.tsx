@@ -1,103 +1,61 @@
 "use client";
 
-import { LogOut, Mail, User } from "lucide-react";
+import React from "react";
 
-import React, { useState } from "react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
 interface Props {
+    field: string;
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function AdminDialogOrDrawer() {
-    const [open, setOpen] = useState(false);
+export default function AdminDialogOrDrawer({ field, open, setOpen }: Props) {
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
-    return isDesktop ? AdminDropdownMenu() : AdminDrawer({ open, setOpen });
+    return isDesktop ? AdminDialog({ field, open, setOpen }) : AdminDrawer({ field, open, setOpen });
 }
 
-function AdminDropdownMenu() {
+function AdminDialog({ field, open, setOpen }: Props) {
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <Avatar className="cursor-pointer">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-                <DropdownMenuGroup>
-                    <DropdownMenuLabel>Логин аккаунта</DropdownMenuLabel>
-                    <DropdownMenuItem>
-                        <User />
-                        <span>Изменить имя</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuLabel>Почта аккаунта</DropdownMenuLabel>
-                    <DropdownMenuItem>
-                        <Mail />
-                        <span>Изменить почту</span>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem>
-                        <LogOut />
-                        <span>Выход</span>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog open={open} onOpenChange={setOpen}>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle className="text-center text-2xl">Изменить</DialogTitle>
+                </DialogHeader>
+                <form className="grid items-start gap-4">
+                    <div className="grid gap-2">
+                        <Label htmlFor="field">{field}</Label>
+                        <Input type={field === "Почта" ? "email" : "text"} id="field" />
+                    </div>
+                    <Button type="submit">Изменить</Button>
+                </form>
+            </DialogContent>
+        </Dialog>
     );
 }
 
-function AdminDrawer({ open, setOpen }: Props) {
+function AdminDrawer({ field, open, setOpen }: Props) {
     return (
         <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                <Avatar className="cursor-pointer">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-            </DrawerTrigger>
             <DrawerContent className="p-4 text-center">
                 <DrawerHeader>
-                    <DrawerTitle className="text-2xl">Навигация</DrawerTitle>
+                    <DrawerTitle className="text-2xl">Изменить</DrawerTitle>
                 </DrawerHeader>
-                <Label className="m-2 text-xl">Логин аккаунта</Label>
-                <Label className="m-2 text-xl">Почта аккаунта</Label>
-
-                <Separator />
-                <Button className="m-2">
-                    <User />
-                    Изменить имя
-                </Button>
-                <Button className="m-2">
-                    <Mail />
-                    Изменить почту
-                </Button>
-                <Separator />
-
-                <Button className="m-2">
-                    <LogOut />
-                    Выход
-                </Button>
+                <form className="grid items-start gap-4">
+                    <div className="grid gap-2">
+                        <Label className="text-base" htmlFor="field">
+                            {field}
+                        </Label>
+                        <Input type={field === "Почта" ? "email" : "text"} id="field" />
+                    </div>
+                    <Button type="submit">Изменить</Button>
+                </form>
             </DrawerContent>
         </Drawer>
     );

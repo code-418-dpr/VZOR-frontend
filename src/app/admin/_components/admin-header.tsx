@@ -1,11 +1,29 @@
+"use client";
+
+import { LogOut, Mail, User } from "lucide-react";
+
 import * as React from "react";
+import { useState } from "react";
 
 import AdminDialogOrDrawer from "@/app/admin/_components/admin-dialog-or-drawer";
 import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/theming/mode-toggle";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
 export default function AdminHeader() {
+    const [open, setOpen] = useState(false);
+    const [field, setField] = useState("");
+
     return (
         <header>
             <div
@@ -21,7 +39,48 @@ export default function AdminHeader() {
             </div>
 
             <div className="fixed right-0 z-50 mx-4 flex h-16 items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
-                <AdminDialogOrDrawer />
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Avatar className="cursor-pointer">
+                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                        <DropdownMenuGroup>
+                            <DropdownMenuLabel>Логин аккаунта</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() => {
+                                    setOpen(true);
+                                    setField("Логин");
+                                }}
+                            >
+                                <User />
+                                <span>Изменить логин</span>
+                            </DropdownMenuItem>
+
+                            <DropdownMenuSeparator />
+                            <DropdownMenuLabel>Почта аккаунта</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() => {
+                                    setOpen(true);
+                                    setField("Почта");
+                                }}
+                            >
+                                <Mail />
+                                <span>Изменить почту</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                            <DropdownMenuItem>
+                                <LogOut />
+                                <span>Выход</span>
+                            </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                <AdminDialogOrDrawer field={field} open={open} setOpen={setOpen} />
                 <ModeToggle />
             </div>
         </header>
