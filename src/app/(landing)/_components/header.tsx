@@ -8,6 +8,8 @@ import { ModeToggle } from "@/components/theming/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { cn, scrollToElement } from "@/lib/utils";
+import { useAuth } from "@/hooks/use-auth";
+import { LogoutButton } from "./auth/logout";
 
 const navLinks = [
     { label: "Демо", sectionId: "demo" },
@@ -20,6 +22,8 @@ interface HeaderProps {
 }
 
 export default function Header({ visible }: HeaderProps) {
+    const { isAuthenticated } = useAuth();
+
     const [open, setOpen] = React.useState(false);
     const navLinkElements = navLinks.map((link) => (
         <div
@@ -75,7 +79,7 @@ export default function Header({ visible }: HeaderProps) {
             </div>
 
             <div className="fixed right-0 z-50 mx-4 flex h-16 items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
-                <AuthDialogOrDrawer />
+                {isAuthenticated ? <LogoutButton /> : <AuthDialogOrDrawer />}
                 <ModeToggle />
             </div>
         </header>

@@ -5,8 +5,10 @@ import { Inter } from "next/font/google";
 
 import "@/app/globals.css";
 import Footer from "@/components/footer";
+import { SessionProvider } from "@/components/session-provider";
 import { ThemeProvider } from "@/components/theming/theme-provider";
 import siteMetadata from "@/conf/site-metadata";
+import { getSession } from "@/lib/session";
 
 export const metadata: Metadata = {
     title: { default: siteMetadata.name, template: `%s | ${siteMetadata.name}` },
@@ -18,18 +20,21 @@ export const metadata: Metadata = {
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const session = await getSession();
     return (
         <html lang="ru" suppressHydrationWarning>
             <body className={inter.className}>
-                <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-                    {children}
-                    <Footer />
-                </ThemeProvider>
+                <SessionProvider session={session}>
+                    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+                        {children}
+                        <Footer />
+                    </ThemeProvider>
+                </SessionProvider>
             </body>
         </html>
     );
