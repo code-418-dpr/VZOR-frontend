@@ -5,7 +5,7 @@ import { LogOut, Mail, User } from "lucide-react";
 import * as React from "react";
 import { useState } from "react";
 
-import AdminDialogOrDrawer from "@/app/admin/_components/admin-dialog-or-drawer";
+import AdminDialogOrDrawer from "@/app/admin/_components/header/admin-dialog-or-drawer";
 import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/theming/mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
