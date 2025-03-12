@@ -11,33 +11,35 @@ export default function Hero() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const containerRef = useRef<HTMLDivElement>(null);
     const [viewportCenter, setViewportCenter] = useState({ x: 0, y: 0 });
-    const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [emoticonsPosition, setEmoticonsPosition] = useState({ x: 0, y: 0 });
-
     useEffect(() => {
-        setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
         const updateViewportCenter = () => {
-            setViewportCenter({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+            setViewportCenter({
+                x: window.innerWidth / 2,
+                y: window.innerHeight / 2,
+            });
         };
+
         updateViewportCenter();
         window.addEventListener("resize", updateViewportCenter);
 
-        const handleMove = (e: MouseEvent | TouchEvent) => {
-            const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-            const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-            setMousePosition({ x: clientX, y: clientY });
+        const handleMove = (e: MouseEvent) => {
+            setMousePosition({
+                x: e.clientX,
+                y: e.clientY,
+            });
         };
 
-        window.addEventListener(isTouchDevice ? "touchmove" : "mousemove", handleMove);
+        window.addEventListener("mousemove", handleMove);
 
         return () => {
             window.removeEventListener("resize", updateViewportCenter);
-            window.removeEventListener(isTouchDevice ? "touchmove" : "mousemove", handleMove);
+            window.removeEventListener("mousemove", handleMove);
         };
-    }, [isTouchDevice]);
+    }, []);
 
     useEffect(() => {
-        if (viewportCenter.x === 0 || isTouchDevice) return;
+        if (viewportCenter.x === 0) return;
         const vectorToCenter = { x: viewportCenter.x - mousePosition.x, y: viewportCenter.y - mousePosition.y };
         const distance = Math.hypot(vectorToCenter.x, vectorToCenter.y);
         if (distance === 0) return;
@@ -53,7 +55,7 @@ export default function Hero() {
             x: Math.max(-maxDistance, Math.min(move.x, maxDistance)),
             y: Math.max(-maxDistance, Math.min(move.y, maxDistance)),
         });
-    }, [mousePosition, viewportCenter, isTouchDevice]);
+    }, [mousePosition, viewportCenter]);
 
     return (
         <section className="flex h-screen w-full flex-col justify-center">

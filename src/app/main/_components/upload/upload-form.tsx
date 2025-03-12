@@ -77,6 +77,10 @@ export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFor
                             width={250}
                             height={250}
                             className="rounded-lg"
+                            draggable={false}
+                            onDragStart={(e) => {
+                                e.preventDefault();
+                            }}
                         />
                     </div>
                 ) : (
@@ -91,6 +95,10 @@ export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFor
                                         className="rounded-md object-cover"
                                         sizes="64px"
                                         unoptimized
+                                        draggable={false}
+                                        onDragStart={(e) => {
+                                            e.preventDefault();
+                                        }}
                                     />
                                     <button
                                         onClick={() => {

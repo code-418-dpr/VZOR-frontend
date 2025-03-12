@@ -61,6 +61,10 @@ export function PictureCard({
                             setIsLoaded(true);
                         }}
                         loading="lazy"
+                        draggable={false}
+                        onDragStart={(e) => {
+                            e.preventDefault();
+                        }}
                     />
                 )}
             </div>

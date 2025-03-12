@@ -14,6 +14,7 @@
     "dependencies": {
         "@shadcn/ui": "^0.0.4",
         "@types/react-swipeable": "^5.2.0",
+        "framer-motion": "^12.5.0",
         "msw": "^2.7.3",
         "next": "15.2.1",
         "react": "^19.0.0",
