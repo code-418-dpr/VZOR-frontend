@@ -174,7 +174,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                             {({ resetTransform, zoomIn, zoomOut }) => (
                                 <>
                                     {/* Кнопки управления зумом */}
-                                    <div className="absolute top-4 left-4 z-[10000] flex gap-2">
+                                    <div className="absolute top-4 left-4 z-50 flex gap-2">
                                         <button
                                             onClick={() => {
                                                 zoomIn();
@@ -223,7 +223,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                                 sizes="(max-width: 768px) 100vw, 80vw"
                                                 onContextMenu={(e) => {
                                                     e.preventDefault();
-                                                }} // Блокировка контекстного меню
+                                                }}
                                             />
                                         </div>
                                     </TransformComponent>
@@ -233,7 +233,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                             resetTransform();
                                             setIsZoomed(false);
                                         }}
-                                        className="absolute top-4 right-4 z-[10000] rounded-full bg-black/50 p-2 text-white"
+                                        className="absolute top-4 right-4 z-50 rounded-full bg-black/50 p-2 text-white"
                                     >
                                         <X className="h-8 w-8 stroke-[1.5]" />
                                     </button>
