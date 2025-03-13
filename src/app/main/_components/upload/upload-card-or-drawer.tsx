@@ -1,3 +1,6 @@
+ 
+ 
+ 
 "use client";
 
 import { Plus } from "lucide-react";
@@ -13,6 +16,14 @@ import { FilePreview } from "@/types/file-preview";
 
 import { UploadForm } from "./upload-form";
 
+ 
+ 
+ 
+
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 interface UploadCardOrDrawerProps {
     files: FilePreview[];
     setFiles: React.Dispatch<React.SetStateAction<FilePreview[]>>;
@@ -23,15 +34,48 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
     const [isUploading, setIsUploading] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
 
+    const getAccessToken = () => {
+        if (typeof window === "undefined") return null;
+        const session = localStorage.getItem("session");
+        return session ? JSON.parse(session).accessToken : null;
+    };
+
     const handleUpload = async (filesToUpload: File[]) => {
+        const accessToken = getAccessToken();
+
+        if (!accessToken) {
+            console.error("No access token found");
+            return;
+        }
+
+        setIsUploading(true);
+
         try {
-            setIsUploading(true);
-            // Реальная логика загрузки
-            console.log("Начало загрузки файлов:", filesToUpload);
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            console.log("Файлы успешно загружены");
+            const formData = new FormData();
+
+            // Добавляем файлы с правильным именем поля
+            filesToUpload.forEach((file) => {
+                formData.append("Files", file); // Точное имя поля как в cURL
+            });
+
+            const response = await fetch("http://localhost:8080/api/Images", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    Accept: "*/*", // Добавляем заголовок accept
+                },
+                body: formData,
+                // Не указываем Content-Type - браузер сам добавит с boundary
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            setFiles([]);
+            console.log("Files uploaded successfully");
         } catch (error) {
-            console.error("Ошибка загрузки:", error);
+            console.error("Upload failed:", error);
             throw error;
         } finally {
             setIsUploading(false);

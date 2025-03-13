@@ -23,8 +23,10 @@ export async function POST(request: Request) {
 
         if (!registrationResponse.ok) {
             const errorData: BackendErrorResponse = (await registrationResponse.json()) as BackendErrorResponse;
+            const errorMessage = typeof errorData.errors[0] === "object" ? "Ошибка регистрации" : errorData.errors[0];
+
             return NextResponse.json(
-                { success: false, message: errorData.errors[0] || "Ошибка регистрации" },
+                { success: false, message: errorMessage || "Ошибка регистрации" },
                 { status: registrationResponse.status },
             );
         }

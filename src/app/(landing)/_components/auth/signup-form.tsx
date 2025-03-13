@@ -75,7 +75,7 @@ export default function SignUpForm({ className }: React.ComponentProps<"form">) 
                     required
                 />
             </div>
-            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            {error && <p className="text-center text-sm text-red-500">{error}</p>}
             <Button type="submit" disabled={loading}>
                 {loading ? "Загрузка..." : "Зарегистрироваться"}
             </Button>

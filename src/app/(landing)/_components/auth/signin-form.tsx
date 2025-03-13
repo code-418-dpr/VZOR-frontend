@@ -36,7 +36,7 @@ export default function SignInForm({ className }: SignInFormProps) {
                 <Label htmlFor="password">Пароль</Label>
                 <Input type="password" id="repeated_password" value={password} onChange={handlePasswordChange} />
             </div>
-            {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+            {error && <p className="text-center text-sm text-red-500">{error}</p>}
             <Button type="submit" disabled={loading}>
                 {loading ? "Загрузка..." : "Войти"}
             </Button>

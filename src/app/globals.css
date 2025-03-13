@@ -160,7 +160,26 @@
         }
     }
 }
+
 @layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
+    .gradient-text {
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-1));
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: rotate-gradient 3s linear infinite;
+    }
+}
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+
     .gradient-text {
         background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-1));
         background-size: 200% 100%;

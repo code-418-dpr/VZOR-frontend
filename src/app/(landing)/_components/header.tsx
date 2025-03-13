@@ -7,8 +7,9 @@ import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/theming/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
-import { cn, scrollToElement } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
+import { cn, scrollToElement } from "@/lib/utils";
+
 import { LogoutButton } from "./auth/logout";
 
 const navLinks = [
