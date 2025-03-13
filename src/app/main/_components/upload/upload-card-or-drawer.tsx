@@ -1,6 +1,3 @@
- 
- 
- 
 "use client";
 
 import { Plus } from "lucide-react";
@@ -12,17 +9,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { SessionCached } from "@/types";
 import { FilePreview } from "@/types/file-preview";
 
 import { UploadForm } from "./upload-form";
-
- 
- 
- 
-
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 
 interface UploadCardOrDrawerProps {
     files: FilePreview[];
@@ -36,10 +26,30 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
 
     const getAccessToken = () => {
         if (typeof window === "undefined") return null;
-        const session = localStorage.getItem("session");
-        return session ? JSON.parse(session).accessToken : null;
-    };
+        try {
+            const session = localStorage.getItem("session");
+            if (!session) return null;
 
+            const parsed: unknown = JSON.parse(session);
+
+            // Валидация типа
+            if (isSessionData(parsed)) {
+                return parsed.accessToken;
+            }
+            return null;
+        } catch (error) {
+            console.error("Error parsing session:", error);
+            return null;
+        }
+    };
+    const isSessionData = (data: unknown): data is SessionCached => {
+        return !!(
+            data &&
+            typeof data === "object" &&
+            "accessToken" in data &&
+            typeof (data as unknown as SessionCached).accessToken === "string"
+        );
+    };
     const handleUpload = async (filesToUpload: File[]) => {
         const accessToken = getAccessToken();
 
@@ -53,19 +63,17 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
         try {
             const formData = new FormData();
 
-            // Добавляем файлы с правильным именем поля
             filesToUpload.forEach((file) => {
-                formData.append("Files", file); // Точное имя поля как в cURL
+                formData.append("Files", file);
             });
 
             const response = await fetch("http://localhost:8080/api/Images", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
-                    Accept: "*/*", // Добавляем заголовок accept
+                    Accept: "*/*",
                 },
                 body: formData,
-                // Не указываем Content-Type - браузер сам добавит с boundary
             });
 
             if (!response.ok) {
