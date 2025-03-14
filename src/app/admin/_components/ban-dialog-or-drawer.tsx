@@ -5,11 +5,11 @@ import { Ban } from "lucide-react";
 import React, { useState } from "react";
 
 import BanReportForm from "@/app/admin/_components/ban-report-form";
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
 
 interface InputProps {
     user: string;
@@ -34,9 +34,15 @@ function BanDialog({ user, open, setOpen }: Props) {
                 <DialogTrigger>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="outline" size="icon">
-                                <Ban />
-                            </Button>
+                            <span
+                                className={cn(
+                                    "inline-flex h-9 w-9 items-center justify-center rounded-md",
+                                    "border-input bg-background hover:bg-accent hover:text-accent-foreground border",
+                                    "cursor-pointer transition-colors",
+                                )}
+                            >
+                                <Ban className="h-4 w-4" />
+                            </span>
                         </TooltipTrigger>
                         <TooltipContent>
                             <p>Заблокировать</p>
@@ -61,9 +67,15 @@ function BanDrawer({ user, open, setOpen }: Props) {
                 <DrawerTrigger>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            <Button variant="outline" size="icon">
-                                <Ban />
-                            </Button>
+                            <span
+                                className={cn(
+                                    "inline-flex h-9 w-9 items-center justify-center rounded-md",
+                                    "border-input bg-background hover:bg-accent hover:text-accent-foreground border",
+                                    "cursor-pointer transition-colors",
+                                )}
+                            >
+                                <Ban className="h-4 w-4" />
+                            </span>
                         </TooltipTrigger>
                         <TooltipContent>
                             <p>Заблокировать</p>

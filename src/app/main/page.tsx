@@ -10,8 +10,6 @@ import { Separator } from "@/components/ui/separator";
 import { pictures } from "@/data/pictures";
 import { Picture } from "@/types/picture";
 
-// import Header from "@/app/(landing)/_components/header";
-
 function getUniqueDates(arr: Picture[]): string[] {
     const dates: string[] = arr.map((picture) => picture.date);
     return [...new Set(dates)];
@@ -31,21 +29,6 @@ export default function Home() {
     };
 
     const picturesDate = getUniqueDates(filteredPictures);
-
-    /*
-    const [showNavbar, setShowNavbar] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowNavbar(window.scrollY > window.innerHeight / 5);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-     */
 
     return (
         <main>

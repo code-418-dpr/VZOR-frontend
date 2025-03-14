@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, Mail, User } from "lucide-react";
+import { KeyRound, LogOut, User } from "lucide-react";
 
 import * as React from "react";
 
@@ -17,31 +17,30 @@ interface Props {
     setField: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function AdminHeader({ setOpen, setField }: Props) {
+export default function UserHeader({ setOpen, setField }: Props) {
     return (
         <DropdownMenuContent className="w-56">
             <DropdownMenuGroup>
-                <DropdownMenuLabel>Логин аккаунта</DropdownMenuLabel>
+                <DropdownMenuLabel>Имя пользователя</DropdownMenuLabel>
                 <DropdownMenuItem
                     onClick={() => {
                         setOpen(true);
-                        setField("Логин");
+                        setField("Имя");
                     }}
                 >
                     <User />
-                    <span>Изменить логин</span>
+                    <span>Изменить имя</span>
                 </DropdownMenuItem>
 
                 <DropdownMenuSeparator />
-                <DropdownMenuLabel>Почта аккаунта</DropdownMenuLabel>
                 <DropdownMenuItem
                     onClick={() => {
                         setOpen(true);
-                        setField("Почта");
+                        setField("Пароль");
                     }}
                 >
-                    <Mail />
-                    <span>Изменить почту</span>
+                    <KeyRound />
+                    <span>Изменить пароль</span>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
