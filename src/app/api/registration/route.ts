@@ -15,7 +15,7 @@ export async function POST(request: Request) {
         const { name, email, password } = (await request.json()) as RegistrationCredentials;
 
         // Регистрация пользователя
-        const registrationResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/Account/registration`, {
+        const registrationResponse = await fetch(`${process.env.FRONTEND_BACKEND_URL}/Account/registration`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ name, email, password }),
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         }
 
         // Автоматическая аутентификация после регистрации
-        const authResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/Account/authentication`, {
+        const authResponse = await fetch(`${process.env.FRONTEND_BACKEND_URL}/Account/authentication`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password }),

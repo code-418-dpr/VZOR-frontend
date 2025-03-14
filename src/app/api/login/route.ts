@@ -34,7 +34,7 @@ export async function POST(request: Request) {
         }
 
         // Отправляем запрос к бэкенду
-        const backendResponse = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/Account/authentication`, {
+        const backendResponse = await fetch(`${process.env.FRONTEND_BACKEND_URL}/Account/authentication`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
