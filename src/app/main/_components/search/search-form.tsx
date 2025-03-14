@@ -19,16 +19,18 @@ export function SearchForm() {
     );
 
     return (
-        <form className="flex flex-col gap-6 p-0.5">
+        <form className="flex flex-col gap-6">
             <Input id="description" placeholder="Описание" />
 
             <div className="flex flex-wrap gap-2">
-                <ObjectsCombobox
-                    title="Объекты"
-                    values={objectsToSearch}
-                    setValues={setObjectsToSearch}
-                    disabled={noObjects}
-                />
+                <div>
+                    <ObjectsCombobox
+                        title="Объекты"
+                        values={objectsToSearch}
+                        setValues={setObjectsToSearch}
+                        disabled={noObjects}
+                    />
+                </div>
                 <div className="flex items-center gap-2">
                     <Checkbox
                         id="no-objects"

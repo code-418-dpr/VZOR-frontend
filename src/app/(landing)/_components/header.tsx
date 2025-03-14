@@ -10,7 +10,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 
 import { useAuth } from "@/hooks/use-auth";
 import { cn, scrollToElement } from "@/lib/utils";
 
-import { LogoutButton } from "./auth/logout";
+import { CloudButton } from "./cloud-button";
 
 const navLinks = [
     { label: "Демо", sectionId: "demo" },
@@ -80,7 +80,7 @@ export default function Header({ visible }: HeaderProps) {
             </div>
 
             <div className="fixed right-0 z-50 mx-4 flex h-16 items-center space-x-2 select-none sm:mx-12 md:mx-24 lg:mx-48">
-                {isAuthenticated ? <LogoutButton /> : <AuthDialogOrDrawer />}
+                {isAuthenticated ? <CloudButton /> : <AuthDialogOrDrawer />}
                 <ModeToggle />
             </div>
         </header>

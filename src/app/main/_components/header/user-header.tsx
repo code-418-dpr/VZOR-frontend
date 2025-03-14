@@ -11,6 +11,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/hooks/use-auth";
 
 interface Props {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,6 +19,11 @@ interface Props {
 }
 
 export default function UserHeader({ setOpen, setField }: Props) {
+    const { logout } = useAuth();
+
+    const handleLogout = () => {
+        void logout();
+    };
     return (
         <DropdownMenuContent className="w-56">
             <DropdownMenuGroup>
@@ -45,7 +51,7 @@ export default function UserHeader({ setOpen, setField }: Props) {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
                     <LogOut />
                     <span>Выход</span>
                 </DropdownMenuItem>

@@ -58,8 +58,8 @@ export const useAuth = () => {
 
                 setIsAuthenticated(true);
                 localStorage.setItem("session", JSON.stringify(data));
-                window.location.reload();
-                return true; // Возвращаем успешный статус
+                router.push("/main");
+                return true;
             } catch (err) {
                 const message = err instanceof Error ? err.message : "Unknown error";
                 setError(message);
@@ -68,17 +68,15 @@ export const useAuth = () => {
                 setLoading(false);
             }
         },
-        [email, password],
+        [email, password, router],
     );
 
     const logout = useCallback(async () => {
         try {
-            // Отправляем запрос на выход
             await fetch("/api/logout", { method: "POST" });
-            // Сбрасываем состояние аутентификации
             localStorage.removeItem("session");
             setIsAuthenticated(false);
-            window.location.reload();
+            router.push("/");
         } catch (err) {
             console.error("Logout error:", err);
         }
