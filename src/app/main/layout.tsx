@@ -30,7 +30,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
 
     return (
         <DragDropProvider onDropFiles={handleDrop} currentFilesCount={files.length}>
-            <Header role="user" />
+            <Header />
             <div className="flex flex-col md:flex-row">
                 <div className="w-full content-center justify-center md:w-85 md:content-start">
                     <div className="fixed bottom-0 z-40 md:sticky md:top-20">

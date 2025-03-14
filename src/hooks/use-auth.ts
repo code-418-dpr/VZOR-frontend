@@ -2,9 +2,26 @@ import React, { useCallback, useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import type { ErrorResponse, LoginResponse, SessionCached, SessionResponse } from "@/types";
+import type { DecodedJwt, ErrorResponse, LoginResponse, SessionCached, SessionResponse } from "@/types";
 
 type AuthError = string | null;
+
+const parseJwt = (token: string) => {
+    try {
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split("")
+                .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+                .join(""),
+        );
+        return JSON.parse(jsonPayload) as DecodedJwt;
+    } catch (error) {
+        console.error("Failed to parse JWT:", error);
+        return null;
+    }
+};
 
 export const useAuth = () => {
     const [email, setEmail] = useState("");
@@ -56,8 +73,20 @@ export const useAuth = () => {
                     throw new Error("message" in data ? data.message : "Authorization failed");
                 }
 
+                // Декодируем JWT и извлекаем данные
+                const { accessToken } = data as SessionCached;
+                const decoded = parseJwt(accessToken);
+                if (!decoded) throw new Error("Failed to decode token");
+
+                // Сохраняем данные в localStorage
+                const sessionData: SessionCached = {
+                    ...(data as SessionCached),
+                    role: decoded.Role[0],
+                    email: decoded.Email,
+                };
+                localStorage.setItem("session", JSON.stringify(sessionData));
+
                 setIsAuthenticated(true);
-                localStorage.setItem("session", JSON.stringify(data));
                 router.push("/main");
                 return true;
             } catch (err) {

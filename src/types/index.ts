@@ -83,8 +83,15 @@ export interface SessionCached {
     success: boolean;
     accessToken: string;
     refreshToken: string;
+    role?: string;
+    email?: string;
 }
-
+export interface DecodedJwt {
+    Role: string[];
+    Email: string;
+    Username: string;
+    [key: string]: unknown;
+}
 export interface RegistrationCredentials {
     name: string;
     email: string;

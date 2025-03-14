@@ -39,7 +39,7 @@ export const useRegistration = () => {
 
             localStorage.setItem("session", JSON.stringify(data));
             router.refresh();
-            window.location.reload();
+            router.push("/main");
         } catch (err) {
             setError(err instanceof Error ? err.message : "Неизвестная ошибка");
             return false;
