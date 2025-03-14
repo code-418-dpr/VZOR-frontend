@@ -27,14 +27,22 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
     const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
     const copyToClipboard = useCallback((text: string, index: number) => {
-        navigator.clipboard.writeText(text).then(() => {
-            setCopiedIndex(index);
+        // Проверяем, поддерживается ли clipboard API
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard
+                .writeText(text)
+                .then(() => {
+                    setCopiedIndex(index);
 
-            // Reset the copied state after a short delay
-            setTimeout(() => {
-                setCopiedIndex(null);
-            }, 2000);
-        });
+                    // Сбрасываем состояние после задержки
+                    setTimeout(() => {
+                        setCopiedIndex(null);
+                    }, 2000);
+                })
+                .catch((err) => {
+                    console.error("Failed to copy text: ", err);
+                });
+        }
     });
 
     const handleNext = useCallback(() => {
