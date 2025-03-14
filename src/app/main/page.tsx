@@ -6,7 +6,6 @@ import { useState } from "react";
 
 import { PictureModal } from "@/app/main/_components/picture-modal";
 import { PicturesGrid } from "@/app/main/_components/pictures-grid";
-import { Separator } from "@/components/ui/separator";
 import { pictures } from "@/data/pictures";
 import type { Picture } from "@/types/picture";
 
@@ -32,7 +31,7 @@ export default function Home() {
 
     return (
         <main>
-            <div className="mx-auto pt-6 pb-12">
+            <div className="mx-auto pt-6 pb-25">
                 {picturesDate.map((date) => (
                     <div key={date}>
                         <PicturesGrid
