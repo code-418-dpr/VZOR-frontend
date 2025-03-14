@@ -70,7 +70,7 @@ export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFor
         <div className="w-full space-y-4">
             <ScrollArea className="h-[200px] w-full">
                 {files.length === 0 ? (
-                    <div className="flex h-full flex-col items-center justify-center">
+                    <div className="flex h-full flex-col items-center justify-center select-none">
                         <Image
                             src="/fun.jpg" // Разместите файл в public/images/fun.jpg
                             alt="Нет изображений"
@@ -122,7 +122,7 @@ export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFor
                 )}
             </ScrollArea>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 select-none">
                 <Button
                     variant="outline"
                     onClick={() => document.getElementById("file-input")?.click()}

@@ -30,7 +30,7 @@ export default function Header({ role }: Props) {
             >
                 <div className="mx-4 flex h-16 max-w-7xl items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
                     <div>
-                        <Logo width={120} />
+                        <Logo className="select-none" width={120} />
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@ export default function Header({ role }: Props) {
             <div className="fixed right-0 z-50 mx-4 flex h-16 items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Avatar className="cursor-pointer">
+                        <Avatar className="cursor-pointer select-none">
                             <AvatarImage src="https://github.com/shadcn.png" />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>

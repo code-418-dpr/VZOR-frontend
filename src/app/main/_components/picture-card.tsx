@@ -42,7 +42,7 @@ export function PictureCard({
             onClick={() => {
                 onPictureSelect(picture);
             }}
-            className="group cursor-pointer"
+            className="group cursor-pointer select-none"
             whileHover={{ y: -2 }}
             transition={{ duration: 0.2 }}
         >
