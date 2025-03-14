@@ -28,22 +28,20 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
 
     const copyToClipboard = useCallback((text: string, index: number) => {
         // Проверяем, поддерживается ли clipboard API
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard
-                .writeText(text)
-                .then(() => {
-                    setCopiedIndex(index);
+        navigator.clipboard
+            .writeText(text)
+            .then(() => {
+                setCopiedIndex(index);
 
-                    // Сбрасываем состояние после задержки
-                    setTimeout(() => {
-                        setCopiedIndex(null);
-                    }, 2000);
-                })
-                .catch((err) => {
-                    console.error("Failed to copy text: ", err);
-                });
-        }
-    });
+                // Сбрасываем состояние после задержки
+                setTimeout(() => {
+                    setCopiedIndex(null);
+                }, 2000);
+            })
+            .catch((err: unknown) => {
+                console.error("Failed to copy text: ", err);
+            });
+    }, []);
 
     const handleNext = useCallback(() => {
         if (!isLast) setCurrentIndex((prev) => prev + 1);
