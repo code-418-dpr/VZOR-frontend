@@ -35,7 +35,6 @@ export default function Home() {
 
     return (
         <main>
-            <Header role="user" />
             <div className="mx-auto pt-4 pb-10">
                 {picturesDate.map((date) => (
                     <div key={date}>

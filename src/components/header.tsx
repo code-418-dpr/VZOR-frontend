@@ -49,13 +49,13 @@ export default function Header({ role }: Props) {
                         <UserHeader setOpen={setOpen} setField={setField} />
                     )}
                 </DropdownMenu>
-                {role === "admin" ? (
-                    <AdminDialogOrDrawer field={field} open={open} setOpen={setOpen} />
-                ) : (
-                    <UserDialogOrDrawer field={field} open={open} setOpen={setOpen} />
-                )}
                 <ModeToggle />
             </div>
+            {role === "admin" ? (
+                <AdminDialogOrDrawer field={field} open={open} setOpen={setOpen} />
+            ) : (
+                <UserDialogOrDrawer field={field} open={open} setOpen={setOpen} />
+            )}
         </header>
     );
 }
