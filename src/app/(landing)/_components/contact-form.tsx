@@ -24,6 +24,7 @@ function ContactForm() {
             </CardHeader>
             <CardContent className="flex flex-col items-end gap-4">
                 <Input
+                    className="select-none"
                     placeholder="Тема письма"
                     value={subject}
                     onChange={(e) => {
@@ -31,7 +32,7 @@ function ContactForm() {
                     }}
                 />
                 <Textarea
-                    className="h-48 max-h-280 min-h-24 w-full"
+                    className="h-48 max-h-280 min-h-24 w-full select-none"
                     placeholder="Содержимое письма"
                     rows={4}
                     value={message}
