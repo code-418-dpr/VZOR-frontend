@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import AdminDialogOrDrawer from "@/app/admin/_components/header/admin-dialog-or-drawer";
 import AdminHeader from "@/app/admin/_components/header/admin-header";
@@ -12,14 +12,26 @@ import { ModeToggle } from "@/components/theming/mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { SessionCached } from "@/types";
 
-interface Props {
-    role: string;
-}
-
-export default function Header({ role }: Props) {
+export default function Header() {
+    const [role, setRole] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
     const [field, setField] = useState("");
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const sessionData = localStorage.getItem("session");
+            if (sessionData) {
+                try {
+                    const session = JSON.parse(sessionData) as SessionCached;
+                    setRole(session.role as string | null);
+                } catch (error) {
+                    console.error("Ошибка парсинга session из localStorage:", error);
+                }
+            }
+        }
+    }, []);
 
     return (
         <header>
