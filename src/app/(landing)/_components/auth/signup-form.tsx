@@ -1,5 +1,8 @@
-import React from "react";
+"use client";
 
+import type React from "react";
+
+import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -53,8 +56,7 @@ export default function SignUpForm({ className }: React.ComponentProps<"form">) 
             </div>
             <div className="grid gap-2">
                 <Label htmlFor="password">Пароль</Label>
-                <Input
-                    type="password"
+                <PasswordInput
                     id="password"
                     value={password}
                     onChange={(e) => {
@@ -64,9 +66,8 @@ export default function SignUpForm({ className }: React.ComponentProps<"form">) 
                 />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="password">Повторить пароль</Label>
-                <Input
-                    type="password"
+                <Label htmlFor="repeated_password">Повторить пароль</Label>
+                <PasswordInput
                     id="repeated_password"
                     value={repeatedPassword}
                     onChange={(e) => {

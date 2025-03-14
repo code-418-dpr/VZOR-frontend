@@ -1,5 +1,8 @@
-import React from "react";
+"use client";
 
+import type React from "react";
+
+import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,7 +37,7 @@ export default function SignInForm({ className }: SignInFormProps) {
             </div>
             <div className="grid gap-2">
                 <Label htmlFor="password">Пароль</Label>
-                <Input type="password" id="repeated_password" value={password} onChange={handlePasswordChange} />
+                <PasswordInput id="password" value={password} onChange={handlePasswordChange} />
             </div>
             {error && <p className="text-center text-sm text-red-500">{error}</p>}
             <Button type="submit" disabled={loading}>
