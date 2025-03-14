@@ -8,7 +8,7 @@ export const pictures: Picture[] = [
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
         date: "08-03-2025",
-        objects: ["Хуй", "Хуй", "Хуй", "Хуй", "Хуй"],
+        objects: ["Стол", "Окно", "Человек"],
         text: "Текст залупа!",
     },
     {

@@ -1,14 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Check, ChevronLeft, ChevronRight, Copy, Download, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Copy, Download, Pen, X } from "lucide-react";
 
 import { useCallback, useEffect, useState } from "react";
+import * as React from "react";
 import { type SwipeableHandlers, type SwipeableProps, useSwipeable } from "react-swipeable";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 
 import Image from "next/image";
 
+import { ObjectsCombobox } from "@/app/main/_components/search/objects-combobox";
+import { testObjects } from "@/app/main/_data/search/objects";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import type { Picture } from "@/types/picture";
 
 interface PictureModalProps {
@@ -19,12 +24,16 @@ interface PictureModalProps {
 
 export function PictureModal({ pictures, initialIndex, onClose }: PictureModalProps) {
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
+    const [description, setDescription] = useState("");
+    const [text, setText] = useState("");
     const isFirst = currentIndex === 0;
     const isLast = currentIndex === pictures.length - 1;
     const currentPicture = pictures[currentIndex];
     const [isZoomed, setIsZoomed] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
     const [selectedParagraph, setSelectedParagraph] = useState<number | null>(null);
     const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+    const [objects, setObjects] = useState(new Map(testObjects.map((testObject) => [testObject.name, false])));
 
     const copyToClipboard = useCallback((text: string, index: number) => {
         // Проверяем, поддерживается ли clipboard API
@@ -73,6 +82,38 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
         link.click();
         document.body.removeChild(link);
     }, [currentPicture.picture, currentPicture.id]);
+
+    const handleSaveChange = () => {
+        setIsEdit(false);
+
+        console.log(`id = ${currentIndex}; text = ${text}; desc = ${description} `);
+
+        pictures[currentIndex].text = text;
+        pictures[currentIndex].description = description;
+        pictures[currentIndex].objects = Array.from(objects.entries())
+            .filter(([name, isTrue]) => name !== "" && isTrue)
+            .map(([name]) => name);
+    };
+
+    useEffect(() => {
+        console.log(text);
+    }, [text]);
+
+    const setObjectNameToTrue = (name: string) => {
+        setObjects((prevObjects) => {
+            const newObjects = new Map(prevObjects);
+            newObjects.set(name, true);
+            return newObjects;
+        });
+    };
+
+    useEffect(() => {
+        currentPicture.objects.forEach((object) => {
+            setObjectNameToTrue(object);
+        });
+        setText(currentPicture.text);
+        setDescription(currentPicture.description);
+    }, [currentPicture]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -154,136 +195,178 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                 {currentPicture.description && (
                                     <div>
                                         <h3 className="text-lg font-semibold text-white">Описание</h3>
-                                        <motion.div
-                                            className={`group relative cursor-pointer rounded-lg transition-all ${
-                                                selectedParagraph === 0
-                                                    ? "bg-primary/10 border-primary border-l-4"
-                                                    : "hover:bg-muted/50"
-                                            }`}
-                                            onClick={() => {
-                                                setSelectedParagraph(selectedParagraph === 0 ? null : 0);
-                                                copyToClipboard(currentPicture.description, 0);
-                                            }}
-                                            whileHover={{ x: 5 }}
-                                            animate={{
-                                                x: selectedParagraph === 0 ? 5 : 0,
-                                                transition: { duration: 0.2 },
-                                            }}
-                                        >
-                                            <p className="pr-6 text-white">{currentPicture.description}</p>
-                                            <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
-                                                {copiedIndex === 0 ? (
-                                                    <Check className="h-4 w-4 text-green-500" />
-                                                ) : (
-                                                    <Copy className="text-muted-foreground h-4 w-4" />
-                                                )}
-                                            </div>
-                                        </motion.div>
+                                        {isEdit ? (
+                                            <Textarea
+                                                className="h-18 max-h-280 min-h-10 w-full select-none"
+                                                placeholder="Описание"
+                                                rows={4}
+                                                value={description}
+                                                onChange={(e) => {
+                                                    setDescription(e.target.value);
+                                                }}
+                                            />
+                                        ) : (
+                                            <motion.div
+                                                className={`group relative cursor-pointer rounded-lg transition-all ${
+                                                    selectedParagraph === 0
+                                                        ? "bg-primary/10 border-primary border-l-4"
+                                                        : "hover:bg-muted/50"
+                                                }`}
+                                                onClick={() => {
+                                                    setSelectedParagraph(selectedParagraph === 0 ? null : 0);
+                                                    copyToClipboard(currentPicture.description, 0);
+                                                }}
+                                                whileHover={{ x: 5 }}
+                                                animate={{
+                                                    x: selectedParagraph === 0 ? 5 : 0,
+                                                    transition: { duration: 0.2 },
+                                                }}
+                                            >
+                                                <p className="pr-6 text-white">{currentPicture.description}</p>
+                                                <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                                                    {copiedIndex === 0 ? (
+                                                        <Check className="h-4 w-4 text-green-500" />
+                                                    ) : (
+                                                        <Copy className="text-muted-foreground h-4 w-4" />
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        )}
                                     </div>
                                 )}
 
-                                {currentPicture.objects && currentPicture.objects.length > 0 && (
+                                {currentPicture.objects.length > 0 && (
                                     <div>
                                         <h3 className="text-lg font-semibold text-white">Объекты</h3>
-                                        <motion.div
-                                            className={`group relative cursor-pointer rounded-lg transition-all ${
-                                                selectedParagraph === 1
-                                                    ? "bg-primary/10 border-primary border-l-4"
-                                                    : "hover:bg-muted/50"
-                                            }`}
-                                            onClick={() => {
-                                                setSelectedParagraph(selectedParagraph === 1 ? null : 1);
-                                                copyToClipboard(
-                                                    Array.isArray(currentPicture.objects)
+                                        {isEdit ? (
+                                            <ObjectsCombobox title="Объекты" values={objects} setValues={setObjects} />
+                                        ) : (
+                                            <motion.div
+                                                className={`group relative cursor-pointer rounded-lg transition-all ${
+                                                    selectedParagraph === 1
+                                                        ? "bg-primary/10 border-primary border-l-4"
+                                                        : "hover:bg-muted/50"
+                                                }`}
+                                                onClick={() => {
+                                                    setSelectedParagraph(selectedParagraph === 1 ? null : 1);
+                                                    copyToClipboard(
+                                                        Array.isArray(currentPicture.objects)
+                                                            ? currentPicture.objects.join(", ")
+                                                            : "",
+                                                        1,
+                                                    );
+                                                }}
+                                                whileHover={{ x: 5 }}
+                                                animate={{
+                                                    x: selectedParagraph === 1 ? 5 : 0,
+                                                    transition: { duration: 0.2 },
+                                                }}
+                                            >
+                                                <p className="pr-6 text-white">
+                                                    {Array.isArray(currentPicture.objects)
                                                         ? currentPicture.objects.join(", ")
-                                                        : "",
-                                                    1,
-                                                );
-                                            }}
-                                            whileHover={{ x: 5 }}
-                                            animate={{
-                                                x: selectedParagraph === 1 ? 5 : 0,
-                                                transition: { duration: 0.2 },
-                                            }}
-                                        >
-                                            <p className="pr-6 text-white">
-                                                {Array.isArray(currentPicture.objects)
-                                                    ? currentPicture.objects.join(", ")
-                                                    : ""}
-                                            </p>
-                                            <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
-                                                {copiedIndex === 1 ? (
-                                                    <Check className="h-4 w-4 text-green-500" />
-                                                ) : (
-                                                    <Copy className="text-muted-foreground h-4 w-4" />
-                                                )}
-                                            </div>
-                                        </motion.div>
+                                                        : ""}
+                                                </p>
+                                                <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                                                    {copiedIndex === 1 ? (
+                                                        <Check className="h-4 w-4 text-green-500" />
+                                                    ) : (
+                                                        <Copy className="text-muted-foreground h-4 w-4" />
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        )}
                                     </div>
                                 )}
 
                                 {currentPicture.text && (
                                     <div>
                                         <h3 className="text-lg font-semibold text-white">Распознанный текст</h3>
-                                        <motion.div
-                                            className={`group relative cursor-pointer rounded-lg transition-all ${
-                                                selectedParagraph === 2
-                                                    ? "bg-primary/10 border-primary border-l-4"
-                                                    : "hover:bg-muted/50"
-                                            }`}
-                                            onClick={() => {
-                                                setSelectedParagraph(selectedParagraph === 2 ? null : 2);
-                                                copyToClipboard(currentPicture.text, 2);
-                                            }}
-                                            whileHover={{ x: 5 }}
-                                            animate={{
-                                                x: selectedParagraph === 2 ? 5 : 0,
-                                                transition: { duration: 0.2 },
-                                            }}
-                                        >
-                                            <p className="pr-6 text-white">{currentPicture.text}</p>
-                                            <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
-                                                {copiedIndex === 2 ? (
-                                                    <Check className="h-4 w-4 text-green-500" />
-                                                ) : (
-                                                    <Copy className="text-muted-foreground h-4 w-4" />
-                                                )}
-                                            </div>
-                                        </motion.div>
+                                        {isEdit ? (
+                                            <Textarea
+                                                className="h-18 max-h-280 min-h-10 w-full select-none"
+                                                placeholder="Распознанный текст"
+                                                rows={4}
+                                                value={text}
+                                                onChange={(e) => {
+                                                    setText(e.target.value);
+                                                }}
+                                            />
+                                        ) : (
+                                            <motion.div
+                                                className={`group relative cursor-pointer rounded-lg transition-all ${
+                                                    selectedParagraph === 2
+                                                        ? "bg-primary/10 border-primary border-l-4"
+                                                        : "hover:bg-muted/50"
+                                                }`}
+                                                onClick={() => {
+                                                    setSelectedParagraph(selectedParagraph === 2 ? null : 2);
+                                                    copyToClipboard(currentPicture.text, 2);
+                                                }}
+                                                whileHover={{ x: 5 }}
+                                                animate={{
+                                                    x: selectedParagraph === 2 ? 5 : 0,
+                                                    transition: { duration: 0.2 },
+                                                }}
+                                            >
+                                                <p className="pr-6 text-white">{currentPicture.text}</p>
+                                                <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                                                    {copiedIndex === 2 ? (
+                                                        <Check className="h-4 w-4 text-green-500" />
+                                                    ) : (
+                                                        <Copy className="text-muted-foreground h-4 w-4" />
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        )}
                                     </div>
                                 )}
                             </div>
                         </div>
 
                         <div className="absolute right-4 bottom-4 flex gap-2">
-                            <button
-                                onClick={handleDownload}
-                                className="rounded-md bg-white/80 p-2 shadow-lg backdrop-blur-sm hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
-                            >
-                                <Download className="h-5 w-5" />
-                            </button>
-                            <button
-                                onClick={handlePrevious}
-                                className={`rounded-md p-2 shadow-lg backdrop-blur-sm transition-all max-md:hidden ${
-                                    isFirst
-                                        ? "cursor-not-allowed bg-white/50 opacity-50 dark:bg-black/30"
-                                        : "bg-white/80 hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
-                                }`}
-                                disabled={isFirst}
-                            >
-                                <ChevronLeft className="h-5 w-5" />
-                            </button>
-                            <button
-                                onClick={handleNext}
-                                className={`rounded-md p-2 shadow-lg backdrop-blur-sm transition-all max-md:hidden ${
-                                    isLast
-                                        ? "cursor-not-allowed bg-white/50 opacity-50 dark:bg-black/30"
-                                        : "bg-white/80 hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
-                                }`}
-                                disabled={isLast}
-                            >
-                                <ChevronRight className="h-5 w-5" />
-                            </button>
+                            {isEdit ? (
+                                <Button onClick={handleSaveChange}>Сохранить</Button>
+                            ) : (
+                                <>
+                                    <button
+                                        onClick={() => {
+                                            setIsEdit(true);
+                                        }}
+                                        className="rounded-md bg-white/80 p-2 shadow-lg backdrop-blur-sm hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
+                                    >
+                                        <Pen className="h-5 w-5" />
+                                    </button>
+                                    <button
+                                        onClick={handleDownload}
+                                        className="rounded-md bg-white/80 p-2 shadow-lg backdrop-blur-sm hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
+                                    >
+                                        <Download className="h-5 w-5" />
+                                    </button>
+                                    <button
+                                        onClick={handlePrevious}
+                                        className={`rounded-md p-2 shadow-lg backdrop-blur-sm transition-all max-md:hidden ${
+                                            isFirst
+                                                ? "cursor-not-allowed bg-white/50 opacity-50 dark:bg-black/30"
+                                                : "bg-white/80 hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
+                                        }`}
+                                        disabled={isFirst}
+                                    >
+                                        <ChevronLeft className="h-5 w-5" />
+                                    </button>
+                                    <button
+                                        onClick={handleNext}
+                                        className={`rounded-md p-2 shadow-lg backdrop-blur-sm transition-all max-md:hidden ${
+                                            isLast
+                                                ? "cursor-not-allowed bg-white/50 opacity-50 dark:bg-black/30"
+                                                : "bg-white/80 hover:bg-white/90 dark:bg-black/50 dark:hover:bg-black/70"
+                                        }`}
+                                        disabled={isLast}
+                                    >
+                                        <ChevronRight className="h-5 w-5" />
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
