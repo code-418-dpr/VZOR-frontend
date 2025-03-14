@@ -9,8 +9,6 @@ export function CloudButton() {
 
     return (
         <Button
-            variant="default"
-            className="text-foreground"
             onClick={() => {
                 router.push("/main");
             }}
