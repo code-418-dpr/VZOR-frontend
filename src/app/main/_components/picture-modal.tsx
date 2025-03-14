@@ -86,18 +86,12 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
     const handleSaveChange = () => {
         setIsEdit(false);
 
-        console.log(`id = ${currentIndex}; text = ${text}; desc = ${description} `);
-
         pictures[currentIndex].text = text;
         pictures[currentIndex].description = description;
         pictures[currentIndex].objects = Array.from(objects.entries())
             .filter(([name, isTrue]) => name !== "" && isTrue)
             .map(([name]) => name);
     };
-
-    useEffect(() => {
-        console.log(text);
-    }, [text]);
 
     const setObjectNameToTrue = (name: string) => {
         setObjects((prevObjects) => {
