@@ -5,7 +5,7 @@ export const pictures: Picture[] = [
     {
         id: "p1",
         name: "Картинка 1",
-        description: "Описание объектов и текста от нейросети",
+        description: "Описание объектов и текста от нейросети 1",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
         date: "08-03-2025",
@@ -13,7 +13,7 @@ export const pictures: Picture[] = [
     {
         id: "p2",
         name: "Картинка 2",
-        description: "Описание объектов и текста от нейросети",
+        description: "Описание объектов и текста от нейросети 2",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
         date: "08-03-2025",
@@ -21,15 +21,17 @@ export const pictures: Picture[] = [
     {
         id: "p3",
         name: "Картинка 3",
-        description: "Описание объектов и текста от нейросети",
+        description: "Описание объектов и текста от нейросети 3",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
         date: "08-03-2025",
+        objects: ["Хуй", "Хуй", "Хуй", "Хуй", "Хуй"],
+        text: "Текст залупа!",
     },
     {
         id: "p4",
         name: "Картинка 4",
-        description: "Описание объектов и текста от нейросети",
+        description: "Описание объектов и текста от нейросети 4",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
         date: "06-03-2025",
@@ -37,7 +39,7 @@ export const pictures: Picture[] = [
     {
         id: "p5",
         name: "Картинка 5",
-        description: "Описание объектов и текста от нейросети",
+        description: "Описание объектов и текста от нейросети 5",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
         date: "06-03-2025",
@@ -45,7 +47,7 @@ export const pictures: Picture[] = [
     {
         id: "p6",
         name: "Картинка 6",
-        description: "Описание объектов и текста от нейросети",
+        description: "Описание объектов и текста от нейросети 6",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
         date: "04-03-2025",
@@ -53,7 +55,7 @@ export const pictures: Picture[] = [
     {
         id: "p7",
         name: "Картинка 7",
-        description: "Описание объектов и текста от нейросети",
+        description: "Описание объектов и текста от нейросети 7",
         picture: "/landing-examples/0.jpg",
         category: "Lighting",
         date: "04-03-2025",
@@ -61,7 +63,7 @@ export const pictures: Picture[] = [
     {
         id: "p8",
         name: "Картинка 8",
-        description: "Описание объектов и текста от нейросети",
+        description: "Описание объектов и текста от нейросети 8",
         picture: "/landing-examples/1.jpg",
         category: "Lighting",
         date: "02-03-2025",
