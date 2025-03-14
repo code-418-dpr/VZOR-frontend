@@ -32,7 +32,7 @@ export default function Home() {
 
     return (
         <main>
-            <div className="mx-auto pt-11 pb-10">
+            <div className="mx-auto pt-11 pb-35">
                 {picturesDate.map((date) => (
                     <div key={date}>
                         <PicturesGrid
