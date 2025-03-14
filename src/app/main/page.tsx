@@ -6,12 +6,9 @@ import React, { useState } from "react";
 
 import { PictureModal } from "@/app/main/_components/picture-modal";
 import { PicturesGrid } from "@/app/main/_components/pictures-grid";
-import Header from "@/components/header";
 import { Separator } from "@/components/ui/separator";
 import { pictures } from "@/data/pictures";
 import { Picture } from "@/types/picture";
-
-// import Header from "@/app/(landing)/_components/header";
 
 function getUniqueDates(arr: Picture[]): string[] {
     const dates: string[] = arr.map((picture) => picture.date);
