@@ -2,9 +2,27 @@ import { useCallback, useState } from "react";
 
 import { useRouter } from "next/navigation";
 
-import { ErrorResponse, LoginResponse } from "@/types";
+import { DecodedJwt, ErrorResponse, LoginResponse, SessionCached } from "@/types";
 
 type RegistrationError = string | null;
+
+// Добавляем функцию декодирования JWT
+const parseJwt = (token: string) => {
+    try {
+        const base64Url = token.split(".")[1];
+        const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split("")
+                .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+                .join(""),
+        );
+        return JSON.parse(jsonPayload) as DecodedJwt;
+    } catch (error) {
+        console.error("Failed to parse JWT:", error);
+        return null;
+    }
+};
 
 export const useRegistration = () => {
     const [name, setName] = useState("");
@@ -20,12 +38,10 @@ export const useRegistration = () => {
         setError(null);
 
         try {
-            // Валидация паролей
             if (password !== repeatedPassword) {
                 throw new Error("Пароли не совпадают");
             }
 
-            // Отправка запроса
             const response = await fetch("/api/registration", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -33,11 +49,27 @@ export const useRegistration = () => {
             });
 
             const data = (await response.json()) as LoginResponse | ErrorResponse;
+
             if (!response.ok || "message" in data) {
-                throw new Error("message" in data ? data.message : "Ошибка в процессе регистрации");
+                throw new Error("message" in data ? data.message : "Ошибка регистрации");
             }
 
-            localStorage.setItem("session", JSON.stringify(data));
+            // Декодируем токен и извлекаем данные
+            const { accessToken } = data as SessionCached;
+            const decoded = parseJwt(accessToken);
+
+            if (!decoded) {
+                throw new Error("Ошибка обработки токена");
+            }
+
+            // Формируем объект сессии
+            const sessionData: SessionCached = {
+                ...(data as SessionCached),
+                role: decoded.Role[0] || "User",
+                username: decoded.Username || name,
+            };
+
+            localStorage.setItem("session", JSON.stringify(sessionData));
             router.refresh();
             router.push("/main");
         } catch (err) {

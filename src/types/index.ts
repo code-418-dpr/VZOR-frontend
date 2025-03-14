@@ -84,8 +84,9 @@ export interface SessionCached {
     accessToken: string;
     refreshToken: string;
     role?: string;
-    email?: string;
+    username?: string;
 }
+
 export interface DecodedJwt {
     Role: string[];
     Email: string;
