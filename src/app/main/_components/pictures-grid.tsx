@@ -19,7 +19,7 @@ export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: Pictur
             >
                 <AccordionItem value={picturesDate} className="border-b-0">
                     <AccordionTrigger className="px-4 py-3 transition-colors hover:bg-zinc-200/50 hover:no-underline dark:hover:bg-zinc-700/50">
-                        <p className="text-2xl font-bold md:text-3xl">{picturesDate}</p>
+                        <p className="text-2xl font-bold">{picturesDate}</p>
                     </AccordionTrigger>
                     <AccordionContent className="px-4 pt-2 pb-5">
                         <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
