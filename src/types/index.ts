@@ -86,7 +86,20 @@ export interface SessionCached {
     role?: string;
     username?: string;
 }
-
+export interface AccountUpdateResponse {
+    result: {
+        errors: {
+            errorCode: string;
+            errorMessage: string;
+            type: number;
+            invalidField: string | null;
+        }[];
+        isSuccess: boolean;
+        isFailure: boolean;
+    };
+    errors: unknown[] | null;
+    timeGenerated: string;
+}
 export interface DecodedJwt {
     Role: string[];
     Email: string;
