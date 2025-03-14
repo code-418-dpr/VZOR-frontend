@@ -126,7 +126,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                 fill
                                 src={currentPicture.picture || "/placeholder.svg"}
                                 alt={currentPicture.name}
-                                className="object-contain"
+                                className="object-contain select-none"
                                 draggable={false}
                                 onDragStart={(e) => {
                                     e.preventDefault();
