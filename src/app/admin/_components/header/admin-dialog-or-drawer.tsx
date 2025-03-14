@@ -9,8 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useMediaQuery } from "@/hooks/use-media-query";
 
-interface Props {
+interface Inputs {
     field: string;
+}
+
+interface Props extends Inputs {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -28,13 +31,7 @@ function AdminDialog({ field, open, setOpen }: Props) {
                 <DialogHeader>
                     <DialogTitle className="text-center text-2xl">Изменить</DialogTitle>
                 </DialogHeader>
-                <form className="grid items-start gap-4">
-                    <div className="grid gap-2">
-                        <Label htmlFor="field">{field}</Label>
-                        <Input type={field === "Почта" ? "email" : "text"} id="field" />
-                    </div>
-                    <Button type="submit">Изменить</Button>
-                </form>
+                <AdminChangeForm field={field} />
             </DialogContent>
         </Dialog>
     );
@@ -47,16 +44,20 @@ function AdminDrawer({ field, open, setOpen }: Props) {
                 <DrawerHeader>
                     <DrawerTitle className="text-2xl">Изменить</DrawerTitle>
                 </DrawerHeader>
-                <form className="grid items-start gap-4">
-                    <div className="grid gap-2">
-                        <Label className="text-base" htmlFor="field">
-                            {field}
-                        </Label>
-                        <Input type={field === "Почта" ? "email" : "text"} id="field" />
-                    </div>
-                    <Button type="submit">Изменить</Button>
-                </form>
+                <AdminChangeForm field={field} />
             </DrawerContent>
         </Drawer>
+    );
+}
+
+function AdminChangeForm({ field }: Inputs) {
+    return (
+        <form className="grid items-start gap-4">
+            <div className="grid gap-2">
+                <Label htmlFor="field">{field}</Label>
+                <Input type={field === "Почта" ? "email" : "text"} id="field" />
+            </div>
+            <Button type="submit">Изменить</Button>
+        </form>
     );
 }
