@@ -66,11 +66,11 @@ export default function Header({ visible }: HeaderProps) {
                             scrollToElement("hero");
                         }}
                     >
-                        <Logo width={120} />
+                        <Logo className="cursor-pointer select-none" width={120} />
                     </div>
                     <nav
                         className={cn(
-                            "hidden items-center gap-4 md:flex",
+                            "hidden cursor-pointer items-center gap-4 select-none md:flex",
                             visible ? "pointer-events-auto" : "pointer-events-none",
                         )}
                     >
@@ -79,7 +79,7 @@ export default function Header({ visible }: HeaderProps) {
                 </div>
             </div>
 
-            <div className="fixed right-0 z-50 mx-4 flex h-16 items-center space-x-2 sm:mx-12 md:mx-24 lg:mx-48">
+            <div className="fixed right-0 z-50 mx-4 flex h-16 items-center space-x-2 select-none sm:mx-12 md:mx-24 lg:mx-48">
                 {isAuthenticated ? <LogoutButton /> : <AuthDialogOrDrawer />}
                 <ModeToggle />
             </div>

@@ -39,7 +39,7 @@ function ContactForm() {
                         setMessage(e.target.value);
                     }}
                 />
-                <Button onClick={handleSubmit} className="w-min">
+                <Button onClick={handleSubmit} className="w-min select-none">
                     <Send />
                     Отправить
                 </Button>

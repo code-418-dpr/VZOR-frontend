@@ -46,7 +46,7 @@ export default function Demo() {
                     align: "start",
                     loop: true,
                 }}
-                className="mx-5 flex-1"
+                className="mx-5 flex-1 select-none"
             >
                 <CarouselContent>{carouselItems}</CarouselContent>
                 <CarouselPrevious className={isDesktop ? "" : "hidden"} />

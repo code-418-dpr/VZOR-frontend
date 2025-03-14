@@ -56,7 +56,7 @@ export default function Hero() {
     return (
         <section className="flex h-screen w-full flex-col justify-center">
             <div className="mb-12 flex flex-col items-center gap-10">
-                <div className="relative" ref={containerRef}>
+                <div className="relative select-none" ref={containerRef}>
                     <Emoticons position={emoticonsPosition} />
                     <LogoWithAi />
                 </div>
