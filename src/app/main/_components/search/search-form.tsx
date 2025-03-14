@@ -23,10 +23,12 @@ export function SearchForm() {
             <Input id="description" placeholder="Описание" />
 
             <div className="flex flex-wrap gap-2">
-                <div className={noObjects ? "hidden" : ""}>
-                    <ObjectsCombobox title="Объекты" values={objectsToSearch} setValues={setObjectsToSearch} />
-                </div>
-
+                <ObjectsCombobox
+                    title="Объекты"
+                    values={objectsToSearch}
+                    setValues={setObjectsToSearch}
+                    disabled={noObjects}
+                />
                 <div className="flex items-center gap-2">
                     <Checkbox
                         id="no-objects"

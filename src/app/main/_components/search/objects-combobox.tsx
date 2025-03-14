@@ -18,12 +18,14 @@ export function ObjectsCombobox({
     setValues,
     hideSearch,
     className,
+    disabled,
 }: {
     title: string;
     values: Map<string, boolean>;
     setValues: (values: Map<string, boolean>) => void;
     hideSearch?: boolean;
     className?: string;
+    disabled?: boolean;
 }): JSX.Element {
     const [open, setOpen] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -69,7 +71,10 @@ export function ObjectsCombobox({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="flex h-auto min-h-10 flex-wrap justify-start gap-1 p-1"
+            className={cn(
+                "flex h-auto min-h-10 flex-wrap justify-start gap-1 p-1",
+                disabled && "pointer-events-none opacity-50",
+            )}
         >
             <div className="mr-auto flex items-center gap-1">
                 <span className="text-sm">{title}</span>
