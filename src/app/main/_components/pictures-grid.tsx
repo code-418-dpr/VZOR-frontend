@@ -14,10 +14,10 @@ export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: Pictur
         <Accordion type="multiple" defaultValue={[picturesDate]} className="mt-8">
             <AccordionItem value={picturesDate}>
                 <AccordionTrigger className="hover:no-underline">
-                    <p className="mb:text-3xl text-xl font-bold">{picturesDate}</p>
+                    <p className="text-2xl font-bold md:text-3xl">{picturesDate}</p>
                 </AccordionTrigger>
                 <AccordionContent>
-                    <div className="grid grid-cols-3 gap-2 sm:grid-cols-2 lg:grid-cols-5">
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {pictures.map((picture) => (
                             <PictureCard key={picture.id} picture={picture} onPictureSelect={onPictureSelect} />
                         ))}

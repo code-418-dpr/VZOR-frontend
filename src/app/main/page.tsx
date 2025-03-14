@@ -2,15 +2,13 @@
 
 import { AnimatePresence } from "framer-motion";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { PictureModal } from "@/app/main/_components/picture-modal";
 import { PicturesGrid } from "@/app/main/_components/pictures-grid";
 import { Separator } from "@/components/ui/separator";
 import { pictures } from "@/data/pictures";
-import { Picture } from "@/types/picture";
-
-// import Header from "@/app/(landing)/_components/header";
+import type { Picture } from "@/types/picture";
 
 function getUniqueDates(arr: Picture[]): string[] {
     const dates: string[] = arr.map((picture) => picture.date);
@@ -32,24 +30,9 @@ export default function Home() {
 
     const picturesDate = getUniqueDates(filteredPictures);
 
-    /*
-    const [showNavbar, setShowNavbar] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowNavbar(window.scrollY > window.innerHeight / 5);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-     */
-
     return (
         <main>
-            <div className="mx-auto pt-4 pb-10">
+            <div className="mx-auto pt-6 pb-12">
                 {picturesDate.map((date) => (
                     <div key={date}>
                         <PicturesGrid
@@ -57,7 +40,6 @@ export default function Home() {
                             pictures={filteredPictures.filter((picture) => picture.date === date)}
                             onPictureSelect={handlePictureSelect}
                         />
-                        <Separator orientation="horizontal" className="mt-3 md:mt-6" />
                     </div>
                 ))}
             </div>

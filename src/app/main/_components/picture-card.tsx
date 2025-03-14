@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "motion/react";
 
 import { useEffect, useState } from "react";
@@ -5,7 +7,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Picture } from "@/types/picture";
+import type { Picture } from "@/types/picture";
 
 export function PictureCard({
     picture,
@@ -41,18 +43,18 @@ export function PictureCard({
                 onPictureSelect(picture);
             }}
             className="group cursor-pointer"
-            whileHover={{ y: -1 }}
+            whileHover={{ y: -2 }}
             transition={{ duration: 0.2 }}
         >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-md bg-white dark:bg-zinc-900">
+            <div className="relative aspect-square overflow-hidden rounded-lg bg-white dark:bg-zinc-900">
                 {!isLoaded && (
-                    <Skeleton className="h-full w-full animate-pulse rounded-md bg-zinc-200 dark:bg-zinc-800" />
+                    <Skeleton className="h-full w-full animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800" />
                 )}
 
                 {isInView && (
                     <Image
                         fill
-                        src={picture.picture}
+                        src={picture.picture || "/placeholder.svg"}
                         alt={picture.name}
                         className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
                             !isLoaded ? "opacity-0" : "opacity-100"
@@ -65,25 +67,26 @@ export function PictureCard({
                         onDragStart={(e) => {
                             e.preventDefault();
                         }}
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
                     />
                 )}
             </div>
 
-            <div className="mt-1.5 space-y-0.5">
+            <div className="mt-3 space-y-1">
                 {!isLoaded ? (
                     <>
-                        <Skeleton className="h-4 w-3/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+                        <Skeleton className="h-5 w-3/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
                         <div className="flex items-center justify-between">
-                            <Skeleton className="h-3 w-1/3 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
-                            <Skeleton className="h-3 w-1/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+                            <Skeleton className="h-4 w-1/3 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
+                            <Skeleton className="h-4 w-1/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
                         </div>
                     </>
                 ) : (
                     <>
-                        <h3 className="truncate text-xs font-medium">{picture.name}</h3>
+                        <h3 className="truncate text-base font-medium">{picture.name}</h3>
                         <div className="flex items-center justify-between">
-                            <p className="text-xs text-zinc-500 dark:text-zinc-400">Инфа</p>
-                            <p className="text-[10px] text-zinc-400 dark:text-zinc-500">Инфа</p>
+                            <p className="text-sm text-zinc-500 dark:text-zinc-400">Инфа</p>
+                            <p className="text-xs text-zinc-400 dark:text-zinc-500">Инфа</p>
                         </div>
                     </>
                 )}
