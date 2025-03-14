@@ -36,7 +36,7 @@ export default function UserHeader({ setOpen, setField }: Props) {
                 <DropdownMenuItem
                     onClick={() => {
                         setOpen(true);
-                        setField("Почта");
+                        setField("Пароль");
                     }}
                 >
                     <KeyRound />

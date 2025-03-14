@@ -5,13 +5,19 @@ import { useState } from "react";
 
 import AdminDialogOrDrawer from "@/app/admin/_components/header/admin-dialog-or-drawer";
 import AdminHeader from "@/app/admin/_components/header/admin-header";
+import UserDialogOrDrawer from "@/app/main/_components/header/user-dialog-or-drawer";
+import UserHeader from "@/app/main/_components/header/user-header";
 import { Logo } from "@/components/logo";
 import { ModeToggle } from "@/components/theming/mode-toggle";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-export default function Header() {
+interface Props {
+    role: string;
+}
+
+export default function Header({ role }: Props) {
     const [open, setOpen] = useState(false);
     const [field, setField] = useState("");
 
@@ -37,11 +43,19 @@ export default function Header() {
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                     </DropdownMenuTrigger>
-                    <AdminHeader setOpen={setOpen} setField={setField} />
+                    {role === "admin" ? (
+                        <AdminHeader setOpen={setOpen} setField={setField} />
+                    ) : (
+                        <UserHeader setOpen={setOpen} setField={setField} />
+                    )}
                 </DropdownMenu>
-                <AdminDialogOrDrawer field={field} open={open} setOpen={setOpen} />
                 <ModeToggle />
             </div>
+            {role === "admin" ? (
+                <AdminDialogOrDrawer field={field} open={open} setOpen={setOpen} />
+            ) : (
+                <UserDialogOrDrawer field={field} open={open} setOpen={setOpen} />
+            )}
         </header>
     );
 }

@@ -32,13 +32,7 @@ function UserDialog({ field, open, setOpen }: Props) {
                 <DialogHeader>
                     <DialogTitle className="text-center text-2xl">Изменить</DialogTitle>
                 </DialogHeader>
-                <form className="grid items-start gap-4">
-                    <div className="grid gap-2">
-                        <Label htmlFor="field">{field}</Label>
-                        <Input type={field === "Почта" ? "email" : "text"} id="field" />
-                    </div>
-                    <Button type="submit">Изменить</Button>
-                </form>
+                <UserChangesForm field={field} />
             </DialogContent>
         </Dialog>
     );
