@@ -82,7 +82,7 @@ export const useAuth = () => {
                 const sessionData: SessionCached = {
                     ...(data as SessionCached),
                     role: decoded.Role[0],
-                    email: decoded.Email,
+                    username: decoded.Username,
                 };
                 localStorage.setItem("session", JSON.stringify(sessionData));
 
