@@ -11,7 +11,7 @@ interface PicturesGridProps {
 
 export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: PicturesGridProps) {
     return (
-        <div className="mt-4">
+        <div className="mt-4" tabIndex={-1}>
             <Accordion
                 type="multiple"
                 defaultValue={[picturesDate]}
@@ -22,7 +22,10 @@ export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: Pictur
                         <p className="text-2xl font-bold">{picturesDate}</p>
                     </AccordionTrigger>
                     <AccordionContent className="px-4 pt-2 pb-5">
-                        <div className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                        <div
+                            className="grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                            tabIndex={-1}
+                        >
                             {pictures.map((picture) => (
                                 <PictureCard key={picture.id} picture={picture} onPictureSelect={onPictureSelect} />
                             ))}

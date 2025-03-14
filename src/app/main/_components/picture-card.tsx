@@ -37,6 +37,7 @@ export function PictureCard({
 
     return (
         <motion.div
+            tabIndex={-1}
             id={`picture-${picture.id}`}
             layoutId={`product-${picture.id}`}
             onClick={() => {
@@ -46,7 +47,7 @@ export function PictureCard({
             whileHover={{ y: -2 }}
             transition={{ duration: 0.2 }}
         >
-            <div className="relative aspect-square overflow-hidden rounded-lg bg-white dark:bg-zinc-900">
+            <div className="relative aspect-square overflow-hidden rounded-lg bg-white dark:bg-zinc-900" tabIndex={-1}>
                 {!isLoaded && (
                     <Skeleton className="h-full w-full animate-pulse rounded-lg bg-zinc-200 dark:bg-zinc-800" />
                 )}

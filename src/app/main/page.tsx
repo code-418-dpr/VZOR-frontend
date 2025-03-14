@@ -30,10 +30,10 @@ export default function Home() {
     const picturesDate = getUniqueDates(filteredPictures);
 
     return (
-        <main>
-            <div className="mx-auto pt-11 pb-40">
+        <main tabIndex={-1}>
+            <div className="mx-auto pt-11 pb-40" tabIndex={-1}>
                 {picturesDate.map((date) => (
-                    <div key={date}>
+                    <div key={date} tabIndex={-1}>
                         <PicturesGrid
                             picturesDate={date}
                             pictures={filteredPictures.filter((picture) => picture.date === date)}
