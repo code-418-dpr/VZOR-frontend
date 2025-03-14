@@ -30,24 +30,9 @@ export default function Home() {
 
     const picturesDate = getUniqueDates(filteredPictures);
 
-    /*
-    const [showNavbar, setShowNavbar] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowNavbar(window.scrollY > window.innerHeight / 5);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-     */
-
     return (
         <main>
-            <div className="mx-auto pt-4 pb-10">
+            <div className="mx-auto pt-11 pb-10">
                 {picturesDate.map((date) => (
                     <div key={date}>
                         <PicturesGrid
@@ -55,7 +40,6 @@ export default function Home() {
                             pictures={filteredPictures.filter((picture) => picture.date === date)}
                             onPictureSelect={handlePictureSelect}
                         />
-                        <Separator orientation="horizontal" className="mt-3 md:mt-6" />
                     </div>
                 ))}
             </div>
