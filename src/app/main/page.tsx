@@ -6,6 +6,7 @@ import React, { useState } from "react";
 
 import { PictureModal } from "@/app/main/_components/picture-modal";
 import { PicturesGrid } from "@/app/main/_components/pictures-grid";
+import Header from "@/components/header";
 import { Separator } from "@/components/ui/separator";
 import { pictures } from "@/data/pictures";
 import { Picture } from "@/types/picture";
@@ -32,23 +33,9 @@ export default function Home() {
 
     const picturesDate = getUniqueDates(filteredPictures);
 
-    /*
-    const [showNavbar, setShowNavbar] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowNavbar(window.scrollY > window.innerHeight / 5);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-     */
-
     return (
         <main>
+            <Header role="user" />
             <div className="mx-auto pt-4 pb-10">
                 {picturesDate.map((date) => (
                     <div key={date}>
