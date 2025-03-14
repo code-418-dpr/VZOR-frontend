@@ -30,6 +30,21 @@ export default function Home() {
 
     const picturesDate = getUniqueDates(filteredPictures);
 
+    /*
+    const [showNavbar, setShowNavbar] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setShowNavbar(window.scrollY > window.innerHeight / 5);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+     */
+
     return (
         <main>
             <div className="mx-auto pt-4 pb-10">
