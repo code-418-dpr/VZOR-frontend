@@ -72,7 +72,7 @@ export function ObjectsCombobox({
             role="combobox"
             aria-expanded={open}
             className={cn(
-                "flex h-auto min-h-10 flex-wrap justify-start gap-1 p-1",
+                "flex h-auto min-h-10 flex-wrap justify-start gap-1 px-2",
                 disabled && "pointer-events-none opacity-50",
             )}
         >

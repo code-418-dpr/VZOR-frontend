@@ -80,7 +80,7 @@ export const useAuth = () => {
         } catch (err) {
             console.error("Logout error:", err);
         }
-    }, []);
+    }, [router]);
     return {
         email,
         setEmail,
