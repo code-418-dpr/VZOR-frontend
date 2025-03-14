@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ChevronLeft, ChevronRight, Download, X } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Copy, Download, X } from "lucide-react";
 
 import { useCallback, useEffect, useState } from "react";
-import { SwipeableHandlers, SwipeableProps, useSwipeable } from "react-swipeable";
+import { type SwipeableHandlers, type SwipeableProps, useSwipeable } from "react-swipeable";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 
 import Image from "next/image";
@@ -23,6 +23,20 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
     const isLast = currentIndex === pictures.length - 1;
     const currentPicture = pictures[currentIndex];
     const [isZoomed, setIsZoomed] = useState(false);
+    const [selectedParagraph, setSelectedParagraph] = useState<number | null>(null);
+    const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+    const copyToClipboard = useCallback((text: string, index: number) => {
+        navigator.clipboard.writeText(text).then(() => {
+            setCopiedIndex(index);
+
+            // Reset the copied state after a short delay
+            setTimeout(() => {
+                setCopiedIndex(null);
+            }, 2000);
+        });
+    });
+
     const handleNext = useCallback(() => {
         if (!isLast) setCurrentIndex((prev) => prev + 1);
     }, [isLast]);
@@ -31,7 +45,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
         if (!isFirst) setCurrentIndex((prev) => prev - 1);
     }, [isFirst]);
 
-    // Обработчик свайпов
+    // Swipe handlers
     const swipeConfig: SwipeableProps = {
         onSwipedLeft: () => {
             if (!isZoomed) handleNext();
@@ -44,6 +58,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
     };
 
     const swipeHandlers: SwipeableHandlers = useSwipeable(swipeConfig);
+
     const handleDownload = useCallback(() => {
         const link = document.createElement("a");
         link.href = currentPicture.picture;
@@ -52,6 +67,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
         link.click();
         document.body.removeChild(link);
     }, [currentPicture.picture, currentPicture.name]);
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === "ArrowLeft") handlePrevious();
@@ -65,12 +81,20 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
         };
     }, [handleNext, handlePrevious, onClose]);
 
+    // Sample paragraphs for demonstration
+    const paragraphs = [
+        "This is the first paragraph with important information about the image.",
+        "Here's some additional details about this particular image.",
+        "Technical specifications and other relevant information can be found here.",
+    ];
+
     return (
         <>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.9 }}
                 exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }} // Faster animation
                 className="fixed inset-0 bg-black/80 backdrop-blur-md"
                 onClick={onClose}
             />
@@ -78,19 +102,23 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
             <motion.div
                 {...swipeHandlers}
                 layoutId={`product-${currentPicture.id}`}
-                className="fixed inset-x-4 bottom-0 z-50 overflow-hidden rounded-t-xl bg-white max-md:h-[80vh] md:inset-[25%] md:h-[50vh] md:rounded-xl dark:bg-zinc-900"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 20, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }} // Faster but smoother animation
+                className="fixed inset-x-4 bottom-0 z-50 overflow-hidden rounded-t-xl bg-white max-md:h-[85vh] md:inset-[20%] md:h-[60vh] md:rounded-xl dark:bg-zinc-900"
             >
                 <div className="relative h-full md:flex">
                     <div className="relative mx-auto md:w-3/5">
                         <div
-                            className="relative h-full w-full cursor-zoom-in max-md:h-[300px]"
+                            className="relative h-full w-full cursor-zoom-in max-md:h-[350px]" // Bigger picture
                             onClick={() => {
                                 setIsZoomed(true);
                             }}
                         >
                             <Image
                                 fill
-                                src={currentPicture.picture}
+                                src={currentPicture.picture || "/placeholder.svg"}
                                 alt={currentPicture.name}
                                 className="object-contain"
                                 draggable={false}
@@ -102,12 +130,15 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                         </div>
                     </div>
 
-                    <button
+                    <motion.button
                         onClick={onClose}
                         className="absolute top-2 right-2 rounded-md bg-white/80 p-1.5 backdrop-blur-sm dark:bg-black/50"
+                        whileHover={{ scale: 1.1, rotate: 90 }}
+                        whileTap={{ scale: 0.9 }}
+                        transition={{ duration: 0.2 }}
                     >
                         <X className="h-4 w-4" />
-                    </button>
+                    </motion.button>
 
                     <div className="flex flex-col p-3 md:w-3/5">
                         <div className="flex-1">
@@ -118,11 +149,40 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                         {currentIndex + 1} из {pictures.length}
                                     </p>
                                 </div>
-                                <p className="text-sm font-medium">Бла бла бла бла</p>
+                                <p className="pr-8 text-sm font-medium">Бла бла бла бла</p>
                             </div>
-                            <div className="space-y-2">
-                                <p className="text-xs text-zinc-600 dark:text-zinc-300">Блу блу блу блу</p>
-                                <div className="space-y-1 text-xs">
+
+                            <div className="mt-4 space-y-3">
+                                {paragraphs.map((text, index) => (
+                                    <motion.div
+                                        key={index}
+                                        className={`group relative cursor-pointer rounded-lg p-2 transition-all ${
+                                            selectedParagraph === index
+                                                ? "bg-primary/10 border-primary border-l-4"
+                                                : "hover:bg-muted/50"
+                                        }`}
+                                        onClick={() => {
+                                            setSelectedParagraph(index === selectedParagraph ? null : index);
+                                            copyToClipboard(text, index);
+                                        }}
+                                        whileHover={{ x: 5 }}
+                                        animate={{
+                                            x: selectedParagraph === index ? 5 : 0,
+                                            transition: { duration: 0.2 },
+                                        }}
+                                    >
+                                        <p className="pr-6 text-xs text-zinc-600 dark:text-zinc-300">{text}</p>
+                                        <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                                            {copiedIndex === index ? (
+                                                <Check className="h-4 w-4 text-green-500" />
+                                            ) : (
+                                                <Copy className="text-muted-foreground h-4 w-4" />
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                ))}
+
+                                <div className="mt-4 space-y-1 text-xs">
                                     <p className="text-zinc-500">SKU: {currentPicture.id}</p>
                                 </div>
                             </div>
@@ -161,7 +221,13 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                     </div>
                 </div>
                 {isZoomed && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90">
+                    <motion.div
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                    >
                         <TransformWrapper
                             initialScale={1}
                             minScale={0.1}
@@ -173,7 +239,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                         >
                             {({ resetTransform, zoomIn, zoomOut }) => (
                                 <>
-                                    {/* Кнопки управления зумом */}
+                                    {/* Zoom control buttons */}
                                     <div className="absolute top-4 left-4 z-50 flex gap-2">
                                         <button
                                             onClick={() => {
@@ -211,7 +277,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                     >
                                         <div className="relative h-full w-full">
                                             <Image
-                                                src={currentPicture.picture}
+                                                src={currentPicture.picture || "/placeholder.svg"}
                                                 alt={currentPicture.name}
                                                 fill
                                                 className="object-contain"
@@ -228,19 +294,22 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                         </div>
                                     </TransformComponent>
 
-                                    <button
+                                    <motion.button
                                         onClick={() => {
                                             resetTransform();
                                             setIsZoomed(false);
                                         }}
                                         className="absolute top-4 right-4 z-50 rounded-full bg-black/50 p-2 text-white"
+                                        whileHover={{ scale: 1.1, rotate: 90 }}
+                                        whileTap={{ scale: 0.9 }}
+                                        transition={{ duration: 0.2 }}
                                     >
                                         <X className="h-8 w-8 stroke-[1.5]" />
-                                    </button>
+                                    </motion.button>
                                 </>
                             )}
                         </TransformWrapper>
-                    </div>
+                    </motion.div>
                 )}
             </motion.div>
         </>
