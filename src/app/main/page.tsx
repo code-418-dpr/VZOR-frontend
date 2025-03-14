@@ -19,7 +19,7 @@ export default function Home() {
     const [searchQuery] = useState("");
 
     const filteredPictures = pictures.filter((picture) =>
-        picture.name.toLowerCase().includes(searchQuery.toLowerCase()),
+        picture.category.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
     const handlePictureSelect = (picture: Picture) => {

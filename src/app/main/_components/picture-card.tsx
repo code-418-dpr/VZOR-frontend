@@ -56,7 +56,7 @@ export function PictureCard({
                     <Image
                         fill
                         src={picture.picture || "/placeholder.svg"}
-                        alt={picture.name}
+                        alt={picture.category}
                         className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
                             !isLoaded ? "opacity-0" : "opacity-100"
                         }`}
@@ -76,7 +76,6 @@ export function PictureCard({
             <div className="mt-3 space-y-1">
                 {!isLoaded ? (
                     <>
-                        <Skeleton className="h-5 w-3/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
                         <div className="flex items-center justify-between">
                             <Skeleton className="h-4 w-1/3 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
                             <Skeleton className="h-4 w-1/4 animate-pulse rounded bg-zinc-200 dark:bg-zinc-800" />
@@ -84,7 +83,6 @@ export function PictureCard({
                     </>
                 ) : (
                     <>
-                        <h3 className="truncate text-base font-medium">{picture.name}</h3>
                         <div className="flex items-center justify-between">
                             <p className="text-sm text-zinc-500 dark:text-zinc-400">Инфа</p>
                             <p className="text-xs text-zinc-400 dark:text-zinc-500">Инфа</p>
