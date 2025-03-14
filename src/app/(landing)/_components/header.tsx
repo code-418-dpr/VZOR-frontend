@@ -66,11 +66,11 @@ export default function Header({ visible }: HeaderProps) {
                             scrollToElement("hero");
                         }}
                     >
-                        <Logo width={120} />
+                        <Logo className="cursor-pointer" width={120} />
                     </div>
                     <nav
                         className={cn(
-                            "hidden items-center gap-4 md:flex",
+                            "hidden cursor-pointer items-center gap-4 md:flex",
                             visible ? "pointer-events-auto" : "pointer-events-none",
                         )}
                     >
