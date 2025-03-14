@@ -11,7 +11,7 @@ export default function Home() {
     return (
         <main className="flex flex-col">
             <Header role="admin" />
-            <Tabs defaultValue="users" className="mx-5 mt-20">
+            <Tabs defaultValue="users" className="mx-50 mt-20">
                 <TabsList className="w-full">
                     <TabsTrigger className="w-1/2 md:text-xl" value="statistic">
                         Статистика
