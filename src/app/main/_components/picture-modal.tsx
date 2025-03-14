@@ -68,7 +68,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
     const handleDownload = useCallback(() => {
         const link = document.createElement("a");
         link.href = currentPicture.picture;
-        link.download = `image-${currentPicture.id}` || "download";
+        link.download = `image-${currentPicture.id}`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
