@@ -19,7 +19,7 @@ export const fetchImages = async (date: Date): Promise<Picture[]> => {
         PageSize: "100",
     });
 
-    const response = await fetch(`http://localhost:8080/api/Images?${params}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images?${params}`);
 
     if (!response.ok) throw new Error("Failed to fetch images");
 

@@ -203,7 +203,7 @@ export default function Home() {
         );
     }
 
-    const displayPictures = filteredPictures.length > 0 ? filteredPictures : picturesData;
+    const displayPictures = filteredPictures.length > 0 ? filteredPictures : [];
 
     return (
         <main tabIndex={-1}>

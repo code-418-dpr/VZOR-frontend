@@ -25,7 +25,7 @@ export function SearchForm() {
 
     const [descriptionToSearch, setDescriptionToSearch] = useState("");
     const [textToSearch, setTextToSearch] = useState("");
-    const [dateRange, setDateRange] = useState({ from: null, to: null });
+    const [dateRange] = useState({ from: null, to: null });
 
     // Update search params whenever any field changes
     useEffect(() => {
@@ -38,7 +38,7 @@ export function SearchForm() {
 
         if (!noObjects) {
             const selectedObjects = Array.from(objectsToSearch.entries())
-                .filter(([_, selected]) => selected)
+                .filter(([name, selected]) => selected && name !== "")
                 .map(([name]) => name);
 
             if (selectedObjects.length > 0) {
@@ -94,7 +94,15 @@ export function SearchForm() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-                <Input disabled={noText} id="painted-text" placeholder="Текст" />
+                <Input
+                    disabled={noText}
+                    id="painted-text"
+                    placeholder="Текст"
+                    value={textToSearch}
+                    onChange={(e) => {
+                        setTextToSearch(e.target.value);
+                    }}
+                />
 
                 <div className="flex items-center gap-2">
                     <Checkbox
