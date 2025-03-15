@@ -76,7 +76,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
 
     const handleDownload = useCallback(() => {
         const link = document.createElement("a");
-        link.href = currentPicture.picture;
+        link.href = currentPicture.url;
         link.download = `image-${currentPicture.id}`;
         document.body.appendChild(link);
         link.click();
@@ -158,7 +158,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                         >
                             <Image
                                 fill
-                                src={currentPicture.picture || "/placeholder.svg"}
+                                src={currentPicture.url || "/placeholder.svg"}
                                 alt={`Image ${currentPicture.id}`}
                                 className="object-contain select-none"
                                 draggable={false}
@@ -427,7 +427,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                     >
                                         <div className="relative h-full w-full">
                                             <Image
-                                                src={currentPicture.picture || "/placeholder.svg"}
+                                                src={currentPicture.url || "/placeholder.svg"}
                                                 alt={`Image ${currentPicture.id}`}
                                                 fill
                                                 className="object-contain"

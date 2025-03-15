@@ -55,7 +55,7 @@ export function PictureCard({
                 {isInView && (
                     <Image
                         fill
-                        src={picture.picture || "/placeholder.svg"}
+                        src={picture.url || "/placeholder.svg"}
                         alt={picture.category}
                         className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
                             !isLoaded ? "opacity-0" : "opacity-100"
