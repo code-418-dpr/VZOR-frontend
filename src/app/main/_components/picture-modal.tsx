@@ -81,7 +81,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }, [currentPicture.picture, currentPicture.id]);
+    }, [currentPicture.url, currentPicture.id]);
 
     const handleSaveChange = () => {
         setIsEdit(false);
@@ -93,20 +93,20 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
             .map(([name]) => name);
     };
 
-    const setObjectNameToTrue = (name: string) => {
+    const setObjectNameToTrue = (name: unknown) => {
         setObjects((prevObjects) => {
             const newObjects = new Map(prevObjects);
-            newObjects.set(name, true);
+            newObjects.set(name as string, true);
             return newObjects;
         });
     };
 
     useEffect(() => {
-        currentPicture.objects.forEach((object) => {
+        currentPicture.processingResult?.objects.forEach((object) => {
             setObjectNameToTrue(object);
         });
-        setText(currentPicture.text);
-        setDescription(currentPicture.description);
+        setText(currentPicture.processingResult?.text ?? "");
+        setDescription(currentPicture.processingResult?.description ?? "");
     }, [currentPicture]);
 
     useEffect(() => {
@@ -186,7 +186,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                             </div>
 
                             <div className="mt-4 space-y-2 rounded-lg bg-white p-4 shadow-lg dark:bg-zinc-800">
-                                {currentPicture.description && (
+                                {currentPicture.processingResult?.description && (
                                     <div>
                                         <h3 className="text-lg font-semibold text-white">Описание</h3>
                                         {isEdit ? (
@@ -208,7 +208,10 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                                 }`}
                                                 onClick={() => {
                                                     setSelectedParagraph(selectedParagraph === 0 ? null : 0);
-                                                    copyToClipboard(currentPicture.description, 0);
+                                                    copyToClipboard(
+                                                        currentPicture.processingResult?.description ?? "",
+                                                        0,
+                                                    );
                                                 }}
                                                 whileHover={{ x: 5 }}
                                                 animate={{
@@ -216,7 +219,9 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                                     transition: { duration: 0.2 },
                                                 }}
                                             >
-                                                <p className="pr-6 text-white">{currentPicture.description}</p>
+                                                <p className="pr-6 text-white">
+                                                    {currentPicture.processingResult.description}
+                                                </p>
                                                 <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
                                                     {copiedIndex === 0 ? (
                                                         <Check className="h-4 w-4 text-green-500" />
@@ -229,51 +234,56 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                     </div>
                                 )}
 
-                                {currentPicture.objects.length > 0 && (
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-white">Объекты</h3>
-                                        {isEdit ? (
-                                            <ObjectsCombobox title="Объекты" values={objects} setValues={setObjects} />
-                                        ) : (
-                                            <motion.div
-                                                className={`group relative cursor-pointer rounded-lg transition-all ${
-                                                    selectedParagraph === 1
-                                                        ? "bg-primary/10 border-primary border-l-4"
-                                                        : "hover:bg-muted/50"
-                                                }`}
-                                                onClick={() => {
-                                                    setSelectedParagraph(selectedParagraph === 1 ? null : 1);
-                                                    copyToClipboard(
-                                                        Array.isArray(currentPicture.objects)
-                                                            ? currentPicture.objects.join(", ")
-                                                            : "",
-                                                        1,
-                                                    );
-                                                }}
-                                                whileHover={{ x: 5 }}
-                                                animate={{
-                                                    x: selectedParagraph === 1 ? 5 : 0,
-                                                    transition: { duration: 0.2 },
-                                                }}
-                                            >
-                                                <p className="pr-6 text-white">
-                                                    {Array.isArray(currentPicture.objects)
-                                                        ? currentPicture.objects.join(", ")
-                                                        : ""}
-                                                </p>
-                                                <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
-                                                    {copiedIndex === 1 ? (
-                                                        <Check className="h-4 w-4 text-green-500" />
-                                                    ) : (
-                                                        <Copy className="text-muted-foreground h-4 w-4" />
-                                                    )}
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                    </div>
-                                )}
+                                {currentPicture.processingResult?.objects &&
+                                    currentPicture.processingResult.objects.length > 0 && (
+                                        <div>
+                                            <h3 className="text-lg font-semibold text-white">Объекты</h3>
+                                            {isEdit ? (
+                                                <ObjectsCombobox
+                                                    title="Объекты"
+                                                    values={objects}
+                                                    setValues={setObjects}
+                                                />
+                                            ) : (
+                                                <motion.div
+                                                    className={`group relative cursor-pointer rounded-lg transition-all ${
+                                                        selectedParagraph === 1
+                                                            ? "bg-primary/10 border-primary border-l-4"
+                                                            : "hover:bg-muted/50"
+                                                    }`}
+                                                    onClick={() => {
+                                                        setSelectedParagraph(selectedParagraph === 1 ? null : 1);
+                                                        copyToClipboard(
+                                                            Array.isArray(currentPicture.processingResult?.objects)
+                                                                ? currentPicture.processingResult.objects.join(", ")
+                                                                : "",
+                                                            1,
+                                                        );
+                                                    }}
+                                                    whileHover={{ x: 5 }}
+                                                    animate={{
+                                                        x: selectedParagraph === 1 ? 5 : 0,
+                                                        transition: { duration: 0.2 },
+                                                    }}
+                                                >
+                                                    <p className="pr-6 text-white">
+                                                        {Array.isArray(currentPicture.processingResult.objects)
+                                                            ? currentPicture.processingResult.objects.join(", ")
+                                                            : ""}
+                                                    </p>
+                                                    <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
+                                                        {copiedIndex === 1 ? (
+                                                            <Check className="h-4 w-4 text-green-500" />
+                                                        ) : (
+                                                            <Copy className="text-muted-foreground h-4 w-4" />
+                                                        )}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </div>
+                                    )}
 
-                                {currentPicture.text && (
+                                {currentPicture.processingResult?.text && (
                                     <div>
                                         <h3 className="text-lg font-semibold text-white">Распознанный текст</h3>
                                         {isEdit ? (
@@ -295,7 +305,7 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                                 }`}
                                                 onClick={() => {
                                                     setSelectedParagraph(selectedParagraph === 2 ? null : 2);
-                                                    copyToClipboard(currentPicture.text, 2);
+                                                    copyToClipboard(currentPicture.processingResult?.text ?? "", 2);
                                                 }}
                                                 whileHover={{ x: 5 }}
                                                 animate={{
@@ -303,7 +313,9 @@ export function PictureModal({ pictures, initialIndex, onClose }: PictureModalPr
                                                     transition: { duration: 0.2 },
                                                 }}
                                             >
-                                                <p className="pr-6 text-white">{currentPicture.text}</p>
+                                                <p className="pr-6 text-white">
+                                                    {currentPicture.processingResult.text}
+                                                </p>
                                                 <div className="absolute top-1/2 right-2 -translate-y-1/2 opacity-0 transition-opacity group-hover:opacity-100">
                                                     {copiedIndex === 2 ? (
                                                         <Check className="h-4 w-4 text-green-500" />

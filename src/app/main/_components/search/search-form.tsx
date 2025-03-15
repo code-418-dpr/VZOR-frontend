@@ -19,7 +19,7 @@ export function SearchForm() {
     );
 
     return (
-        <form className="flex flex-col gap-6 select-none">
+        <form className="flex flex-col gap-6 select-none py-2 px-0.5">
             <Input id="description" placeholder="Описание" />
 
             <div className="flex flex-wrap gap-2">

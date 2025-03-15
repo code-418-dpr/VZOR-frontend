@@ -54,18 +54,6 @@ export default function Home() {
         }
     };
 
-    const transformImage = (item: ApiResponse["result"]["value"]["items"][0]): Picture => ({
-        id: item.id,
-        date: new Date(item.uploadDate).toLocaleDateString(),
-        url: processImageUrl(item.presignedDownloadUrl),
-        uploadDate: item.uploadDate,
-        description: item.processingResult.description || "",
-        objects: item.processingResult.objects as string[],
-        text: item.processingResult.text || "",
-        category: "default",
-        processingResult: item.processingResult,
-    });
-
     const fetchPictures = useCallback(async () => {
         try {
             setLoading(true);
@@ -93,7 +81,17 @@ export default function Home() {
             }
 
             const data: ApiResponse = (await response.json()) as ApiResponse;
-            console.log(data.result.value.items);
+            const transformImage = (item: ApiResponse["result"]["value"]["items"][0]): Picture => ({
+                id: item.id,
+                date: new Date(item.uploadDate).toLocaleDateString(),
+                url: processImageUrl(item.presignedDownloadUrl),
+                uploadDate: item.uploadDate,
+                description: item.processingResult.description || "",
+                objects: item.processingResult.objects as string[],
+                text: item.processingResult.text || "",
+                category: "default",
+                processingResult: item.processingResult,
+            });
             setPicturesData(data.result.value.items.map(transformImage));
         } catch (err) {
             const message = err instanceof Error ? err.message : "Unknown error occurred";
