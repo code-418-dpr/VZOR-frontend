@@ -4,6 +4,8 @@ import { AnimatePresence } from "framer-motion";
 
 import React, { useCallback, useEffect, useState } from "react";
 
+import { useSearchParams } from "next/navigation";
+
 import { PictureModal } from "@/app/main/_components/picture-modal";
 import { PicturesGrid } from "@/app/main/_components/pictures-grid";
 import { ApiResponse } from "@/types";
@@ -14,8 +16,10 @@ interface SessionCached {
 }
 
 export default function Home() {
+    const searchParams = useSearchParams();
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [picturesData, setPicturesData] = useState<Picture[]>([]);
+    const [filteredPictures, setFilteredPictures] = useState<Picture[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -105,6 +109,56 @@ export default function Home() {
         }
     }, [getAccessToken]);
 
+    // Filter pictures based on search params
+    useEffect(() => {
+        if (picturesData.length === 0) return;
+
+        let filtered = [...picturesData];
+
+        // Filter by description
+        const description = searchParams.get("description");
+        if (description) {
+            filtered = filtered.filter((pic) => pic.description.toLowerCase().includes(description.toLowerCase()));
+        }
+
+        // Filter by objects
+        const objects = searchParams.get("objects");
+        const noObjects = searchParams.get("noObjects") === "true";
+
+        if (objects) {
+            const objectsList = objects.split(",");
+            filtered = filtered.filter((pic) => objectsList.some((obj) => pic.objects.includes(obj)));
+        } else if (noObjects) {
+            filtered = filtered.filter((pic) => pic.objects.length === 0);
+        }
+
+        // Filter by text
+        const text = searchParams.get("text");
+        const noText = searchParams.get("noText") === "true";
+
+        if (text) {
+            filtered = filtered.filter((pic) => pic.text.toLowerCase().includes(text.toLowerCase()));
+        } else if (noText) {
+            filtered = filtered.filter((pic) => !pic.text || pic.text.trim() === "");
+        }
+
+        // Filter by date range
+        const dateFrom = searchParams.get("dateFrom");
+        const dateTo = searchParams.get("dateTo");
+
+        if (dateFrom) {
+            const fromDate = new Date(dateFrom);
+            filtered = filtered.filter((pic) => new Date(pic.uploadDate) >= fromDate);
+        }
+
+        if (dateTo) {
+            const toDate = new Date(dateTo);
+            filtered = filtered.filter((pic) => new Date(pic.uploadDate) <= toDate);
+        }
+
+        setFilteredPictures(filtered);
+    }, [searchParams, picturesData]);
+
     useEffect(() => {
         void fetchPictures();
     }, [fetchPictures]);
@@ -149,14 +203,16 @@ export default function Home() {
         );
     }
 
+    const displayPictures = filteredPictures.length > 0 ? filteredPictures : picturesData;
+
     return (
         <main tabIndex={-1}>
             <div className="mx-auto pt-11 pb-40" tabIndex={-1}>
-                {getUniqueDates(picturesData).map((date) => (
+                {getUniqueDates(displayPictures).map((date) => (
                     <div key={date} tabIndex={-1}>
                         <PicturesGrid
                             picturesDate={date}
-                            pictures={picturesData.filter((p) => p.date === date)}
+                            pictures={displayPictures.filter((p) => p.date === date)}
                             onPictureSelect={handlePictureSelect}
                         />
                     </div>
@@ -166,7 +222,7 @@ export default function Home() {
             <AnimatePresence>
                 {selectedIndex !== null && (
                     <PictureModal
-                        pictures={picturesData}
+                        pictures={displayPictures}
                         initialIndex={selectedIndex}
                         onClose={() => {
                             setSelectedIndex(null);
