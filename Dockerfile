@@ -6,11 +6,11 @@ COPY package.json .
 FROM base AS prod-deps
 COPY bun.lock .
 RUN --mount=type=cache,id=bun,target=~/.bun/install/cache \
-    bun install --frozen-lockfile --production
+    bun install --frozen-lockfile --production --ignore-scripts
 
 FROM prod-deps AS deps
 RUN --mount=type=cache,id=bun,target=~/.bun/install/cache \
-    bun install --frozen-lockfile
+    bun install --frozen-lockfile --ignore-scripts
 
 FROM deps AS build
 COPY . .
