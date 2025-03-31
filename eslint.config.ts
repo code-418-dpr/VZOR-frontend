@@ -45,5 +45,5 @@ export default tseslint.config(
         },
     },
 
-    ...compat.extends("next/core-web-vitals", "next/typescript"),
+    ...compat.extends("prettier", "next/core-web-vitals", "next/typescript"),
 );

@@ -1,4 +1,6 @@
-const prettierConfig = {
+import type { Config } from "prettier";
+
+const prettierConfig: Config = {
     singleQuote: false,
     trailingComma: "all",
     bracketSpacing: true,
