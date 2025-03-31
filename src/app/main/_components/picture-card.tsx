@@ -18,7 +18,20 @@ export function PictureCard({
 }) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isInView, setIsInView] = useState(false);
+    const formatTime = (uploadDate: string) => {
+        try {
+            const date = new Date(uploadDate);
+            if (isNaN(date.getTime())) return "Нет данных";
 
+            return date.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+                // second: '2-digit' // раскомментируйте если нужны секунды
+            });
+        } catch {
+            return "Нет данных";
+        }
+    };
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
@@ -55,7 +68,7 @@ export function PictureCard({
                 {isInView && (
                     <Image
                         fill
-                        src={picture.picture || "/placeholder.svg"}
+                        src={picture.url || "/placeholder.svg"}
                         alt={picture.category}
                         className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
                             !isLoaded ? "opacity-0" : "opacity-100"
@@ -84,8 +97,8 @@ export function PictureCard({
                 ) : (
                     <>
                         <div className="flex items-center justify-between">
-                            <p className="text-sm text-zinc-500 dark:text-zinc-400">Инфа</p>
-                            <p className="text-xs text-zinc-400 dark:text-zinc-500">Инфа</p>
+                            <p className="text-sm text-zinc-500 dark:text-zinc-400">{formatTime(picture.uploadDate)}</p>
+                            <p className="text-xs text-zinc-400 dark:text-zinc-500">{picture.date}</p>
                         </div>
                     </>
                 )}

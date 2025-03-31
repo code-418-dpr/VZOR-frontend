@@ -111,3 +111,60 @@ export interface RegistrationCredentials {
     email: string;
     password: string;
 }
+export interface ApiImage {
+    id: string;
+    userId: string;
+    uploadDate: string;
+    uploadLink: string;
+    processingResult: {
+        description: string;
+        objects: unknown[];
+        text: string;
+    };
+    presignedDownloadUrl: string;
+}
+
+export interface ApiResponse {
+    result: {
+        value: {
+            items: ApiImage[];
+            pageSize: number;
+            page: number;
+            totalCount: number;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+        };
+        errors: {
+            errorCode: string;
+            errorMessage: string;
+            type: number;
+            invalidField: string | null;
+        }[];
+        isSuuccess: boolean;
+        isFailure: boolean;
+    };
+    errors: unknown;
+    timeGenerated: string;
+}
+
+export interface PictureTest {
+    id: string;
+    date: string;
+    url: string;
+    processingResult?: {
+        description: string;
+        objects: string[];
+        text: string;
+    };
+}
+
+export interface ApiImage {
+    id: string;
+    uploadDate: string;
+    presignedDownloadUrl: string;
+    processingResult: {
+        description: string;
+        objects: unknown[];
+        text: string;
+    };
+}

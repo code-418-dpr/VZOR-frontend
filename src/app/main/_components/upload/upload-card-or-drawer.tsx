@@ -67,7 +67,7 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
                 formData.append("Files", file);
             });
 
-            const response = await fetch(`${process.env.FRONTEND_BACKEND_URL}/Images`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
