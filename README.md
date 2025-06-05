@@ -6,6 +6,7 @@
 [![code size](https://img.shields.io/github/languages/code-size/code-418-dpr/VZOR-frontend.svg)](https://github.com/code-418-dpr/VZOR-frontend)
 
 [![linters](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/linters.yaml/badge.svg)](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/linters.yaml)
+[![docker](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/docker.yaml/badge.svg)](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/docker.yaml)
 [![codeql](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/codeql.yaml/badge.svg)](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/codeql.yaml)
 [![build](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/build.yaml/badge.svg)](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/build.yaml)
 

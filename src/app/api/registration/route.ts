@@ -15,11 +15,14 @@ export async function POST(request: Request) {
         const { name, email, password } = (await request.json()) as RegistrationCredentials;
 
         // Регистрация пользователя
-        const registrationResponse = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Account/registration`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, email, password }),
-        });
+        const registrationResponse = await fetch(
+            `${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Account/registration`,
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password }),
+            },
+        );
 
         if (!registrationResponse.ok) {
             const errorData: BackendErrorResponse = (await registrationResponse.json()) as BackendErrorResponse;

@@ -10,7 +10,6 @@ on:
             - "**.jsx"
             - "**.tsx"
             - "**.html"
-            - "**.css"
             - ".github/**"
     pull_request:
         branches: ["main"]
@@ -20,7 +19,6 @@ on:
             - "**.jsx"
             - "**.tsx"
             - "**.html"
-            - "**.css"
             - ".github/**"
     schedule:
         - cron: "0 0 * * 1"
