@@ -50,7 +50,7 @@
         "embla-carousel-react": "^8.5.2",
         "eslint": "^9",
         "eslint-config-next": "15.2.1",
-        "framer-motion": "^12.5.0",
+        "framer-motion": "^12.17.0",
         "lucide-react": "^0.479.0",
         "motion": "^12.4.10",
         "msw": "^2.7.3",
