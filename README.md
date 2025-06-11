@@ -6,7 +6,6 @@
 [![code size](https://img.shields.io/github/languages/code-size/code-418-dpr/VZOR-frontend.svg)](https://github.com/code-418-dpr/VZOR-frontend)
 
 [![linters](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/linters.yaml/badge.svg)](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/linters.yaml)
-[![docker](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/docker.yaml/badge.svg)](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/docker.yaml)
 [![codeql](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/codeql.yaml/badge.svg)](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/codeql.yaml)
 [![build](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/build.yaml/badge.svg)](https://github.com/code-418-dpr/VZOR-frontend/actions/workflows/build.yaml)
 
@@ -17,12 +16,9 @@
 - [x] адаптивный интерфейс хорошо смотрится на разных типах экранов
 - [x] можно использовать как мобильное приложение, благодаря технологии PWA
 - [x] рендеринг веб-страниц на сервере
-- [x] светлая и тёмная темы
-- [x] авторизация пользователей
-- [x] параметрический поиск
-- [x] поддержка drag-n-drop
-- [x] ручное редактирование метаданных
-- [x] админ-панель
+- [ ] светлая и тёмная темы
+- [ ] авторизация пользователей
+- ...
 
 ## Стек
 
@@ -38,8 +34,8 @@
 
 ## Установка и запуск
 
-> [!WARNING] > **Полноценная** работа фронтенда возможна только в том случае, если оно запущено в
-> контейнере [базового репозитория](https://github.com/code-418-dpr/SportHub).
+> [!WARNING]
+> Полноценная работа фронтенда возможна только при запущенном бэкенде.
 
 0. Клонируйте репозиторий и перейдите в его папку.
 

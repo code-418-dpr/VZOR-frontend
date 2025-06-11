@@ -10,6 +10,7 @@ interface PicturesGridProps {
 }
 
 export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: PicturesGridProps) {
+    console.log(pictures);
     return (
         <div className="mt-4" tabIndex={-1}>
             <Accordion

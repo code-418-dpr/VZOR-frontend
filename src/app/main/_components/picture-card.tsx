@@ -32,6 +32,14 @@ export function PictureCard({
             return "Нет данных";
         }
     };
+
+    useEffect(() => {
+        const desc = picture.description;
+
+        const filename = desc.substring(desc.indexOf(":") + 1).trim();
+        picture.url = `/test-img/${filename}.jpg`;
+    }, []);
+
     useEffect(() => {
         const observer = new IntersectionObserver(([entry]) => {
             if (entry.isIntersecting) {
@@ -73,7 +81,7 @@ export function PictureCard({
                         className={`object-cover object-center transition-transform duration-300 group-hover:scale-105 ${
                             !isLoaded ? "opacity-0" : "opacity-100"
                         }`}
-                        onLoadingComplete={() => {
+                        onLoad={() => {
                             setIsLoaded(true);
                         }}
                         loading="lazy"

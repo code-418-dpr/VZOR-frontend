@@ -13,7 +13,7 @@ export const useUpdating = () => {
         if (newPassword) formData.append("NewPassword", newPassword);
 
         try {
-            const response = await fetch(`${process.env.FRONTEND_BACKEND_URL}/Account/updating`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Account/updating`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${session.accessToken}`,
