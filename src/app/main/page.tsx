@@ -1,9 +1,7 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-
 import React, { useCallback, useEffect, useState } from "react";
-
 import { useSearchParams } from "next/navigation";
 
 import { PictureModal } from "@/app/main/_components/picture-modal";
@@ -53,8 +51,8 @@ export default function Home() {
             urlObj.hostname = window.location.hostname;
             return urlObj.origin + urlObj.pathname;
         } catch {
-            console.log(url.replace("minio:", "localhost:").split("?")[0]);
-            return url.replace("minio:", "localhost:").split("?")[0];
+            console.log(url.replace("minio::9000/vzor", "localhost:9001/browser/vzor").split("?")[0]);
+            return url.replace("minio::9000/vzor", "localhost:9001/browser/vzor").split("?")[0];
         }
     };
 

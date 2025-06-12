@@ -13,7 +13,7 @@ export async function getSession(): Promise<Session> {
         if (!sessionCookie) return null;
 
         return await unsealData<Session>(sessionCookie, {
-            password: process.env.FRONTEND_SESSION_SECRET!,
+            password: process.env.FRONTEND_FRONTEND_SESSION_SECRET!,
         });
     } catch (error) {
         console.error("Session error:", error);
@@ -24,7 +24,7 @@ export async function getSession(): Promise<Session> {
 export async function createSession(userId: string, email: string, response: NextResponse) {
     const sessionData = { userId, email, isLoggedIn: true, success: true };
     const sealed = await sealData(sessionData, {
-        password: process.env.FRONTEND_SESSION_SECRET!,
+        password: process.env.FRONTEND_FRONTEND_SESSION_SECRET!,
         ttl: ONE_WEEK_SEC,
     });
 
