@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 import Image from "next/image";
 
@@ -10,12 +10,12 @@ import { FilePreview } from "@/types/file-preview";
 
 interface UploadFormProps {
     files: FilePreview[];
-    setFiles: React.Dispatch<React.SetStateAction<FilePreview[]>>;
-    onUpload: (files: File[]) => Promise<void>;
+    setFilesAction: React.Dispatch<React.SetStateAction<FilePreview[]>>;
+    onUploadAction: (files: File[]) => Promise<void>;
     isUploading: boolean;
 }
 
-export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFormProps) {
+export function UploadForm({ files, setFilesAction, onUploadAction, isUploading }: UploadFormProps) {
     const generateId = () => Math.random().toString(36).slice(2, 11);
 
     const onDrop = useCallback(
@@ -35,9 +35,9 @@ export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFor
                 });
             });
 
-            setFiles((prev) => [...prev, ...newFiles]);
+            setFilesAction((prev) => [...prev, ...newFiles]);
         },
-        [files.length, setFiles],
+        [files.length, setFilesAction],
     );
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFor
     }, [files]);
 
     const removeFile = (id: string) => {
-        setFiles((prev) => {
+        setFilesAction((prev) => {
             const newFiles = prev.filter((file) => file.id !== id);
             const removedFile = prev.find((file) => file.id === id);
             if (removedFile) URL.revokeObjectURL(removedFile.preview);
@@ -59,8 +59,8 @@ export function UploadForm({ files, setFiles, onUpload, isUploading }: UploadFor
 
     const handleUpload = async () => {
         try {
-            await onUpload(files);
-            setFiles([]);
+            await onUploadAction(files);
+            setFilesAction([]);
         } catch (error) {
             console.error("Upload failed:", error);
         }

@@ -61,25 +61,31 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
         setIsUploading(true);
 
         try {
-            const formData = new FormData();
-
-            filesToUpload.forEach((file) => {
-                formData.append("Files", file);
-            });
-
-            const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images/uploading`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     Accept: "*/*",
                 },
-                body: formData,
+                body: JSON.stringify({
+                    files: filesToUpload.map((file) => ({ fileName: file.name, contentType: file.type })),
+                }),
             });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
+            const json: unknown = await response.json();
 
+            for (let i = 0; i < filesToUpload.length; ++i) {
+                await fetch(json.Urls[i].Url, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": filesToUpload[i].type,
+                    },
+                    body: filesToUpload[i],
+                });
+            }
             setFiles([]);
             console.log("Files uploaded successfully");
         } catch (error) {
@@ -100,8 +106,8 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
                     <ScrollArea className="h-[calc(100vh-180px)]">
                         <UploadForm
                             files={files}
-                            setFiles={setFiles}
-                            onUpload={handleUpload}
+                            setFilesAction={setFiles}
+                            onUploadAction={handleUpload}
                             isUploading={isUploading}
                         />
                     </ScrollArea>
@@ -122,7 +128,12 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
                     <DrawerTitle className="text-xl">Загрузка изображений</DrawerTitle>
                 </DrawerHeader>
                 <ScrollArea className="h-full pr-4">
-                    <UploadForm files={files} setFiles={setFiles} onUpload={handleUpload} isUploading={isUploading} />
+                    <UploadForm
+                        files={files}
+                        setFilesAction={setFiles}
+                        onUploadAction={handleUpload}
+                        isUploading={isUploading}
+                    />
                 </ScrollArea>
             </DrawerContent>
         </Drawer>

@@ -9,13 +9,12 @@ import Image from "next/image";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Picture } from "@/types/picture";
 
-export function PictureCard({
-    picture,
-    onPictureSelect,
-}: {
+interface Props {
     picture: Picture;
-    onPictureSelect: (picture: Picture) => void;
-}) {
+    onPictureSelectAction: (picture: Picture) => void;
+}
+
+export function PictureCard({ picture, onPictureSelectAction }: Props) {
     const [isLoaded, setIsLoaded] = useState(false);
     const [isInView, setIsInView] = useState(false);
     const formatTime = (uploadDate: string) => {
@@ -54,7 +53,7 @@ export function PictureCard({
             id={`picture-${picture.id}`}
             layoutId={`product-${picture.id}`}
             onClick={() => {
-                onPictureSelect(picture);
+                onPictureSelectAction(picture);
             }}
             className="group cursor-pointer select-none"
             whileHover={{ y: -2 }}
