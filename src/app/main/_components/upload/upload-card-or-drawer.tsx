@@ -11,6 +11,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { SessionCached } from "@/types";
 import { FilePreview } from "@/types/file-preview";
+import { Envelope } from "@/types/responses/envelope";
+import { ResultWith } from "@/types/responses/result";
+import { UploadImageInS3Response } from "@/types/responses/uploadImageInS3Response";
 
 import { UploadForm } from "./upload-form";
 
@@ -61,24 +64,31 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
         setIsUploading(true);
 
         try {
+            console.log(
+                JSON.stringify({
+                    files: filesToUpload.map((file) => ({ contentType: file.type, fileName: file.name })),
+                }),
+            );
+
             const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images/uploading`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     Accept: "*/*",
+                    "Content-Type": "application/json; charset=utf-8",
                 },
                 body: JSON.stringify({
-                    files: filesToUpload.map((file) => ({ fileName: file.name, contentType: file.type })),
+                    files: filesToUpload.map((file) => ({ contentType: file.type, fileName: file.name })),
                 }),
             });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            const json: unknown = await response.json();
+            const json = (await response.json()) as Envelope<ResultWith<UploadImageInS3Response>>;
 
             for (let i = 0; i < filesToUpload.length; ++i) {
-                await fetch(json.Urls[i].Url, {
+                await fetch(json.result!.value!.urls[i].url, {
                     method: "PUT",
                     headers: {
                         "Content-Type": filesToUpload[i].type,
