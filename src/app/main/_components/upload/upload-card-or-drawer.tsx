@@ -2,7 +2,7 @@
 
 import { Plus } from "lucide-react";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,10 +19,10 @@ import { UploadForm } from "./upload-form";
 
 interface UploadCardOrDrawerProps {
     files: FilePreview[];
-    setFiles: React.Dispatch<React.SetStateAction<FilePreview[]>>;
+    setFilesAction: React.Dispatch<React.SetStateAction<FilePreview[]>>;
 }
 
-export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps) {
+export function UploadCardOrDrawer({ files, setFilesAction }: UploadCardOrDrawerProps) {
     const [open, setOpen] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -70,7 +70,7 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
                 }),
             );
 
-            const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images/uploading`, {
+            let response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images/uploading`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -87,17 +87,38 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
             }
             const json = (await response.json()) as Envelope<ResultWith<UploadImageInS3Response>>;
 
-            for (let i = 0; i < filesToUpload.length; ++i) {
-                await fetch(json.result!.value!.urls[i].url, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": filesToUpload[i].type,
-                    },
-                    body: filesToUpload[i],
-                });
+            await Promise.all(
+                filesToUpload.map(async (file, index) => {
+                    response = await fetch(json.result!.value!.urls[index].url, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": file.type,
+                        },
+                        body: file,
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                }),
+            );
+
+            response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images/processing`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    Accept: "*/*",
+                    "Content-Type": "application/json; charset=utf-8",
+                },
+                body: JSON.stringify({
+                    fileIds: json.result!.value!.urls.map(({ id }) => id),
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            setFiles([]);
-            console.log("Files uploaded successfully");
+
+            setFilesAction([]);
+            console.log("Files uploaded and processed successfully");
         } catch (error) {
             console.error("Upload failed:", error);
             throw error;
@@ -116,7 +137,7 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
                     <ScrollArea className="h-[calc(100vh-180px)]">
                         <UploadForm
                             files={files}
-                            setFilesAction={setFiles}
+                            setFilesAction={setFilesAction}
                             onUploadAction={handleUpload}
                             isUploading={isUploading}
                         />
@@ -140,7 +161,7 @@ export function UploadCardOrDrawer({ files, setFiles }: UploadCardOrDrawerProps)
                 <ScrollArea className="h-full pr-4">
                     <UploadForm
                         files={files}
-                        setFilesAction={setFiles}
+                        setFilesAction={setFilesAction}
                         onUploadAction={handleUpload}
                         isUploading={isUploading}
                     />

@@ -42,7 +42,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
 
                 <div className="w-full content-center justify-center md:w-85 md:content-start">
                     <div className="fixed bottom-0 left-15 z-40 md:sticky md:top-20">
-                        <UploadCardOrDrawer files={files} setFiles={setFiles} />
+                        <UploadCardOrDrawer files={files} setFilesAction={setFiles} />
                     </div>
                 </div>
             </div>
