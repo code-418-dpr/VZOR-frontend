@@ -60,7 +60,7 @@ export function UploadCardOrDrawer({ files, setFilesAction }: UploadCardOrDrawer
             console.error("No access token found");
             return;
         }
-
+        console.log("Access Token: ", accessToken);
         setIsUploading(true);
 
         try {
@@ -81,7 +81,7 @@ export function UploadCardOrDrawer({ files, setFilesAction }: UploadCardOrDrawer
                     files: filesToUpload.map((file) => ({ contentType: file.type, fileName: file.name })),
                 }),
             });
-
+            console.log(response);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
@@ -101,7 +101,6 @@ export function UploadCardOrDrawer({ files, setFilesAction }: UploadCardOrDrawer
                     }
                 }),
             );
-
             response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images/processing`, {
                 method: "POST",
                 headers: {
@@ -110,13 +109,21 @@ export function UploadCardOrDrawer({ files, setFilesAction }: UploadCardOrDrawer
                     "Content-Type": "application/json; charset=utf-8",
                 },
                 body: JSON.stringify({
-                    fileIds: json.result!.value!.urls.map(({ id }) => id),
+                    fileIds: json.result!.value!.urls.map(({ fileId }) => fileId),
                 }),
             });
             if (!response.ok) {
+                const errorBody = await response.text();
+                console.error("Processing error details:", {
+                    status: response.status,
+                    body: errorBody
+                });
+                throw new Error(`Processing failed: ${errorBody}`);
+                }
+            if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
+            console.log("Files uploaded successfully: ", response);
             setFilesAction([]);
             console.log("Files uploaded and processed successfully");
         } catch (error) {

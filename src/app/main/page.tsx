@@ -29,7 +29,6 @@ export default function Home() {
         try {
             const session = localStorage.getItem("session");
             if (!session) return null;
-
             const parsed = JSON.parse(session) as unknown;
             return isSessionData(parsed) ? parsed.accessToken : null;
         } catch (error) {
@@ -72,23 +71,22 @@ export default function Home() {
                 Page: "1",
                 PageSize: "10",
             });
-
+            console.log("Access Token: ", accessToken);
             const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images?${params}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     Accept: "*/*",
+                    "Content-Type": "application/json; charset=utf-8",
                 },
             });
-
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
             const data: ApiResponse = (await response.json()) as ApiResponse;
             const transformImage = (item: ApiResponse["result"]["value"]["items"][0]): Picture => ({
                 id: item.id,
                 date: new Date(item.uploadDate).toLocaleDateString(),
-                url: processImageUrl(item.presignedDownloadUrl),
+                url: item.presignedDownloadUrl,
                 uploadDate: item.uploadDate,
                 description: item.processingResult.description || "",
                 objects: item.processingResult.objects as string[],
@@ -97,6 +95,7 @@ export default function Home() {
                 processingResult: item.processingResult,
             });
             setPicturesData(data.result.value.items.map(transformImage));
+            console.log(data);
         } catch (err) {
             const message = err instanceof Error ? err.message : "Unknown error occurred";
             setError(message);
@@ -204,7 +203,7 @@ export default function Home() {
     }
 
     const displayPictures = filteredPictures.length > 0 ? filteredPictures : [];
-
+    console.log("Displayed: ", displayPictures);
     return (
         <main tabIndex={-1}>
             <div className="mx-auto pt-11 pb-40" tabIndex={-1}>
@@ -212,7 +211,7 @@ export default function Home() {
                     <div key={date} tabIndex={-1}>
                         <PicturesGrid
                             picturesDate={date}
-                            pictures={displayPictures.filter((p) => p.date === date)}
+                            pictures={displayPictures.filter((p) => p.url)}
                             onPictureSelect={handlePictureSelect}
                         />
                     </div>
