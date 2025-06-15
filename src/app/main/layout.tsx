@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 
-import { SearchCardOrDrawer } from "@/app/main/_components/search/search-card-or-drawer";
 import Header from "@/components/header";
 import { FilePreview } from "@/types/file-preview";
 
 import { DragDropProvider } from "./_components/drag-drop-provider";
 import { UploadCardOrDrawer } from "./_components/upload/upload-card-or-drawer";
+
+export const dynamic = "force-dynamic";
 
 export default function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
     const [files, setFiles] = useState<FilePreview[]>([]);
@@ -32,13 +33,7 @@ export default function Layout({ children }: Readonly<{ children: React.ReactNod
         <DragDropProvider onDropFiles={handleDrop} currentFilesCount={files.length}>
             <Header />
             <div className="flex flex-col md:flex-row">
-                <div className="w-full content-center justify-center md:w-85 md:content-start">
-                    <div className="fixed bottom-0 z-40 md:sticky md:top-20">
-                        <SearchCardOrDrawer />
-                    </div>
-                </div>
-
-                <div className="flex-grow p-3 md:overflow-y-auto md:p-5">{children}</div>
+                <div className="min-h-[85vh] flex-grow p-3 md:overflow-y-auto md:p-5">{children}</div>
 
                 <div className="w-full content-center justify-center md:w-85 md:content-start">
                     <div className="fixed bottom-0 left-15 z-40 md:sticky md:top-20">

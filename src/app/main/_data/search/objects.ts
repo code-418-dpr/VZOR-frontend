@@ -5,7 +5,7 @@ export const testObjects = [
     },
     {
         name: "Человек",
-        value: "human",
+        value: "person",
     },
     {
         name: "Стакан",

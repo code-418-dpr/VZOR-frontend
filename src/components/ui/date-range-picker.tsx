@@ -10,12 +10,17 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
-export function DateRangePicker({ id, className }: React.HTMLAttributes<HTMLDivElement>) {
-    const [date, setDate] = React.useState<DateRange | undefined>({
-        from: new Date(2025, 0, 1),
-        to: new Date(),
-    });
-
+export function DateRangePicker({
+    id,
+    className,
+    value,
+    onChange,
+}: {
+    id: string;
+    className?: string;
+    value: DateRange | undefined;
+    onChange: (newRange: DateRange | undefined) => void;
+}) {
     return (
         <div id={id} className={cn("grid gap-2", className)}>
             <Popover>
@@ -23,16 +28,16 @@ export function DateRangePicker({ id, className }: React.HTMLAttributes<HTMLDivE
                     <Button
                         id="date"
                         variant={"outline"}
-                        className={cn("justify-start text-left font-normal", !date && "text-muted-foreground")}
+                        className={cn("justify-start text-left font-normal", !value && "text-muted-foreground")}
                     >
                         <CalendarIcon />
-                        {date?.from ? (
-                            date.to ? (
+                        {value?.from ? (
+                            value.to ? (
                                 <>
-                                    {date.from.toLocaleDateString()} — {date.to.toLocaleDateString()}
+                                    {value.from.toLocaleDateString()} — {value.to.toLocaleDateString()}
                                 </>
                             ) : (
-                                date.from.toLocaleDateString()
+                                value.from.toLocaleDateString()
                             )
                         ) : (
                             <span>Выберите период</span>
@@ -43,9 +48,9 @@ export function DateRangePicker({ id, className }: React.HTMLAttributes<HTMLDivE
                     <Calendar
                         initialFocus
                         mode="range"
-                        defaultMonth={date?.from}
-                        selected={date}
-                        onSelect={setDate}
+                        defaultMonth={value?.from}
+                        selected={value}
+                        onSelect={(newRange) => onChange?.(newRange)}
                         numberOfMonths={2}
                     />
                 </PopoverContent>

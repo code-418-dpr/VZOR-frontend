@@ -116,12 +116,9 @@ export function UploadCardOrDrawer({ files, setFilesAction }: UploadCardOrDrawer
                 const errorBody = await response.text();
                 console.error("Processing error details:", {
                     status: response.status,
-                    body: errorBody
+                    body: errorBody,
                 });
                 throw new Error(`Processing failed: ${errorBody}`);
-                }
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
             }
             console.log("Files uploaded successfully: ", response);
             setFilesAction([]);

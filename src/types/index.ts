@@ -146,7 +146,21 @@ export interface ApiResponse {
     errors: unknown;
     timeGenerated: string;
 }
-
+export interface ApiSearchResponse {
+    result: {
+        value: ApiImage[];
+        errors: {
+            errorCode: string;
+            errorMessage: string;
+            type: number;
+            invalidField: string | null;
+        }[];
+        isSuuccess: boolean;
+        isFailure: boolean;
+    };
+    errors: unknown;
+    timeGenerated: string;
+}
 export interface PictureTest {
     id: string;
     date: string;

@@ -8,8 +8,12 @@ import { useSearchParams } from "next/navigation";
 
 import { PictureModal } from "@/app/main/_components/picture-modal";
 import { PicturesGrid } from "@/app/main/_components/pictures-grid";
-import { ApiResponse } from "@/types";
+import { ApiResponse, ApiSearchResponse } from "@/types";
 import { Picture } from "@/types/picture";
+
+import { SearchForm } from "./_components/search/search-form";
+
+export const dynamic = "force-dynamic";
 
 interface SessionCached {
     accessToken: string;
@@ -46,17 +50,6 @@ export default function Home() {
         );
     };
 
-    const processImageUrl = (url: string): string => {
-        try {
-            const urlObj = new URL(url);
-            urlObj.hostname = window.location.hostname;
-            return urlObj.origin + urlObj.pathname;
-        } catch {
-            console.log(url.replace("minio:", "localhost:").split("?")[0]);
-            return url.replace("minio:", "localhost:").split("?")[0];
-        }
-    };
-
     const fetchPictures = useCallback(async () => {
         try {
             setLoading(true);
@@ -71,7 +64,7 @@ export default function Home() {
                 Page: "1",
                 PageSize: "10",
             });
-            console.log("Access Token: ", accessToken);
+
             const response = await fetch(`${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images?${params}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
@@ -95,7 +88,6 @@ export default function Home() {
                 processingResult: item.processingResult,
             });
             setPicturesData(data.result.value.items.map(transformImage));
-            console.log(data);
         } catch (err) {
             const message = err instanceof Error ? err.message : "Unknown error occurred";
             setError(message);
@@ -112,50 +104,60 @@ export default function Home() {
     useEffect(() => {
         if (picturesData.length === 0) return;
 
-        let filtered = [...picturesData];
+        (async () => {
+            let filtered = [...picturesData];
+            let queryParams = "";
 
-        // Filter by description
-        const description = searchParams.get("description");
-        if (description) {
-            filtered = filtered.filter((pic) => pic.description.toLowerCase().includes(description.toLowerCase()));
-        }
+            // Filter by description
+            const description = searchParams.get("description");
+            if (description) {
+                queryParams = description.toLocaleLowerCase();
+            }
 
-        // Filter by objects
-        const objects = searchParams.get("objects");
-        const noObjects = searchParams.get("noObjects") === "true";
+            // Filter by date range
+            const dateFrom = searchParams.get("dateFrom");
+            const dateTo = searchParams.get("dateTo");
+            if (dateFrom) {
+                const fromDate = new Date(dateFrom);
+                filtered = filtered.filter((pic) => new Date(pic.uploadDate) >= fromDate);
+            }
+            if (dateTo) {
+                const toDate = new Date(dateTo);
+                filtered = filtered.filter((pic) => new Date(pic.uploadDate) <= toDate);
+            }
 
-        if (objects) {
-            const objectsList = objects.split(",");
-            filtered = filtered.filter((pic) => objectsList.some((obj) => pic.objects.includes(obj)));
-        } else if (noObjects) {
-            filtered = filtered.filter((pic) => pic.objects.length === 0);
-        }
+            const params = new URLSearchParams({ Query: queryParams });
 
-        // Filter by text
-        const text = searchParams.get("text");
-        const noText = searchParams.get("noText") === "true";
+            const accessToken = getAccessToken();
+            if (!accessToken) {
+                throw new Error("Authentication required.");
+            }
 
-        if (text) {
-            filtered = filtered.filter((pic) => pic.text.toLowerCase().includes(text.toLowerCase()));
-        } else if (noText) {
-            filtered = filtered.filter((pic) => !pic.text || pic.text.trim() === "");
-        }
+            if (queryParams.length > 0) {
+                // Perform API call
+                const response = await fetch(
+                    `${process.env.NEXT_PUBLIC_FRONTEND_BACKEND_URL}/Images/searching?${params}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            Accept: "*/*",
+                            "Content-Type": "application/json; charset=utf-8",
+                        },
+                    },
+                );
 
-        // Filter by date range
-        const dateFrom = searchParams.get("dateFrom");
-        const dateTo = searchParams.get("dateTo");
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
 
-        if (dateFrom) {
-            const fromDate = new Date(dateFrom);
-            filtered = filtered.filter((pic) => new Date(pic.uploadDate) >= fromDate);
-        }
-
-        if (dateTo) {
-            const toDate = new Date(dateTo);
-            filtered = filtered.filter((pic) => new Date(pic.uploadDate) <= toDate);
-        }
-
-        setFilteredPictures(filtered);
+                const data: ApiSearchResponse = (await response.json()) as ApiSearchResponse;
+                const serverIDs = new Set(data.result.value.map((item) => item.id));
+                const matchingPics = filtered.filter((pic) => serverIDs.has(pic.id));
+                setFilteredPictures(matchingPics);
+            } else setFilteredPictures(filtered);
+        })().catch((err: unknown) => {
+            console.error(err);
+        });
     }, [searchParams, picturesData]);
 
     useEffect(() => {
@@ -203,9 +205,11 @@ export default function Home() {
     }
 
     const displayPictures = filteredPictures.length > 0 ? filteredPictures : [];
-    console.log("Displayed: ", displayPictures);
     return (
         <main tabIndex={-1}>
+            <div className="pt-16">
+                <SearchForm />
+            </div>
             <div className="mx-auto pt-11 pb-40" tabIndex={-1}>
                 {getUniqueDates(displayPictures).map((date) => (
                     <div key={date} tabIndex={-1}>
@@ -221,7 +225,7 @@ export default function Home() {
             <AnimatePresence>
                 {selectedIndex !== null && (
                     <PictureModal
-                        pictures={displayPictures}
+                        pictures={picturesData}
                         initialIndex={selectedIndex}
                         onClose={() => {
                             setSelectedIndex(null);

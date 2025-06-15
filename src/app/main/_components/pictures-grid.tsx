@@ -27,7 +27,11 @@ export function PicturesGrid({ pictures, onPictureSelect, picturesDate }: Pictur
                             tabIndex={-1}
                         >
                             {pictures.map((picture) => (
-                                <PictureCard key={picture.id} picture={picture} onPictureSelectAction={onPictureSelect} />
+                                <PictureCard
+                                    key={picture.id}
+                                    picture={picture}
+                                    onPictureSelectAction={onPictureSelect}
+                                />
                             ))}
                         </div>
                     </AccordionContent>
