@@ -70,19 +70,7 @@ export function UploadForm({ files, setFilesAction, onUploadAction, isUploading 
         <div className="w-full space-y-4">
             <ScrollArea className="h-[200px] w-full">
                 {files.length === 0 ? (
-                    <div className="flex h-full flex-col items-center justify-center select-none">
-                        <Image
-                            src="/fun.jpg" // Разместите файл в public/images/fun.jpg
-                            alt="Нет изображений"
-                            width={250}
-                            height={250}
-                            className="rounded-lg"
-                            draggable={false}
-                            onDragStart={(e) => {
-                                e.preventDefault();
-                            }}
-                        />
-                    </div>
+                    <div className="flex h-full flex-col items-center justify-center select-none"></div>
                 ) : (
                     <div className="space-y-2 pr-4">
                         {files.map((file) => (

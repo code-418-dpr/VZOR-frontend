@@ -87,7 +87,16 @@ export default function Home() {
                 category: "default",
                 processingResult: item.processingResult,
             });
-            setPicturesData(data.result.value.items.map(transformImage));
+            const processedData = data.result.value.items.map(transformImage);
+            const presignedUrls = processedData.map((item) => item.url);
+            processedData.forEach((val) => {
+                presignedUrls.forEach((url) => {
+                    if (url.includes(val.id)) {
+                        val.url = url;
+                    }
+                });
+            });
+            setPicturesData(processedData);
         } catch (err) {
             const message = err instanceof Error ? err.message : "Unknown error occurred";
             setError(message);
